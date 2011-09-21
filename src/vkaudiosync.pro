@@ -13,10 +13,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     models/audiomodel.cpp \
-    vkapi/vkapi.cpp
+    vkapi/vkapi.cpp \
+    models/config.cpp \
+    directorysync.cpp
 
 HEADERS  += mainwindow.h \
     models/audiomodel.h \
-    vkapi/vkapi.h
+    vkapi/vkapi.h \
+    models/config.h \
+    directorysync.h
 
 FORMS    += mainwindow.ui
