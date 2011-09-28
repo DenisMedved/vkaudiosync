@@ -2,7 +2,7 @@
 #include <QString>
 #include <QtNetwork>
 #include <QDebug>
-
+#include <QRegExp>
 #include "vkmodel.h"
 
 VkModel::VkModel (QObject *parent /*=0*/) : QObject(parent),
@@ -23,13 +23,13 @@ void VkModel::setApplicationId(QString appId){
 
 void VkModel::getAccess(){
 /*
-http://api.vkontakte.ru/blank.html#
-access_token=387bff6e76ccacb0381a5de758386d2ed1b384c384c32bbef7e7273b5c2923b
+http://api.vkontakte.ru/blank.html
+#access_token=387bff6e76ccacb0381a5de758386d2ed1b384c384c32bbef7e7273b5c2923b
 &expires_in=86400
 &user_id=3657181
 
 http://api.vkontakte.ru/blank.html
-error=access_denied
+#error=access_denied
 &error_reason=user_denied
 &error_description=User denied your request
 */
@@ -45,7 +45,12 @@ error=access_denied
 }
 void VkModel::slotUrlChanged(const QUrl & url )
 {
-	qDebug() << url.toString();
+	QString changedUrlStr(url.toString());
+	changedUrlStr.replace('#','?');
+	QUrl chnagedUrl(changedUrlStr);
+
+	qDebug() << chnagedUrl.queryItemValue("access_token");
+
 	//m_webView->hide();
 }
 
