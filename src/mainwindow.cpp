@@ -12,9 +12,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_buttonGetAudioList( new QPushButton),
     m_centralWidget(new QWidget)
 {
-   m_centralWidget->setLayout(m_vBoxLayout);
    m_vBoxLayout->addWidget(m_pushButton);
    m_vBoxLayout->addWidget(m_buttonGetAudioList);
+    m_centralWidget->setLayout(m_vBoxLayout);
    setCentralWidget(m_centralWidget);
    m_vkModel = new VkModel();
    m_pushButton->setText("Authorize");

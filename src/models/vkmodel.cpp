@@ -39,7 +39,7 @@ error=access_denied
 	authUrl.addQueryItem("redirect_uri","http://api.vkontakte.ru/blank.html");
 	authUrl.addQueryItem("display","popup");
 	authUrl.addQueryItem("response_type","token");
-
+	m_webView->resize(300,300);
 	m_webView->load(authUrl);
 	m_webView->show();
 }
