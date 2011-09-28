@@ -19,3 +19,6 @@ HEADERS  += mainwindow.h\
 
 
 FORMS    += ui/mainwindow.ui
+
+OTHER_FILES += \
+    .gitignore
