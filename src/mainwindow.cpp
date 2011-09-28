@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
    m_buttonGetAudioList->setText("Get audio list");
 
     connect(m_pushButton, SIGNAL(clicked(bool)), this, SLOT(getToken()));
+    connect(m_buttonGetAudioList,SIGNAL(clicked(bool)), this, SLOT(getAudioList()));
 }
 
 MainWindow::~MainWindow()

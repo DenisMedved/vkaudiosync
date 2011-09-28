@@ -3,6 +3,8 @@
 #include <QtNetwork>
 #include <QDebug>
 #include <QRegExp>
+#include <QApplication>
+#include <QDesktopWidget>
 #include "vkmodel.h"
 
 VkModel::VkModel (QObject *parent /*=0*/) : QObject(parent),
@@ -10,6 +12,9 @@ VkModel::VkModel (QObject *parent /*=0*/) : QObject(parent),
 	m_networkManager(new QNetworkAccessManager)
 {
 	connect(m_webView, SIGNAL(urlChanged(QUrl)), this,  SLOT(slotUrlChanged(QUrl)));
+	connect(
+		m_networkManager, SIGNAL(finished(QNetworkReply*)),
+		this, SLOT(replyFinished(QNetworkReply*)));
 }
 
 VkModel::~VkModel()
@@ -39,7 +44,10 @@ http://api.vkontakte.ru/blank.html
 	authUrl.addQueryItem("redirect_uri","http://api.vkontakte.ru/blank.html");
 	authUrl.addQueryItem("display","popup");
 	authUrl.addQueryItem("response_type","token");
-	m_webView->resize(300,300);
+	m_webView->resize(640,420);
+	int width = QApplication::desktop()->width();
+	int height = QApplication::desktop()->height();
+	m_webView->move((width - m_webView->width()) / 2 , (height - m_webView->height()) / 2);
 	m_webView->load(authUrl);
 	m_webView->show();
 }
@@ -48,20 +56,30 @@ void VkModel::slotUrlChanged(const QUrl & url )
 	QString changedUrlStr(url.toString());
 	changedUrlStr.replace('#','?');
 	QUrl chnagedUrl(changedUrlStr);
-
-	qDebug() << chnagedUrl.queryItemValue("access_token");
+	m_lastError = chnagedUrl.queryItemValue("error");
+	if (m_lastError.isEmpty())
+	{
+		m_token = chnagedUrl.queryItemValue("access_token");
+		m_expire =  chnagedUrl.queryItemValue("expires_in");
+	} else {
+		m_token.clear();
+		m_expire.clear();
+	}
 
 	//m_webView->hide();
 }
 
 void VkModel::getAudioList()
 {
-	QUrl url("https://api.vkontakte.ru/method/audio.get.xml");
-	url.addQueryItem("access_token",m_token);
-	QNetworkRequest request(url);
-	m_networkManager->get(request);
+	if (m_lastError.isEmpty() && !m_token.isEmpty() && !m_expire.isEmpty())
+	{
+		QUrl url("https://api.vkontakte.ru/method/audio.get.xml");
+		url.addQueryItem("access_token",m_token);
+		QNetworkRequest request(url);
+		m_networkManager->get(request);
+	}
 }
-void VkModel::slotFinished(QNetworkReply * reply )
+void VkModel::replyFinished(QNetworkReply * reply )
 {
 	qDebug() << reply->readAll();
 }

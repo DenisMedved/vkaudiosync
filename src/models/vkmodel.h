@@ -15,6 +15,7 @@ protected:
 	QString m_uid;
 	QString m_token;
 	QString m_expire;
+	QString m_lastError;
 
 	QWebView *m_webView;
 	QNetworkAccessManager * m_networkManager;
@@ -29,7 +30,7 @@ signals:
 
 protected slots:
 	void slotUrlChanged(const QUrl & url);
-	void slotFinished(QNetworkReply * reply );
+	void replyFinished(QNetworkReply * reply );
 public slots:
 
 };
