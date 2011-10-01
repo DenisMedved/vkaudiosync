@@ -5,6 +5,7 @@
 #include <QRegExp>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QMessageBox>
 
 #include "provider.h"
 
@@ -128,6 +129,7 @@ void Provider::slotLoadFinished(bool ok)
 	if (!ok)
 	{
 		m_lastError = "connection failure";
-		hide();
+		m_webView->hide();
+		QMessageBox::critical(m_webView,"Connection error","Connect to vk com failed");
 	}
 }
