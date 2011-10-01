@@ -33,6 +33,7 @@ signals:
 protected slots:
 	void slotUrlChanged(const QUrl & url);
 	void replyFinished(QNetworkReply * reply );
+	void slotLoadFinished(bool ok);
 public slots:
 
 };

@@ -19,11 +19,14 @@ Provider::Provider (QObject *parent /*=0*/) : QObject(parent),
 	connect(
 		m_networkManager, SIGNAL(finished(QNetworkReply*)),
 		this, SLOT(replyFinished(QNetworkReply*)));
+	connect(m_webView, SIGNAL(loadFinished(bool)),
+		this, SLOT(slotLoadFinished(bool)));
 }
 
 Provider::~Provider()
 {
 	delete m_webView;
+	delete m_networkManager;
 }
 
 void Provider::setApplicationId(QString appId)
@@ -52,7 +55,7 @@ http://api.vkontakte.ru/blank.html
 	m_webView->resize(640,420);
 	int width = QApplication::desktop()->width();
 	int height = QApplication::desktop()->height();
-	m_webView->move((width - m_webView->width()) / 2 , (height - m_webView->height()) / 2);
+	m_webView->move((width - m_webView->width()) / 2 , (height - m_webView->height()) / 3);
 	m_webView->load(authUrl);
 	m_webView->show();
 }
@@ -118,4 +121,13 @@ void Provider::getAudioList()
 void Provider::replyFinished(QNetworkReply * reply )
 {
 	qDebug() << reply->readAll();
+}
+
+void Provider::slotLoadFinished(bool ok)
+{
+	if (!ok)
+	{
+		m_lastError = "connection failure";
+		hide();
+	}
 }

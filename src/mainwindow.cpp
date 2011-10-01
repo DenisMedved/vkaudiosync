@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	int desktopWidth = QApplication::desktop()->width();
 	int desktoHeight = QApplication::desktop()->height();
 	resize(300,200);
-	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 2);
+	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
 
 	m_vBoxLayout->addWidget(m_pushButton);
 	m_vBoxLayout->addWidget(m_buttonGetAudioList);
