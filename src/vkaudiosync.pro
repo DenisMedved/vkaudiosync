@@ -4,19 +4,18 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network webkit
+QT       += core gui network webkit xml
 TARGET = vkaudiosync
 TEMPLATE = app
 SOURCES += main.cpp\
-    mainwindow.cpp\
-    models/vkmodel.cpp
-    #models/audiomodel.cpp\
-    #models/config.cpp \
-HEADERS  += mainwindow.h\
-   models/vkmodel.h
-    #models/audiomodel.h
-   #models/config.h \
-
+    mainwindow.cpp \
+    vk/provider.cpp
+    #vk/audiomodel.cpp\
+    #vk/config.cpp \
+HEADERS  += mainwindow.h \
+    vk/provider.h
+    #vk/audiomodel.h
+   #vk/config.h \
 
 FORMS    += ui/mainwindow.ui
 

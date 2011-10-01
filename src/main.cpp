@@ -8,7 +8,6 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("VKAudioSync");
     QApplication::setApplicationVersion("0.01a");
     MainWindow w;
-    w.resize(300,200);
     w.show();
     return a.exec();
 }

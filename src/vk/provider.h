@@ -6,7 +6,9 @@
 #include <QtWebKit>
 #include <QtNetwork>
 
-class VkModel : public QObject
+namespace VK{
+
+class Provider : public QObject
 {
 	Q_OBJECT
 
@@ -20,8 +22,8 @@ protected:
 	QWebView *m_webView;
 	QNetworkAccessManager * m_networkManager;
 public:
-	explicit VkModel(QObject * parent = 0 );
-	~VkModel();
+	explicit Provider(QObject * parent = 0 );
+	~Provider();
 	void setApplicationId(QString appId);
 	void  getAccess();
 	void getAudioList();
@@ -34,5 +36,5 @@ protected slots:
 public slots:
 
 };
-
+}
 #endif // VKMODEL_H

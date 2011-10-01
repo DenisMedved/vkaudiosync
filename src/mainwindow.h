@@ -2,12 +2,17 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "models/vkmodel.h"
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
-namespace Ui {
+#include "vk/provider.h"
+namespace Ui
+{
     class MainWindow;
+}
+namespace VK
+{
+class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -24,13 +29,19 @@ private:
   protected:
     QWidget *m_centralWidget;
     QVBoxLayout *m_vBoxLayout;
-    QPushButton *m_pushButton;
-    QPushButton *m_buttonGetAudioList;
-    VkModel *m_vkModel;
+    QPushButton *m_pushButton; //auth button
+    QPushButton *m_buttonGetAudioList; //get list button
+    QPushButton *m_buttonExit;
+    VK::Provider *m_vkProvider;
 
 protected slots:
     void getAudioList();
     void getToken();
+ public slots:
+    void slotCloseApplication();
+
+signals:
+    void closeApplication();
 };
 
 

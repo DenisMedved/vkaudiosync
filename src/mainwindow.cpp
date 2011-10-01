@@ -2,7 +2,11 @@
 #include "ui_mainwindow.h"
 #include  <QWidget>
 #include  <QTextEdit>
-#include <QVBoxLayout>
+#include <QApplication>
+#include  <QVBoxLayout>
+#include <QDesktopWidget>
+
+#include <vk/provider.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,32 +14,50 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pushButton(new QPushButton),
     m_vBoxLayout(new QVBoxLayout),
     m_buttonGetAudioList( new QPushButton),
-    m_centralWidget(new QWidget)
+    m_centralWidget(new QWidget),
+    m_buttonExit(new QPushButton)
 {
-   m_vBoxLayout->addWidget(m_pushButton);
-   m_vBoxLayout->addWidget(m_buttonGetAudioList);
-    m_centralWidget->setLayout(m_vBoxLayout);
-   setCentralWidget(m_centralWidget);
-   m_vkModel = new VkModel();
-   m_pushButton->setText("Authorize");
-   m_buttonGetAudioList->setText("Get audio list");
+	int desktopWidth = QApplication::desktop()->width();
+	int desktoHeight = QApplication::desktop()->height();
+	resize(300,200);
+	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 2);
 
-    connect(m_pushButton, SIGNAL(clicked(bool)), this, SLOT(getToken()));
-    connect(m_buttonGetAudioList,SIGNAL(clicked(bool)), this, SLOT(getAudioList()));
+	m_vBoxLayout->addWidget(m_pushButton);
+	m_vBoxLayout->addWidget(m_buttonGetAudioList);
+	m_vBoxLayout->addWidget(m_buttonExit);
+
+	m_centralWidget->setLayout(m_vBoxLayout);
+	setCentralWidget(m_centralWidget);
+	m_vkProvider = new VK::Provider;
+
+	m_pushButton->setText("Authorize");
+	m_buttonGetAudioList->setText("Get audio list");
+	m_buttonExit->setText("Exit");
+
+	connect(m_pushButton, SIGNAL(clicked(bool)),
+		this, SLOT(getToken()));
+	connect(m_buttonGetAudioList,SIGNAL(clicked(bool)),
+		this, SLOT(getAudioList()));
+	connect(m_buttonExit, SIGNAL(clicked(bool)),
+		this, SLOT(slotCloseApplication())
+		);
 }
 
 MainWindow::~MainWindow()
 {
 	delete m_pushButton;
 	delete ui;
-	delete m_vkModel;
+	delete m_vkProvider;
 }
 
 void MainWindow::getToken(){
-	m_vkModel->getAccess();
+	m_vkProvider->getAccess();
 }
 void MainWindow::getAudioList(){
-	m_vkModel->getAudioList();
+	m_vkProvider->getAudioList();
 }
 
-
+void MainWindow::slotCloseApplication()
+{
+	QApplication::exit();
+}
