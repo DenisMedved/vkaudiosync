@@ -16,9 +16,8 @@ Provider::Provider (QObject *parent /*=0*/) : QObject(parent),
 	m_networkManager(new QNetworkAccessManager)
 {
 	connect(m_webView, SIGNAL(urlChanged(QUrl)),
-		this,  SLOT(slotUrlChanged(QUrl)));
-	connect(
-		m_networkManager, SIGNAL(finished(QNetworkReply*)),
+		this, SLOT(slotUrlChanged(QUrl)));
+	connect(m_networkManager, SIGNAL(finished(QNetworkReply*)),
 		this, SLOT(replyFinished(QNetworkReply*)));
 	connect(m_webView, SIGNAL(loadFinished(bool)),
 		this, SLOT(slotLoadFinished(bool)));
@@ -80,7 +79,6 @@ void Provider::slotUrlChanged(const QUrl & url )
 		m_expire.clear();
 	}
 	m_webView->hide();
-
 }
 
 void Provider::getAudioList()
@@ -88,7 +86,7 @@ void Provider::getAudioList()
 	if (m_lastError.isEmpty() && !m_token.isEmpty() && !m_expire.isEmpty())
 	{
 		QUrl url("https://api.vkontakte.ru/method/audio.get.xml");
-		//url.addQueryItem("access_token",m_token);
+		url.addQueryItem("access_token",m_token);
 		QNetworkRequest request(url);
 		m_networkManager->get(request);
 	}
