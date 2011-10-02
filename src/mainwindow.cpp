@@ -1,11 +1,11 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include  <QWidget>
 #include  <QTextEdit>
 #include <QApplication>
 #include  <QVBoxLayout>
 #include <QDesktopWidget>
 
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include <vk/provider.h>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -50,10 +50,13 @@ MainWindow::~MainWindow()
 	delete m_vkProvider;
 }
 
-void MainWindow::getToken(){
+void MainWindow::getToken()
+{
 	m_vkProvider->getAccess();
 }
-void MainWindow::getAudioList(){
+
+void MainWindow::getAudioList()
+{
 	m_vkProvider->getAudioList();
 }
 
