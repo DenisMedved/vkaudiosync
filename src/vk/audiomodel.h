@@ -6,7 +6,7 @@ namespace VK
     class AudioModel
     {
     public:
-        AudioModel();
+	AudioModel();
     };
 }
 

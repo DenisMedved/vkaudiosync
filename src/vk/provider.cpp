@@ -1,12 +1,14 @@
+#include <QtNetwork>
+
 #include <QObject>
 #include <QString>
-#include <QtNetwork>
 #include <QDebug>
 #include <QRegExp>
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QMessageBox>
 
+#include "audiofactory.h"
 #include "provider.h"
 
 using namespace VK;
@@ -119,7 +121,10 @@ void Provider::getAudioList()
 */
 void Provider::replyFinished(QNetworkReply * reply )
 {
-	qDebug() << reply->readAll();
+	if ("/method/audio.get.xml" == reply->url().path())
+	{
+		AudioFactory::getAudioModels(reply->readAll());
+	}
 }
 
 void Provider::slotLoadFinished(bool ok)
