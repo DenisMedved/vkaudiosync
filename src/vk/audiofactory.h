@@ -1,9 +1,8 @@
 #ifndef AUDIOFACTORY_H
 #define AUDIOFACTORY_H
 
-#include <QList>
-#include <QString>
-#include <QtXml>
+#include <QByteArray>
+
 #include "audiomodel.h"
 
 namespace VK
@@ -13,9 +12,8 @@ namespace VK
     private:
 	    explicit AudioFactory();
 	    ~AudioFactory();
-	    static  QList<AudioModel> models;
     public:
-	    static QList<AudioModel> getAudioModels(QString xml);
+	    static void parseAudioModel(const QByteArray *xml , QList<AudioModel> *list) ;
 
     };
 }

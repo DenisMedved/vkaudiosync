@@ -7,6 +7,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QMessageBox>
+#include <QByteArray>
 
 #include "audiofactory.h"
 #include "provider.h"
@@ -121,9 +122,11 @@ void Provider::getAudioList()
 */
 void Provider::replyFinished(QNetworkReply * reply )
 {
+	QList<AudioModel> audioModels;
 	if ("/method/audio.get.xml" == reply->url().path())
 	{
-		AudioFactory::getAudioModels(reply->readAll());
+		QByteArray xml (reply->readAll());
+		AudioFactory::parseAudioModel(&xml, &audioModels);
 	}
 }
 
