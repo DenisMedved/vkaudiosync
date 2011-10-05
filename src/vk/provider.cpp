@@ -127,6 +127,12 @@ void Provider::replyFinished(QNetworkReply * reply )
 	{
 		QByteArray xml (reply->readAll());
 		AudioFactory::parseAudioModel(&xml, &audioModels);
+		if (audioModels.length())
+		{
+			//success
+		} else {
+			//unsuccess
+		}
 	}
 }
 

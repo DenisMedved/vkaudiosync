@@ -11,33 +11,35 @@ using namespace VK;
 AudioFactory::AudioFactory()
 {
 }
+
 AudioFactory::~AudioFactory()
 {
 }
+
 void AudioFactory::parseAudioModel(const QByteArray *xml , QList<AudioModel> *list)
 {
 	QDomDocument dom;
 	dom.setContent(*xml);
 	QDomElement  root         = dom.firstChildElement(); // <response> root element
-	QDomNode  audioElement = root.firstChildElement(); // <audio>
-/*
- <aid>118272086</aid>
- <owner_id>3657181</owner_id>
- <artist>John Petrucci</artist>
- <title>Jaws of Life</title>
- <duration>449</duration>
- <url>http://cs4258.vkontakte.ru/u30445597/audio/3a40e57546f0.mp3</url>
-*/
-	 while(!audioElement.isNull()){
-		/* AudioModel audioModel;
-		 QDomE=  audioElement
-				 .toElement()
-				 .elementsByTagName("url")
-				 .item(0)
-				 .toElement()  //<url>
-				 .text();
+	if (root.nodeName() == "response")
+	{
+		QDomNode  audioElement = root.firstChildElement(); // <audio>
+		if (audioElement.nodeName() == "audio")
+		{
+			while (!audioElement.isNull()){
+				AudioModel audioModel;
+				QDomElement element = audioElement.toElement();
 
-	      list << audioModel;
-	      audioElement = audioElement.nextSibling()*/
-	 }
+				audioModel.setAid(QString(element.elementsByTagName("aid").item(0).toElement().text()));
+				audioModel.setOwner(QString(element.elementsByTagName("owner_id").item(0).toElement().text()));
+				audioModel.setArtist(QString(element.elementsByTagName("artist").item(0).toElement().text()));
+				audioModel.setTitle(QString(element.elementsByTagName("title").item(0).toElement().text()));
+				audioModel.setDuration((unsigned int) element.elementsByTagName("duration").item(0).toElement().text().toInt());
+				audioModel.setUrl(QUrl(element.elementsByTagName("url").item(0).toElement().text()));
+
+				list->append(audioModel);
+				audioElement = audioElement.nextSibling();
+			}
+		}
+	}
 }
