@@ -13,6 +13,7 @@ int main(int argc, char *argv[])
     QSettings settings(QApplication::organizationName(), QApplication::applicationName());
 
     MainWindow w;
+    w.setSettings(&settings);
     w.show();
     return a.exec();
 }
