@@ -10,10 +10,11 @@ int main(int argc, char *argv[])
     QApplication::setApplicationName("VKAudioSync");
     QApplication::setApplicationVersion("0.01a");
 
-    QSettings settings(QApplication::organizationName(), QApplication::applicationName());
+    QSettings settings("./config.ini", QSettings::IniFormat);
 
     MainWindow w;
     w.setSettings(&settings);
     w.show();
+
     return a.exec();
 }

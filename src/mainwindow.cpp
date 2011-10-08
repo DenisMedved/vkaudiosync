@@ -11,15 +11,17 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    m_pushButton(new QPushButton),
-    m_vBoxLayout(new QVBoxLayout),
-    m_buttonGetAudioList( new QPushButton),
-    m_centralWidget(new QWidget),
-    m_buttonExit(new QPushButton)
+    ui(new Ui::MainWindow)
 {
+	m_pushButton = new QPushButton(this);
+	m_vBoxLayout = new QVBoxLayout;
+	m_buttonGetAudioList = new QPushButton(this);
+	m_centralWidget = new QWidget(this);
+	m_buttonExit = new QPushButton(this);
+
 	int desktopWidth = QApplication::desktop()->width();
 	int desktoHeight = QApplication::desktop()->height();
+
 	resize(300,80);
 	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
 
@@ -29,7 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	m_centralWidget->setLayout(m_vBoxLayout);
 	setCentralWidget(m_centralWidget);
-	m_vkProvider = new VK::Provider;
+
+	m_vkProvider = new VK::Provider(this);
 
 	m_pushButton->setText("Authorize");
 	m_buttonGetAudioList->setText("Get audio list");
@@ -69,7 +72,9 @@ void MainWindow::slotCloseApplication()
 void MainWindow::setSettings(QSettings *settings)
 {
 	m_settings = settings;
+	m_vkProvider->setSettings(settings);
 }
+
 QSettings* MainWindow::getSettings()
 {
 	return m_settings;

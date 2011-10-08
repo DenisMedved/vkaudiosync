@@ -6,6 +6,8 @@
 #include <QtWebKit>
 #include <QtNetwork>
 #include <QList>
+#include <QSettings>
+#include <QUrl>
 
 #include "audiomodel.h"
 
@@ -15,34 +17,41 @@ class Provider : public QObject
 {
 	Q_OBJECT
 
-protected:
+private:
 	QString m_appId;
 	QString m_uid;
 	QString m_token;
 	QString m_expire;
 	QString m_lastError;
+	QUrl m_authUrl;
 
+	QSettings *m_settings;
 	QWebView *m_webView;
 	QNetworkAccessManager *m_networkManager;
 	QList<AudioModel> *m_audioModels;
+
+	void restoreCookieJar();
+	void saveCookieJar();
+
+private slots:
+	void slotUrlChanged(const QUrl & url);
+	void slotReplyFinished(QNetworkReply * reply );
+	void slotLoadFinished(bool ok);
 
 public:
 	explicit Provider(QObject * parent = 0 );
 	~Provider();
 	void setApplicationId(QString appId);
-	void getAccess();
-	void getAudioList();
+	void getAccess() const;
+	void getAudioList() const;
+	void setSettings(QSettings *settings);
+	QSettings* getSettings( ) const;
 
-signals:
-	void modelsChanged(QList<AudioModel>*);
-
-protected slots:
-	void slotUrlChanged(const QUrl & url);
-	void slotReplyFinished(QNetworkReply * reply );
-	void slotLoadFinished(bool ok);
 
 public slots:
 
+signals:
+	void modelsChanged(QList<AudioModel>*);
 };
 }
 #endif // VKMODEL_H

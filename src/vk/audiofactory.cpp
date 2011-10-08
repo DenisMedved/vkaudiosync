@@ -20,13 +20,14 @@ void AudioFactory::parseAudioModel(const QByteArray *xml , QList<AudioModel> *li
 {
 	QDomDocument dom;
 	dom.setContent(*xml);
-	QDomElement  root         = dom.firstChildElement(); // <response> root element
+	QDomElement  root = dom.firstChildElement(); // <response> root element
 	if (root.nodeName() == "response")
 	{
 		QDomNode  audioElement = root.firstChildElement(); // <audio>
 		if (audioElement.nodeName() == "audio")
 		{
-			while (!audioElement.isNull()){
+			while (!audioElement.isNull())
+			{
 				AudioModel audioModel;
 				QDomElement element = audioElement.toElement();
 
