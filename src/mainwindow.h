@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QSettings>
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -18,15 +19,9 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-
 private:
     Ui::MainWindow *ui;
-
-  protected:
+    QSettings *m_settings;
     QWidget *m_centralWidget;
     QVBoxLayout *m_vBoxLayout;
     QPushButton *m_pushButton; //auth button
@@ -34,9 +29,16 @@ private:
     QPushButton *m_buttonExit;
     VK::Provider *m_vkProvider;
 
-protected slots:
+private slots:
     void getAudioList();
     void getToken();
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+    void setSettings(QSettings *settings);
+    QSettings* getSettings();
+
  public slots:
     void slotCloseApplication();
 

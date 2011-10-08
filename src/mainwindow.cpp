@@ -3,6 +3,7 @@
 #include <QApplication>
 #include  <QVBoxLayout>
 #include <QDesktopWidget>
+#include <QSettings>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -63,4 +64,13 @@ void MainWindow::getAudioList()
 void MainWindow::slotCloseApplication()
 {
 	QApplication::exit();
+}
+
+void MainWindow::setSettings(QSettings *settings)
+{
+	m_settings = settings;
+}
+QSettings* MainWindow::getSettings()
+{
+	return m_settings;
 }

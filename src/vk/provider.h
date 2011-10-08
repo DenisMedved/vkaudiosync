@@ -5,6 +5,9 @@
 #include <QObject>
 #include <QtWebKit>
 #include <QtNetwork>
+#include <QList>
+
+#include "audiomodel.h"
 
 namespace VK{
 
@@ -20,20 +23,24 @@ protected:
 	QString m_lastError;
 
 	QWebView *m_webView;
-	QNetworkAccessManager * m_networkManager;
+	QNetworkAccessManager *m_networkManager;
+	QList<AudioModel> *m_audioModels;
+
 public:
 	explicit Provider(QObject * parent = 0 );
 	~Provider();
 	void setApplicationId(QString appId);
-	void  getAccess();
+	void getAccess();
 	void getAudioList();
 
 signals:
+	void modelsChanged(QList<AudioModel>*);
 
 protected slots:
 	void slotUrlChanged(const QUrl & url);
-	void replyFinished(QNetworkReply * reply );
+	void slotReplyFinished(QNetworkReply * reply );
 	void slotLoadFinished(bool ok);
+
 public slots:
 
 };
