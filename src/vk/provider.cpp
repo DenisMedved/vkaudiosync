@@ -35,6 +35,7 @@ Provider::Provider (QObject *parent /*=0*/) : QObject(parent)
 
 Provider::~Provider()
 {
+	saveCookieJar();
 	delete m_audioModels;
 	delete m_webView;
 	delete m_networkManager;
@@ -42,15 +43,36 @@ Provider::~Provider()
 
 void Provider::restoreCookieJar()
 {
-	//TODO: restore cookies from settings
+	if (!m_settings)
+		return;
+
+	m_settings->beginGroup("cookies");
+	QList<QNetworkCookie> cookieList;
+	QStringList keys = m_settings->childKeys();
+	for (int index=0; index < keys.count(); ++index)
+	{
+		QNetworkCookie cookie(m_settings->value(keys.at(index)).toByteArray().replace("**",";"));
+		cookieList.append(cookie);
+	}
+	m_webView->page()->networkAccessManager()->cookieJar()->setCookiesFromUrl(cookieList, m_authUrl);
+	m_settings->endGroup();
 }
 
 void Provider::saveCookieJar()
 {
+	if (!m_settings)
+		return ;
+
 	QList<QNetworkCookie> cookies = m_webView ->page()
 										      ->networkAccessManager()
 										      ->cookieJar()
 										      ->cookiesForUrl(m_authUrl);
+	m_settings->beginGroup("cookies");
+	for (int index = 0; index < cookies.count() ; ++index )
+	{
+		m_settings->setValue(QString::number(index),QString( cookies.at(index).toRawForm().replace(";","**")));//TODO: bad bad hack for escape ';'
+	}
+	m_settings->endGroup();
 }
 
 void Provider::setApplicationId(QString appId)
@@ -132,6 +154,7 @@ QSettings* Provider::getSettings() const
 void Provider::setSettings(QSettings *settings)
 {
 	m_settings = settings;
+	restoreCookieJar();
 }
 
 

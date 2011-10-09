@@ -47,7 +47,6 @@ public:
 	void setSettings(QSettings *settings);
 	QSettings* getSettings( ) const;
 
-
 public slots:
 
 signals:
