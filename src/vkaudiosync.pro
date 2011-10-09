@@ -11,13 +11,17 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     vk/provider.cpp \
     vk/audiofactory.cpp \
-    vk/audiomodel.cpp
+    vk/audiomodel.cpp \
+    vk/profilemodel.cpp \
+    vk/profilefactory.cpp
     #vk/audiomodel.cpp\
     #vk/config.cpp \
 HEADERS  += mainwindow.h \
     vk/provider.h \
     vk/audiofactory.h \
-    vk/audiomodel.h
+    vk/audiomodel.h \
+    vk/profilemodel.h \
+    vk/profilefactory.h
     #vk/audiomodel.h
    #vk/config.h \
 

@@ -60,8 +60,9 @@ public:
 	explicit Provider(QObject * parent = 0 );
 	~Provider();
 	void setApplicationId(QString appId);
-	void getAccess() const;
+	void login() const;
 	void getAudioList() const;
+	void getProfile() const;
 	void setSettings(QSettings *settings);
 	QSettings* getSettings( ) const;
 

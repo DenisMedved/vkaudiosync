@@ -74,7 +74,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::getToken()
 {
-	m_vkProvider->getAccess();
+	m_vkProvider->login();
 }
 
 void MainWindow::getAudioList()

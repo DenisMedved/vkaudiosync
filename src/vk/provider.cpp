@@ -19,7 +19,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QMessageBox>
-
+#include <QTextCodec>
 #include "audiofactory.h"
 #include "provider.h"
 
@@ -98,7 +98,7 @@ void Provider::setApplicationId(QString appId)
 	m_appId = appId;
 }
 
-void Provider::getAccess() const
+void Provider::login() const
 {
 	m_webView->load(m_authUrl);
 	m_webView->show();
@@ -118,6 +118,8 @@ void Provider::slotUrlChanged(const QUrl & url )
 	{
 		m_token = chnagedUrl.queryItemValue("access_token");
 		m_expire =  chnagedUrl.queryItemValue("expires_in");
+		getAudioList();
+		getProfile();
 	} else {
 		m_token.clear();
 		m_expire.clear();
@@ -136,6 +138,18 @@ void Provider::getAudioList() const
 	}
 }
 
+void Provider::getProfile() const
+{
+	if (m_lastError.isEmpty() && !m_token.isEmpty() && !m_expire.isEmpty())
+	{
+		QUrl url("https://api.vkontakte.ru/method/getVariable.xml");
+		url.addQueryItem("key","1281");
+		url.addQueryItem("access_token",m_token);
+		QNetworkRequest request(url);
+		m_networkManager->get(request);
+	}
+}
+
 void Provider::slotReplyFinished(QNetworkReply * reply )
 {
 	if ("/method/audio.get.xml" == reply->url().path())
@@ -148,8 +162,13 @@ void Provider::slotReplyFinished(QNetworkReply * reply )
 		{
 			emit modelsChanged(m_audioModels);
 		} else {
-			//unsuccess
+			//TODO: unsuccess
 		}
+	} else if ("/method/getVariable.xml" == reply->url().path()) {
+		QString string( reply->readAll());
+		/*QTextCodec *codec = QTextCodec::codecForName("UTF-8"); //Windows-1251
+		QByteArray encodedString = codec->fromUnicode(string);
+		qDebug() << encodedString;*/
 	}
 }
 
