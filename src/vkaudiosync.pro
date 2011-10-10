@@ -13,19 +13,18 @@ SOURCES += main.cpp\
     vk/audiofactory.cpp \
     vk/audiomodel.cpp \
     vk/profilemodel.cpp \
-    vk/profilefactory.cpp
-    #vk/audiomodel.cpp\
-    #vk/config.cpp \
+    vk/profilefactory.cpp \
+    sync/synchronizer.cpp
 HEADERS  += mainwindow.h \
     vk/provider.h \
     vk/audiofactory.h \
     vk/audiomodel.h \
     vk/profilemodel.h \
-    vk/profilefactory.h
-    #vk/audiomodel.h
-   #vk/config.h \
-
+    vk/profilefactory.h \
+    sync/synchronizer.h
 FORMS    += ui/mainwindow.ui
-
 OTHER_FILES += \
-    .gitignore
+    .gitignore\
+   AUTHORS\
+   LICENSE\
+   README

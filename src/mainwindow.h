@@ -25,13 +25,19 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include "vk/provider.h"
+#include "sync/synchronizer.h"
+
 namespace Ui
 {
     class MainWindow;
 }
 namespace VK
 {
-class MainWindow;
+    class MainWindow;
+}
+    namespace Synch
+{
+    class MainWindow;
 }
 
 class MainWindow : public QMainWindow
@@ -46,6 +52,8 @@ private:
     QPushButton *m_buttonGetAudioList; //get list button
     QPushButton *m_buttonExit;
     VK::Provider *m_vkProvider;
+    Synch::Synchronizer *m_synch;
+
 
 private slots:
     void getAudioList();

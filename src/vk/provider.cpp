@@ -166,10 +166,6 @@ void Provider::slotReplyFinished(QNetworkReply * reply )
 	} else if ("/method/getVariable.xml" == reply->url().path()) {
 		QByteArray xml (reply->readAll());
 		ProfileFactory::parseProfileModel(&xml, m_profileModel);
-		/*QTextCodec *codec = QTextCodec::codecForName("UTF-8"); //Windows-1251
-		QByteArray encodedString = codec->fromUnicode(string);
-		qDebug() << encodedString;*/
-		qDebug()  << m_profileModel->name();
 		emit profileChanged(m_profileModel);
 	}
 }
@@ -195,5 +191,3 @@ void Provider::setSettings(QSettings *settings)
 	m_settings = settings;
 	restoreCookieJar();
 }
-
-

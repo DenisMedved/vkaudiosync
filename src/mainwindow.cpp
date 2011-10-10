@@ -51,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	setCentralWidget(m_centralWidget);
 
 	m_vkProvider = new VK::Provider(this);
-
+	m_synch = new Synch::Synchronizer(this);
 	m_pushButton->setText("Authorize");
 	m_buttonGetAudioList->setText("Get audio list");
 	m_buttonExit->setText("Exit");
@@ -70,6 +70,7 @@ MainWindow::~MainWindow()
 	delete m_pushButton;
 	delete ui;
 	delete m_vkProvider;
+	delete m_synch;
 }
 
 void MainWindow::getToken()
