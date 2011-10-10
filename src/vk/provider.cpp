@@ -20,6 +20,8 @@
 #include <QDesktopWidget>
 #include <QMessageBox>
 #include <QTextCodec>
+
+#include "profilefactory.h"
 #include "audiofactory.h"
 #include "provider.h"
 
@@ -42,6 +44,8 @@ Provider::Provider (QObject *parent /*=0*/) : QObject(parent)
 	m_authUrl.addQueryItem("redirect_uri","http://api.vkontakte.ru/blank.html");
 	m_authUrl.addQueryItem("display","popup");
 	m_authUrl.addQueryItem("response_type","token");
+
+	m_profileModel = new ProfileModel;
 
 	connect(m_webView, SIGNAL(urlChanged(QUrl)),
 		this, SLOT(slotUrlChanged(QUrl)));
@@ -81,10 +85,7 @@ void Provider::saveCookieJar()
 	if (!m_settings)
 		return ;
 
-	QList<QNetworkCookie> cookies = m_webView ->page()
-										      ->networkAccessManager()
-										      ->cookieJar()
-										      ->cookiesForUrl(m_authUrl);
+	QList<QNetworkCookie> cookies = m_webView ->page() ->networkAccessManager()->cookieJar()->cookiesForUrl(m_authUrl);
 	m_settings->beginGroup("cookies");
 	for (int index = 0; index < cookies.count() ; ++index )
 	{
@@ -118,8 +119,8 @@ void Provider::slotUrlChanged(const QUrl & url )
 	{
 		m_token = chnagedUrl.queryItemValue("access_token");
 		m_expire =  chnagedUrl.queryItemValue("expires_in");
-		getAudioList();
-		getProfile();
+		loadAudioList();
+		loadProfile();
 	} else {
 		m_token.clear();
 		m_expire.clear();
@@ -127,7 +128,7 @@ void Provider::slotUrlChanged(const QUrl & url )
 	m_webView->hide();
 }
 
-void Provider::getAudioList() const
+void Provider::loadAudioList() const
 {
 	if (m_lastError.isEmpty() && !m_token.isEmpty() && !m_expire.isEmpty())
 	{
@@ -138,7 +139,7 @@ void Provider::getAudioList() const
 	}
 }
 
-void Provider::getProfile() const
+void Provider::loadProfile() const
 {
 	if (m_lastError.isEmpty() && !m_token.isEmpty() && !m_expire.isEmpty())
 	{
@@ -161,14 +162,15 @@ void Provider::slotReplyFinished(QNetworkReply * reply )
 		if (m_audioModels->length())
 		{
 			emit modelsChanged(m_audioModels);
-		} else {
-			//TODO: unsuccess
 		}
 	} else if ("/method/getVariable.xml" == reply->url().path()) {
-		QString string( reply->readAll());
+		QByteArray xml (reply->readAll());
+		ProfileFactory::parseProfileModel(&xml, m_profileModel);
 		/*QTextCodec *codec = QTextCodec::codecForName("UTF-8"); //Windows-1251
 		QByteArray encodedString = codec->fromUnicode(string);
 		qDebug() << encodedString;*/
+		qDebug()  << m_profileModel->name();
+		emit profileChanged(m_profileModel);
 	}
 }
 

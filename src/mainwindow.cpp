@@ -79,7 +79,7 @@ void MainWindow::getToken()
 
 void MainWindow::getAudioList()
 {
-	m_vkProvider->getAudioList();
+	m_vkProvider->loadAudioList();
 }
 
 void MainWindow::slotCloseApplication()

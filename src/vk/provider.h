@@ -28,6 +28,7 @@
 #include <QUrl>
 
 #include "audiomodel.h"
+#include "profilemodel.h"
 
 namespace VK{
 
@@ -47,6 +48,7 @@ private:
 	QWebView *m_webView;
 	QNetworkAccessManager *m_networkManager;
 	QList<AudioModel> *m_audioModels;
+	ProfileModel *m_profileModel;
 
 	void restoreCookieJar();
 	void saveCookieJar();
@@ -61,8 +63,8 @@ public:
 	~Provider();
 	void setApplicationId(QString appId);
 	void login() const;
-	void getAudioList() const;
-	void getProfile() const;
+	void loadAudioList() const;
+	void loadProfile() const;
 	void setSettings(QSettings *settings);
 	QSettings* getSettings( ) const;
 
@@ -70,6 +72,7 @@ public slots:
 
 signals:
 	void modelsChanged(QList<AudioModel>*);
+	void profileChanged(ProfileModel *);
 };
 }
 #endif // VKMODEL_H
