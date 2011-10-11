@@ -5,6 +5,8 @@
 #include <QSettings>
 #include <QDir>
 
+#include "../vk/audiomodel.h"
+
 namespace VK
 {
 class Synchronizer;
@@ -17,6 +19,7 @@ class Synchronizer : public QObject
 private:
 	QDir m_dir;
 	QSettings* m_settings;
+	QList<VK::AudioModel>* m_audioList;
 
 public:
     explicit Synchronizer(QObject *parent = 0);
@@ -27,6 +30,8 @@ public:
 
 	void setSettings(QSettings * settings);
 	QSettings* settings() const;
+
+	void setAudioList(QList<VK::AudioModel>* list);
 
 public slots:
 

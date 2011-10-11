@@ -64,6 +64,10 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(m_buttonExit, SIGNAL(clicked(bool)),
 		this, SLOT(slotCloseApplication())
 		);
+
+	//TODO: Object::connect: No such signal VK::Provider::modelsChanged(QList<VK::AudioModel>*)
+	connect(m_vkProvider,SIGNAL(modelsChanged(QList<VK::AudioModel>*)),
+		this,SLOT(slotAudioModelChanged(QList<VK::AudioModel>*)));
 }
 
 MainWindow::~MainWindow()
@@ -111,3 +115,8 @@ void MainWindow::slotSelectDirectory()
  {
 	 m_synch->setDir(dir);
  }
+
+  void MainWindow::slotAudioModelChanged(QList<VK::AudioModel> *list)
+  {
+	  m_synch->setAudioList(list);
+  }

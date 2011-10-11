@@ -71,7 +71,7 @@ public:
 public slots:
 
 signals:
-	void modelsChanged(QList<AudioModel>*);
+	void modelsChanged(QList<VK::AudioModel>*);
 	void profileChanged(ProfileModel *);
 };
 }

@@ -35,3 +35,8 @@ QSettings* Synchronizer::settings() const
 {
 	return m_settings;
 }
+
+void Synchronizer::setAudioList(QList<VK::AudioModel>* list)
+{
+	m_audioList = list;
+}

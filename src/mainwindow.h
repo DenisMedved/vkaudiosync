@@ -69,6 +69,7 @@ public:
  public slots:
     void slotCloseApplication();
     void slotSelectDirectory();
+    void slotAudioModelChanged(QList<VK::AudioModel>* list);
 
 signals:
     void closeApplication();
