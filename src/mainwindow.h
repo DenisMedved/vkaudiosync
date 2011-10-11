@@ -49,7 +49,7 @@ private:
     QWidget *m_centralWidget;
     QVBoxLayout *m_vBoxLayout;
     QPushButton *m_pushButton; //auth button
-    QPushButton *m_buttonGetAudioList; //get list button
+    QPushButton *m_buttonChangeDirectory; //get list button
     QPushButton *m_buttonExit;
     VK::Provider *m_vkProvider;
     Synch::Synchronizer *m_synch;
@@ -64,9 +64,11 @@ public:
     ~MainWindow();
     void setSettings(QSettings *settings);
     QSettings* getSettings();
+    void setDir(QDir dir);
 
  public slots:
     void slotCloseApplication();
+    void slotSelectDirectory();
 
 signals:
     void closeApplication();

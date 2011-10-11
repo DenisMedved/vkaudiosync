@@ -13,6 +13,7 @@ Synchronizer::~Synchronizer()
 
 void Synchronizer::setDir(QDir dir)
 {
+	m_settings->setValue("dir",dir.path());
 	m_dir = dir;
 }
 
@@ -24,6 +25,10 @@ QDir Synchronizer::dir() const
 void Synchronizer::setSettings(QSettings *settings)
 {
 	m_settings = settings;
+	if (!m_settings->value("dir").toString().isEmpty())
+	{
+		m_dir = QDir(m_settings->value("dir").toString());
+	}
 }
 
 QSettings* Synchronizer::settings() const

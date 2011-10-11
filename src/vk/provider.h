@@ -43,12 +43,12 @@ private:
 	QString m_expire;
 	QString m_lastError;
 	QUrl m_authUrl;
+	QList<AudioModel> m_audioModels;
+	QWebView m_webView;
+	QNetworkAccessManager m_networkManager;
+	ProfileModel m_profileModel;
 
 	QSettings *m_settings;
-	QWebView *m_webView;
-	QNetworkAccessManager *m_networkManager;
-	QList<AudioModel> *m_audioModels;
-	ProfileModel *m_profileModel;
 
 	void restoreCookieJar();
 	void saveCookieJar();
@@ -62,9 +62,9 @@ public:
 	explicit Provider(QObject * parent = 0 );
 	~Provider();
 	void setApplicationId(QString appId);
-	void login() const;
-	void loadAudioList() const;
-	void loadProfile() const;
+	void login() ;
+	void loadAudioList() ;
+	void loadProfile() ;
 	void setSettings(QSettings *settings);
 	QSettings* getSettings( ) const;
 

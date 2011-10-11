@@ -5,6 +5,11 @@
 #include <QSettings>
 #include <QDir>
 
+namespace VK
+{
+class Synchronizer;
+}
+
 namespace Synch{
 class Synchronizer : public QObject
 {

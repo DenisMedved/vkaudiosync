@@ -29,14 +29,10 @@ using namespace VK;
 
 Provider::Provider (QObject *parent /*=0*/) : QObject(parent)
 {
-	m_webView = new QWebView;
-	m_webView->resize(640,420);
+	m_webView.resize(640,420);
 	int width = QApplication::desktop()->width();
 	int height = QApplication::desktop()->height();
-	m_webView->move((width - m_webView->width()) / 2 , (height - m_webView->height()) / 3);
-
-	m_networkManager = new QNetworkAccessManager(this);
-	m_audioModels = new QList<AudioModel>;
+	m_webView.move((width - m_webView.width()) / 2 , (height - m_webView.height()) / 3);
 
 	m_authUrl.setUrl("http://api.vkontakte.ru/oauth/authorize");
 	m_authUrl.addQueryItem("client_id","2169954");
@@ -45,22 +41,17 @@ Provider::Provider (QObject *parent /*=0*/) : QObject(parent)
 	m_authUrl.addQueryItem("display","popup");
 	m_authUrl.addQueryItem("response_type","token");
 
-	m_profileModel = new ProfileModel;
-
-	connect(m_webView, SIGNAL(urlChanged(QUrl)),
+	connect(&m_webView, SIGNAL(urlChanged(QUrl)),
 		this, SLOT(slotUrlChanged(QUrl)));
-	connect(m_networkManager, SIGNAL(finished(QNetworkReply*)),
+	connect(&m_networkManager, SIGNAL(finished(QNetworkReply*)),
 		this, SLOT(slotReplyFinished(QNetworkReply*)));
-	connect(m_webView, SIGNAL(loadFinished(bool)),
+	connect(&m_webView, SIGNAL(loadFinished(bool)),
 		this, SLOT(slotLoadFinished(bool)));
 }
 
 Provider::~Provider()
 {
 	saveCookieJar();
-	delete m_audioModels;
-	delete m_webView;
-	delete m_networkManager;
 }
 
 void Provider::restoreCookieJar()
@@ -76,7 +67,7 @@ void Provider::restoreCookieJar()
 		QNetworkCookie cookie(m_settings->value(keys.at(index)).toByteArray().replace("**",";"));
 		cookieList.append(cookie);
 	}
-	m_webView->page()->networkAccessManager()->cookieJar()->setCookiesFromUrl(cookieList, m_authUrl);
+	m_webView.page()->networkAccessManager()->cookieJar()->setCookiesFromUrl(cookieList, m_authUrl);
 	m_settings->endGroup();
 }
 
@@ -85,7 +76,7 @@ void Provider::saveCookieJar()
 	if (!m_settings)
 		return ;
 
-	QList<QNetworkCookie> cookies = m_webView ->page() ->networkAccessManager()->cookieJar()->cookiesForUrl(m_authUrl);
+	QList<QNetworkCookie> cookies = m_webView.page() ->networkAccessManager()->cookieJar()->cookiesForUrl(m_authUrl);
 	m_settings->beginGroup("cookies");
 	for (int index = 0; index < cookies.count() ; ++index )
 	{
@@ -99,10 +90,10 @@ void Provider::setApplicationId(QString appId)
 	m_appId = appId;
 }
 
-void Provider::login() const
+void Provider::login()
 {
-	m_webView->load(m_authUrl);
-	m_webView->show();
+	m_webView.load(m_authUrl);
+	m_webView.show();
 }
 
 void Provider::slotUrlChanged(const QUrl & url )
@@ -125,21 +116,21 @@ void Provider::slotUrlChanged(const QUrl & url )
 		m_token.clear();
 		m_expire.clear();
 	}
-	m_webView->hide();
+	m_webView.hide();
 }
 
-void Provider::loadAudioList() const
+void Provider::loadAudioList()
 {
 	if (m_lastError.isEmpty() && !m_token.isEmpty() && !m_expire.isEmpty())
 	{
 		QUrl url("https://api.vkontakte.ru/method/audio.get.xml");
 		url.addQueryItem("access_token",m_token);
 		QNetworkRequest request(url);
-		m_networkManager->get(request);
+		m_networkManager.get(request);
 	}
 }
 
-void Provider::loadProfile() const
+void Provider::loadProfile()
 {
 	if (m_lastError.isEmpty() && !m_token.isEmpty() && !m_expire.isEmpty())
 	{
@@ -147,7 +138,7 @@ void Provider::loadProfile() const
 		url.addQueryItem("key","1281");
 		url.addQueryItem("access_token",m_token);
 		QNetworkRequest request(url);
-		m_networkManager->get(request);
+		m_networkManager.get(request);
 	}
 }
 
@@ -156,17 +147,17 @@ void Provider::slotReplyFinished(QNetworkReply * reply )
 	if ("/method/audio.get.xml" == reply->url().path())
 	{
 		QByteArray xml (reply->readAll());
-		m_audioModels->clear();
-		AudioFactory::parseAudioModel(&xml, m_audioModels);
+		m_audioModels.clear();
+		AudioFactory::parseAudioModel(&xml, &m_audioModels);
 
-		if (m_audioModels->length())
+		if (m_audioModels.length())
 		{
-			emit modelsChanged(m_audioModels);
+			emit modelsChanged(&m_audioModels);
 		}
 	} else if ("/method/getVariable.xml" == reply->url().path()) {
 		QByteArray xml (reply->readAll());
-		ProfileFactory::parseProfileModel(&xml, m_profileModel);
-		emit profileChanged(m_profileModel);
+		ProfileFactory::parseProfileModel(&xml, &m_profileModel);
+		emit profileChanged(&m_profileModel);
 	}
 }
 
@@ -175,8 +166,8 @@ void Provider::slotLoadFinished(bool ok)
 	if (!ok)
 	{
 		m_lastError = "connection failure";
-		m_webView->hide();
-		QMessageBox::critical(m_webView,"Connection error","Connect to vk com failed");
+		m_webView.hide();
+		QMessageBox::critical(&m_webView,"Connection error","Connect to vk com failed");
 		QApplication::exit();
 	}
 }

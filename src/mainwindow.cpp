@@ -22,6 +22,7 @@
 #include  <QVBoxLayout>
 #include <QDesktopWidget>
 #include <QSettings>
+#include <QFileDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -33,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 	m_pushButton = new QPushButton(this);
 	m_vBoxLayout = new QVBoxLayout;
-	m_buttonGetAudioList = new QPushButton(this);
+	m_buttonChangeDirectory = new QPushButton(this);
 	m_centralWidget = new QWidget(this);
 	m_buttonExit = new QPushButton(this);
 
@@ -44,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
 
 	m_vBoxLayout->addWidget(m_pushButton);
-	m_vBoxLayout->addWidget(m_buttonGetAudioList);
+	m_vBoxLayout->addWidget(m_buttonChangeDirectory);
 	m_vBoxLayout->addWidget(m_buttonExit);
 
 	m_centralWidget->setLayout(m_vBoxLayout);
@@ -53,13 +54,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_vkProvider = new VK::Provider(this);
 	m_synch = new Synch::Synchronizer(this);
 	m_pushButton->setText("Authorize");
-	m_buttonGetAudioList->setText("Get audio list");
+	m_buttonChangeDirectory->setText("Change directory");
 	m_buttonExit->setText("Exit");
 
 	connect(m_pushButton, SIGNAL(clicked(bool)),
 		this, SLOT(getToken()));
-	connect(m_buttonGetAudioList,SIGNAL(clicked(bool)),
-		this, SLOT(getAudioList()));
+	connect(m_buttonChangeDirectory,SIGNAL(clicked(bool)),
+		this, SLOT(slotSelectDirectory()));
 	connect(m_buttonExit, SIGNAL(clicked(bool)),
 		this, SLOT(slotCloseApplication())
 		);
@@ -92,9 +93,21 @@ void MainWindow::setSettings(QSettings *settings)
 {
 	m_settings = settings;
 	m_vkProvider->setSettings(settings);
+	m_synch->setSettings(settings);
 }
 
 QSettings* MainWindow::getSettings()
 {
 	return m_settings;
 }
+
+void MainWindow::slotSelectDirectory()
+{
+	QString dir = QFileDialog::getExistingDirectory(this, "Synch with...","", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+	setDir(QDir(dir));
+}
+
+ void MainWindow::setDir(QDir dir)
+ {
+	 m_synch->setDir(dir);
+ }
