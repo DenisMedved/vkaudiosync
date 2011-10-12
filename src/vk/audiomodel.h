@@ -20,10 +20,12 @@
 #define AUDIOMODEL_H
 
 #include <QString>
+#include <QFile>
 #include <QUrl>
 
 namespace VK
 {
+    enum Status{STATUS_NOTSYNCHNIZE, STATUS_NEEDSYNCHRONIZE, STATUS_SYNCHRONIZED,  STATUS_UNDEFINED};
     class AudioModel
     {
     private:
@@ -31,8 +33,11 @@ namespace VK
 	    QString m_owner;
 	    QString m_artist;
 	    QString m_title;
-	    unsigned short m_duration;
 	    QUrl m_url;
+	    QString m_path;
+
+	    Status m_status ;
+	    unsigned short m_duration;
 
     public:
 	AudioModel();
@@ -55,6 +60,12 @@ namespace VK
 
 	QUrl url() const;
 	void setUrl(QUrl newUrl);
+
+	Status status();
+	void setStatus(Status status);
+
+	QString path() const;
+	void setPath(QString file);
     };
 }
 

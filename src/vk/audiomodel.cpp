@@ -25,6 +25,7 @@ using namespace VK;
 
 AudioModel::AudioModel()
 {
+	m_status = STATUS_UNDEFINED;
 }
 
 AudioModel::~AudioModel()
@@ -90,3 +91,24 @@ void AudioModel::setUrl(QUrl newUrl)
 {
 	m_url = newUrl;
 }
+
+Status AudioModel::status()
+{
+	return m_status;
+}
+
+void AudioModel::setStatus(Status status)
+{
+	m_status = status;
+}
+
+QString AudioModel::path() const
+{
+	return m_path;
+}
+
+void AudioModel::setPath(QString file)
+{
+	m_path = file;
+}
+

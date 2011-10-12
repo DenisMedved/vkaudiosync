@@ -51,6 +51,7 @@ private:
     QPushButton *m_pushButton; //auth button
     QPushButton *m_buttonChangeDirectory; //get list button
     QPushButton *m_buttonExit;
+    QPushButton *m_buttonSynch;
     VK::Provider *m_vkProvider;
     Synch::Synchronizer *m_synch;
 
@@ -70,6 +71,7 @@ public:
     void slotCloseApplication();
     void slotSelectDirectory();
     void slotAudioModelChanged(QList<VK::AudioModel>* list);
+    void slotSynh();
 
 signals:
     void closeApplication();

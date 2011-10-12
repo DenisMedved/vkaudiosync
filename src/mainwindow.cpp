@@ -37,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_buttonChangeDirectory = new QPushButton(this);
 	m_centralWidget = new QWidget(this);
 	m_buttonExit = new QPushButton(this);
+	m_buttonSynch = new QPushButton(this);
+
 
 	int desktopWidth = QApplication::desktop()->width();
 	int desktoHeight = QApplication::desktop()->height();
@@ -46,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 	m_vBoxLayout->addWidget(m_pushButton);
 	m_vBoxLayout->addWidget(m_buttonChangeDirectory);
+	m_vBoxLayout->addWidget(m_buttonSynch);
 	m_vBoxLayout->addWidget(m_buttonExit);
 
 	m_centralWidget->setLayout(m_vBoxLayout);
@@ -55,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_synch = new Synch::Synchronizer(this);
 	m_pushButton->setText("Authorize");
 	m_buttonChangeDirectory->setText("Change directory");
+	m_buttonSynch->setText("Synch");
 	m_buttonExit->setText("Exit");
 
 	connect(m_pushButton, SIGNAL(clicked(bool)),
@@ -62,8 +66,9 @@ MainWindow::MainWindow(QWidget *parent) :
 	connect(m_buttonChangeDirectory,SIGNAL(clicked(bool)),
 		this, SLOT(slotSelectDirectory()));
 	connect(m_buttonExit, SIGNAL(clicked(bool)),
-		this, SLOT(slotCloseApplication())
-		);
+		this, SLOT(slotCloseApplication()));
+	connect(m_buttonSynch, SIGNAL(clicked(bool)),
+		this, SLOT(slotSynh()));
 
 	//TODO: Object::connect: No such signal VK::Provider::modelsChanged(QList<VK::AudioModel>*)
 	connect(m_vkProvider,SIGNAL(modelsChanged(QList<VK::AudioModel>*)),
@@ -119,4 +124,9 @@ void MainWindow::slotSelectDirectory()
   void MainWindow::slotAudioModelChanged(QList<VK::AudioModel> *list)
   {
 	  m_synch->setAudioList(list);
+  }
+
+  void MainWindow::slotSynh()
+  {
+	  m_synch->synchronize();
   }
