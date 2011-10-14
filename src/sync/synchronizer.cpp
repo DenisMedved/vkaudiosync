@@ -67,16 +67,14 @@ void Synchronizer::synchronize()
 
 	m_dir.setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot );
 	QFileInfoList files = m_dir.entryInfoList();
+	 QList<VK::AudioModel>::iterator model;
+	bool modelFinded ;
 	for (int i = 0; i < files.size(); ++i)
 	{
+	    modelFinded = false;
 	    QFileInfo fileInfo = files.at(i);
-	    //mi as model index
-
-	 /*
-	   //TODO: set statuses for models
-	   for ( int mi=0; mi < m_audioList->size(); ++mi )
+	    for (model = m_audioList->begin(); model != m_audioList->end(); ++model)
 	    {
-		    VK::AudioModel* model = m_audioList->takeAt(mi);
 		    if (VK::STATUS_UNDEFINED == model->status())
 		    {
 			    QString fullName = model->artist();
@@ -84,10 +82,21 @@ void Synchronizer::synchronize()
 			    fullName.append(model->title());
 			    if (fileInfo.exists() &&  fullName == fileInfo.baseName() && "mp3" == fileInfo.suffix())
 			    {
+				    modelFinded = true;
 				    model->setStatus(VK::STATUS_SYNCHRONIZED);
 			    }
 		    }
-	    }*/
-	    qDebug() << fileInfo.fileName();
+	    }
+	    if (modelFinded)
+	    {
+		    //TODO: upload file  to vk
+	    }
+	}
+	for (model = m_audioList->begin(); model != m_audioList->end(); ++model)
+	{
+		if (VK::STATUS_UNDEFINED == model->status())
+		{
+			model->setStatus(VK::STATUS_NEEDDOWNLOAD);
+		}
 	}
 }
