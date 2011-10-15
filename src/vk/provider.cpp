@@ -157,7 +157,6 @@ void Provider::slotReplyFinished(QNetworkReply * reply )
 	} else if ("/method/getVariable.xml" == reply->url().path()) {
 		QByteArray xml (reply->readAll());
 		ProfileFactory::parseProfileModel(&xml, &m_profileModel);
-		emit profileChanged(&m_profileModel);
 	}
 }
 
@@ -180,5 +179,5 @@ QSettings* Provider::getSettings() const
 void Provider::setSettings(QSettings *settings)
 {
 	m_settings = settings;
-	restoreCookieJar();
+	//restoreCookieJar();
 }

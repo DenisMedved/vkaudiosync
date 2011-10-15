@@ -32,70 +32,31 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-	m_pushButton = new QPushButton(this);
-	m_vBoxLayout = new QVBoxLayout;
-	m_buttonChangeDirectory = new QPushButton(this);
-	m_centralWidget = new QWidget(this);
-	m_buttonExit = new QPushButton(this);
-	m_buttonSynch = new QPushButton(this);
-
+	ui->setupUi(this);
 
 	int desktopWidth = QApplication::desktop()->width();
 	int desktoHeight = QApplication::desktop()->height();
 
-	resize(300,80);
 	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
-
-	m_vBoxLayout->addWidget(m_pushButton);
-	m_vBoxLayout->addWidget(m_buttonChangeDirectory);
-	m_vBoxLayout->addWidget(m_buttonSynch);
-	m_vBoxLayout->addWidget(m_buttonExit);
-
-	m_centralWidget->setLayout(m_vBoxLayout);
-	setCentralWidget(m_centralWidget);
 
 	m_vkProvider = new VK::Provider(this);
 	m_synch = new Synch::Synchronizer(this);
-	m_pushButton->setText("Authorize");
-	m_buttonChangeDirectory->setText("Change directory");
-	m_buttonSynch->setText("Synch");
-	m_buttonExit->setText("Exit");
 
-	connect(m_pushButton, SIGNAL(clicked(bool)),
-		this, SLOT(getToken()));
-	connect(m_buttonChangeDirectory,SIGNAL(clicked(bool)),
-		this, SLOT(slotSelectDirectory()));
-	connect(m_buttonExit, SIGNAL(clicked(bool)),
-		this, SLOT(slotCloseApplication()));
-	connect(m_buttonSynch, SIGNAL(clicked(bool)),
-		this, SLOT(slotSynh()));
-
-	//TODO: Object::connect: No such signal VK::Provider::modelsChanged(QList<VK::AudioModel>*)
 	connect(m_vkProvider,SIGNAL(modelsChanged(QList<VK::AudioModel>*)),
 		this,SLOT(slotAudioModelChanged(QList<VK::AudioModel>*)));
+	connect(ui->synchBtn, SIGNAL(clicked()),
+		this, SLOT(slotSynh())); //TODO: rename method
+	connect(ui->dirBtn, SIGNAL(clicked()),
+		this, SLOT(slotSelectDirectory())); //TODO: rename method
+	m_vkProvider->login();
+
 }
 
 MainWindow::~MainWindow()
 {
-	delete m_pushButton;
 	delete ui;
 	delete m_vkProvider;
 	delete m_synch;
-}
-
-void MainWindow::getToken()
-{
-	m_vkProvider->login();
-}
-
-void MainWindow::getAudioList()
-{
-	m_vkProvider->loadAudioList();
-}
-
-void MainWindow::slotCloseApplication()
-{
-	QApplication::exit();
 }
 
 void MainWindow::setSettings(QSettings *settings)
@@ -129,4 +90,14 @@ void MainWindow::slotSelectDirectory()
   void MainWindow::slotSynh()
   {
 	  m_synch->synchronize();
+  }
+
+  void MainWindow::slotLoginSuccess()
+  {
+	  show();
+  }
+
+  void MainWindow::slotLoginUnsuccess()
+  {
+	  QApplication::exit();
   }

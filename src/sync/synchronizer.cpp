@@ -57,7 +57,6 @@ QSettings* Synchronizer::settings() const
 void Synchronizer::setAudioList(QList<VK::AudioModel>* list)
 {
 	m_audioList = list;
-	qDebug() << list->at(0).artist() + " - " + list->at(1).title();
 }
 
 void Synchronizer::synchronize()
@@ -97,6 +96,7 @@ void Synchronizer::synchronize()
 		if (VK::STATUS_UNDEFINED == model->status())
 		{
 			model->setStatus(VK::STATUS_NEEDDOWNLOAD);
+			break;
 		}
 	}
 }

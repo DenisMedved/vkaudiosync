@@ -72,7 +72,8 @@ public slots:
 
 signals:
 	void modelsChanged(QList<VK:: AudioModel>*);
-	void profileChanged(ProfileModel *);
+	void loginSuccess(const ProfileModel*);
+	void  loginUnsuccess();
 };
 }
 #endif // VKMODEL_H

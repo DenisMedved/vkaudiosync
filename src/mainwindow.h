@@ -46,19 +46,11 @@ class MainWindow : public QMainWindow
 private:
     Ui::MainWindow *ui;
     QSettings *m_settings;
-    QWidget *m_centralWidget;
-    QVBoxLayout *m_vBoxLayout;
-    QPushButton *m_pushButton; //auth button
-    QPushButton *m_buttonChangeDirectory; //get list button
-    QPushButton *m_buttonExit;
-    QPushButton *m_buttonSynch;
     VK::Provider *m_vkProvider;
     Synch::Synchronizer *m_synch;
 
 
 private slots:
-    void getAudioList();
-    void getToken();
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -68,13 +60,11 @@ public:
     void setDir(QDir dir);
 
  public slots:
-    void slotCloseApplication();
+    void slotLoginSuccess();
+    void slotLoginUnsuccess();
     void slotSelectDirectory();
     void slotAudioModelChanged(QList<VK::AudioModel>* list);
     void slotSynh();
-
-signals:
-    void closeApplication();
 };
 
 
