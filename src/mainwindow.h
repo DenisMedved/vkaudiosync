@@ -48,6 +48,7 @@ private:
     QSettings *m_settings;
     VK::Provider *m_vkProvider;
     Synch::Synchronizer *m_synch;
+    bool m_loginSuccessHandled;
 
 
 private slots:
@@ -58,9 +59,10 @@ public:
     void setSettings(QSettings *settings);
     QSettings* getSettings();
     void setDir(QDir dir);
+    void  login();
 
  public slots:
-    void slotLoginSuccess();
+    void slotLoginSuccess(const VK::ProfileModel* profile);
     void slotLoginUnsuccess();
     void slotSelectDirectory();
     void slotAudioModelChanged(QList<VK::AudioModel>* list);

@@ -49,9 +49,11 @@ private:
 	ProfileModel m_profileModel;
 
 	QSettings *m_settings;
-
+	bool m_errorHandled;
 	void restoreCookieJar();
 	void saveCookieJar();
+	void loadAudioList() ;
+	void loadProfile() ;
 
 private slots:
 	void slotUrlChanged(const QUrl & url);
@@ -59,20 +61,20 @@ private slots:
 	void slotLoadFinished(bool ok);
 
 public:
-	explicit Provider(QObject * parent = 0 );
+	explicit Provider(QObject *parent = 0 );
 	~Provider();
 	void setApplicationId(QString appId);
 	void login() ;
-	void loadAudioList() ;
-	void loadProfile() ;
 	void setSettings(QSettings *settings);
+	bool isLogined() const;
 	QSettings* getSettings( ) const;
+	QList<VK:: AudioModel>* audioModels();
 
 public slots:
 
 signals:
 	void modelsChanged(QList<VK:: AudioModel>*);
-	void loginSuccess(const ProfileModel*);
+	void loginSuccess(const VK::ProfileModel*);
 	void  loginUnsuccess();
 };
 }

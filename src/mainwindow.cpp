@@ -48,8 +48,12 @@ MainWindow::MainWindow(QWidget *parent) :
 		this, SLOT(slotSynh())); //TODO: rename method
 	connect(ui->dirBtn, SIGNAL(clicked()),
 		this, SLOT(slotSelectDirectory())); //TODO: rename method
-	m_vkProvider->login();
+	connect(m_vkProvider,SIGNAL(loginSuccess(const VK::ProfileModel*)),
+		this,SLOT(slotLoginSuccess(const VK::ProfileModel*)));
+	connect(m_vkProvider, SIGNAL(loginUnsuccess()),
+		this,SLOT(slotLoginUnsuccess()));
 
+	m_loginSuccessHandled = false;
 }
 
 MainWindow::~MainWindow()
@@ -92,12 +96,25 @@ void MainWindow::slotSelectDirectory()
 	  m_synch->synchronize();
   }
 
-  void MainWindow::slotLoginSuccess()
+  void MainWindow::slotLoginSuccess(const VK::ProfileModel* profile)
   {
-	  show();
+	  qDebug() << profile->name() << m_vkProvider->audioModels();
+
+	  if (!m_loginSuccessHandled)
+	  {
+		  m_loginSuccessHandled = true;
+		  show();
+	  }
   }
 
   void MainWindow::slotLoginUnsuccess()
   {
-	  QApplication::exit();
+	  qDebug() << "unsuccess";
+	 close();
+	 QApplication::exit();
+  }
+
+  void MainWindow::login()
+  {
+	  m_vkProvider->login();
   }

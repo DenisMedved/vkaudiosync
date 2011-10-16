@@ -41,6 +41,7 @@ Provider::Provider (QObject *parent /*=0*/) : QObject(parent)
 	m_authUrl.addQueryItem("display","popup");
 	m_authUrl.addQueryItem("response_type","token");
 
+	m_errorHandled = false;
 	connect(&m_webView, SIGNAL(urlChanged(QUrl)),
 		this, SLOT(slotUrlChanged(QUrl)));
 	connect(&m_networkManager, SIGNAL(finished(QNetworkReply*)),
@@ -66,6 +67,7 @@ void Provider::restoreCookieJar()
 	{
 		QNetworkCookie cookie(m_settings->value(keys.at(index)).toByteArray().replace("**",";"));
 		cookieList.append(cookie);
+		m_settings->remove(keys.at(index));
 	}
 	m_webView.page()->networkAccessManager()->cookieJar()->setCookiesFromUrl(cookieList, m_authUrl);
 	m_settings->endGroup();
@@ -96,10 +98,10 @@ void Provider::login()
 	m_webView.show();
 }
 
-void Provider::slotUrlChanged(const QUrl & url )
+void Provider::slotUrlChanged(const QUrl &url )
 {
-	QString urlAsString = url.toString();
 
+	QString urlAsString = url.toString();
 	if (urlAsString.isEmpty() || url.path() == "/oauth/authorize")
 		return;
 
@@ -115,6 +117,8 @@ void Provider::slotUrlChanged(const QUrl & url )
 	} else {
 		m_token.clear();
 		m_expire.clear();
+		emit loginUnsuccess();
+		m_errorHandled = true;
 	}
 	m_webView.hide();
 }
@@ -144,30 +148,30 @@ void Provider::loadProfile()
 
 void Provider::slotReplyFinished(QNetworkReply * reply )
 {
+	QByteArray xml (reply->readAll());
 	if ("/method/audio.get.xml" == reply->url().path())
 	{
-		QByteArray xml (reply->readAll());
 		m_audioModels.clear();
 		AudioFactory::parseAudioModel(&xml, &m_audioModels);
-
 		if (m_audioModels.length())
 		{
 			emit modelsChanged(&m_audioModels);
 		}
 	} else if ("/method/getVariable.xml" == reply->url().path()) {
-		QByteArray xml (reply->readAll());
 		ProfileFactory::parseProfileModel(&xml, &m_profileModel);
+		if (isLogined())
+			emit loginSuccess(&m_profileModel);
 	}
 }
 
 void Provider::slotLoadFinished(bool ok)
 {
-	if (!ok)
+	if (!ok && ! m_errorHandled)
 	{
+		m_webView.close();
 		m_lastError = "connection failure";
-		m_webView.hide();
 		QMessageBox::critical(&m_webView,"Connection error","Connect to vk com failed");
-		QApplication::exit();
+		emit loginUnsuccess();
 	}
 }
 
@@ -179,5 +183,19 @@ QSettings* Provider::getSettings() const
 void Provider::setSettings(QSettings *settings)
 {
 	m_settings = settings;
-	//restoreCookieJar();
+	restoreCookieJar();
+}
+
+bool Provider::isLogined() const
+{
+	if (!m_expire.isEmpty() && m_lastError.isEmpty() && !m_profileModel.name().isEmpty())
+	{
+		return true;
+	}
+	return false;
+}
+
+QList<VK:: AudioModel>* Provider::audioModels()
+{
+	return &m_audioModels;
 }

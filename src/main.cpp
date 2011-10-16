@@ -32,7 +32,6 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.setSettings(&settings);
-    w.show();
-
+    w.login();
     return a.exec();
 }
