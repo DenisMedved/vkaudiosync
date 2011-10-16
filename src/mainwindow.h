@@ -24,6 +24,8 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QWidget>
+
+#include "audiolistmodel.h"
 #include "vk/provider.h"
 #include "sync/synchronizer.h"
 
@@ -48,6 +50,7 @@ private:
     QSettings *m_settings;
     VK::Provider *m_vkProvider;
     Synch::Synchronizer *m_synch;
+    AudioListModel m_audioListModel;
     bool m_loginSuccessHandled;
 
 

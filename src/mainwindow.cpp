@@ -27,6 +27,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <vk/provider.h>
+#include <audioitemdelegate.h>
+#include <QStringListModel>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -54,6 +56,12 @@ MainWindow::MainWindow(QWidget *parent) :
 		this,SLOT(slotLoginUnsuccess()));
 
 	m_loginSuccessHandled = false;
+	QStringListModel model;
+	model.setStringList(QStringList()
+						  << "foo"
+						  << "bar"
+						  << "bar");
+		ui->listView->setModel   (&model  );
 }
 
 MainWindow::~MainWindow()
@@ -88,6 +96,9 @@ void MainWindow::slotSelectDirectory()
 
   void MainWindow::slotAudioModelChanged(QList<VK::AudioModel> *list)
   {
+	  m_audioListModel.setAudioList(list);
+	  ui->listView->setModel(&m_audioListModel);
+	  ui->listView->show();
 	  m_synch->setAudioList(list);
   }
 
@@ -98,8 +109,6 @@ void MainWindow::slotSelectDirectory()
 
   void MainWindow::slotLoginSuccess(const VK::ProfileModel* profile)
   {
-	  qDebug() << profile->name() << m_vkProvider->audioModels();
-
 	  if (!m_loginSuccessHandled)
 	  {
 		  m_loginSuccessHandled = true;

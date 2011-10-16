@@ -14,14 +14,18 @@ SOURCES += main.cpp\
     vk/audiomodel.cpp \
     vk/profilemodel.cpp \
     vk/profilefactory.cpp \
-    sync/synchronizer.cpp
+    sync/synchronizer.cpp \
+    audioitemdelegate.cpp \
+    audiolistmodel.cpp
 HEADERS  += mainwindow.h \
     vk/provider.h \
     vk/audiofactory.h \
     vk/audiomodel.h \
     vk/profilemodel.h \
     vk/profilefactory.h \
-    sync/synchronizer.h
+    sync/synchronizer.h \
+    audioitemdelegate.h \
+    audiolistmodel.h
 FORMS    += ui/mainwindow.ui
 OTHER_FILES += \
     .gitignore\
