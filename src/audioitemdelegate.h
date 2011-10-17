@@ -9,6 +9,9 @@ class AudioItemDelegate : public QItemDelegate
 public:
     explicit AudioItemDelegate(QObject *parent = 0);
 
+	virtual void	paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+
+	QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 signals:
 
 public slots:

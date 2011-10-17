@@ -27,16 +27,19 @@
 
 #include "audiolistmodel.h"
 #include "vk/provider.h"
+#include <audioitemdelegate.h>
 #include "sync/synchronizer.h"
 
 namespace Ui
 {
     class MainWindow;
 }
+
 namespace VK
 {
     class MainWindow;
 }
+
     namespace Synch
 {
     class MainWindow;
@@ -50,7 +53,9 @@ private:
     QSettings *m_settings;
     VK::Provider *m_vkProvider;
     Synch::Synchronizer *m_synch;
+    AudioItemDelegate *m_audioItemDelegate;
     AudioListModel m_audioListModel;
+
     bool m_loginSuccessHandled;
 
 

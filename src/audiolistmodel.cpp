@@ -1,3 +1,5 @@
+
+#include <QDebug>
 #include "audiolistmodel.h"
 
 AudioListModel::AudioListModel(QObject *parent) :
@@ -43,6 +45,6 @@ QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 {
 	int row = index.row();
 	QVariant variant = m_audioList->at(row).artist();
-	qDebug() << variant;
+	//qDebug() << variant;
 	return variant;
 }

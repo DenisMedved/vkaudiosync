@@ -27,8 +27,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <vk/provider.h>
-#include <audioitemdelegate.h>
-#include <QStringListModel>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -56,18 +54,15 @@ MainWindow::MainWindow(QWidget *parent) :
 		this,SLOT(slotLoginUnsuccess()));
 
 	m_loginSuccessHandled = false;
-	QStringListModel model;
-	model.setStringList(QStringList()
-						  << "foo"
-						  << "bar"
-						  << "bar");
-		ui->listView->setModel   (&model  );
+	m_audioItemDelegate = new AudioItemDelegate(this);
+	ui->listView->setItemDelegate(m_audioItemDelegate);
 }
 
 MainWindow::~MainWindow()
 {
 	delete ui;
 	delete m_vkProvider;
+	delete m_audioItemDelegate;
 	delete m_synch;
 }
 
