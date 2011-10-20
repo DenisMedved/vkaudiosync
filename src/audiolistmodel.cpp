@@ -44,7 +44,17 @@ int AudioListModel::rowCount(const QModelIndex&) const
 QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 {
 	int row = index.row();
-	QVariant variant = m_audioList->at(row).artist();
-	//qDebug() << variant;
-	return variant;
+	switch (role)
+	{
+	case ROLE_ARTIST:
+		return m_audioList->at(row).artist();
+	case ROLE_TITLE:
+		return m_audioList->at(row).title();
+	case ROLE_DURATION:
+		return m_audioList->at(row).duration();
+	/*case ROLE_STATUS:
+		return m_audioList->at(row).status();*/
+	default:
+		return QVariant();
+	}
 }

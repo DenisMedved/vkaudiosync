@@ -17,45 +17,67 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 	int w = option.rect.width() -1;
 	int h = option.rect.height()-1;
 
+	QString artistStr = "Mauris dignissim ";
+	QString titleStr = "title title";
+	QRect selectedRect(x,y,w,h);
+	if (option.state & (QStyle::State_Selected | QStyle::State_MouseOver) )
+	{
+		painter->fillRect(selectedRect,QColor("#E1E7ED"));
+	} else {
+		painter->fillRect(selectedRect, QColor("#ffffff"));
+	}
+
 	QFont font = option.font;
+	QFontMetrics  fm = QFontMetrics(font);
+	int leading = fm.leading();
+
+	QPen pen(Qt::SolidLine);
+
+	qreal height = 0;
+	int artistLineWidth = 30 * w / 100;
+
+	//draw artist
+	pen.setColor(QColor("#2B587A"));
+	painter->setPen(pen);
+
 	font.setPixelSize(11);
 	font.setFamily("	tahoma,arial,verdana,sans-serif,Lucida Sans");
 	font.setBold(true);
-	QFontMetrics  fm = QFontMetrics(font);
 
 	QTextLayout artist;
 	artist.setFont(font);
-	artist.setText(index.data(1).toString());
-	QPen pen(Qt::SolidLine);
-	pen.setColor(QColor("#2B587A"));
-	painter->setPen(pen);
+	artist.setText(artistStr);
 	artist.beginLayout();
-	int leading = fm.leading();
-	qreal height = 0;
-	int lineWidth = w - 50;
-	while (1)
-	{
 	    QTextLine line = artist.createLine();
-	    if (!line.isValid())
-		break;
-
-	    line.setLineWidth(lineWidth);
+	    line.setLineWidth(artistLineWidth);
 	    height += leading;
 	    line.setPosition(QPointF(0, y+height));
-	    height += line.height();
-	}
-
 	artist.endLayout();
-	artist.draw(painter,QPoint(15,10));
 
+	artist.draw(painter,QPoint(15,h/3));
+
+	//draw title
+	pen.setColor(Qt::black);
+	painter->setPen(pen);
+
+	font.setBold(false);
+
+	int titleLineWidth = 30 * w / 100;
+	QTextLayout title;
+	title.setFont(font);
+	title.setText(titleStr);
+	title.beginLayout();
+	    line = title.createLine();
+	    line.setLineWidth(titleLineWidth);
+	    height += leading;
+	    line.setPosition(QPointF(0, y+height));
+	title.endLayout();
+
+	title.draw(painter,QPoint(15 + x+artistLineWidth ,h/3));
 
 	pen.setStyle(Qt::DashLine);
 	painter->setPen(pen);
 	painter->drawLine(x ,y+h,x + w,y + h);
-	/*
-	painter->drawLine(option.rect.x(),option.rect.y(), option.rect.x() + option.rect.width(),option.rect.y() + option.rect.height());
-	painter->drawLine(option.rect.x() + option.rect.width(),option.rect.y() , option.rect.x(),option.rect.y() + option.rect.height());
-	*/
 }
 
 
