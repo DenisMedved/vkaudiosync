@@ -13,18 +13,19 @@ class AudioListModel;
 
 class AudioListModel : public QAbstractListModel
 {
-    Q_OBJECT
+	Q_OBJECT
 private:
 	QList<VK::AudioModel> *m_audioList;
 	QSettings *m_settings;
 
 public:
-	static const int ROLE_ARTIST = 33;
-	static const int ROLE_TITLE = 34;
+	static const int ROLE_ARTIST   = 33;
+	static const int ROLE_TITLE    = 34;
 	static const int ROLE_DURATION = 35;
-	static const int ROLE_STATUS = 36;
+	static const int ROLE_STATUS   = 36;
+	static const int ROLE_PROGRESS = 37;
 
-    explicit AudioListModel(QObject *parent = 0);
+	explicit AudioListModel(QObject *parent = 0);
 	virtual ~AudioListModel();
 
 	void setAudioList(QList<VK::AudioModel> *audioList);

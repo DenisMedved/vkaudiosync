@@ -4,9 +4,10 @@
 #include <QTextLayout>
 #include <QTextLine>
 #include "audioitemdelegate.h"
+#include "audiolistmodel.h"
 
 AudioItemDelegate::AudioItemDelegate(QObject *parent) :
-    QItemDelegate(parent)
+	QItemDelegate(parent)
 {
 }
 
@@ -17,8 +18,30 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 	int w = option.rect.width() -1;
 	int h = option.rect.height()-1;
 
-	QString artistStr = "Mauris dignissim ";
-	QString titleStr = "title title";
+	QString artistStr = index.data(AudioListModel::ROLE_ARTIST).toString();
+	QString titleStr  = index.data(AudioListModel::ROLE_TITLE).toString();
+	unsigned short status   =  index.data(AudioListModel::ROLE_STATUS).toInt();
+	unsigned short progress = index.data(AudioListModel::ROLE_PROGRESS).toInt();
+	int duration = index.data(AudioListModel::ROLE_DURATION).toInt(); // minutes
+
+	int mins = qFloor(duration  / 60);
+	int secs = qCeil(duration -(mins * 60));
+	QString minsStr;
+	QString secsStr;
+
+	if (mins < 10) {
+		minsStr.append("0");
+	}
+	minsStr.append(QString::number(mins));
+
+	if (secs < 10) {
+		secsStr.append("0");
+	}
+	secsStr.append(QString::number(secs));
+
+	QString durationStr(QString(" (%1:%2)").arg(minsStr).arg(secsStr));
+
+
 	QRect selectedRect(x,y,w,h);
 	if (option.state & (QStyle::State_Selected | QStyle::State_MouseOver) )
 	{
@@ -41,21 +64,20 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 	painter->setPen(pen);
 
 	font.setPixelSize(11);
-	font.setFamily("	tahoma,arial,verdana,sans-serif,Lucida Sans");
+	font.setFamily("tahoma,arial,verdana,sans-serif,Lucida Sans");
 	font.setBold(true);
 
 	QTextLayout artist;
 	artist.setFont(font);
 	artist.setText(artistStr);
 	artist.beginLayout();
-	    QTextLine line = artist.createLine();
-	    line.setLineWidth(artistLineWidth);
-	    height += leading;
-	    line.setPosition(QPointF(0, y+height));
+		QTextLine line = artist.createLine();
+		line.setLineWidth(artistLineWidth);
+		height += leading;
+		line.setPosition(QPointF(0, y+height));
 	artist.endLayout();
 
 	artist.draw(painter,QPoint(15,h/3));
-
 	//draw title
 	pen.setColor(Qt::black);
 	painter->setPen(pen);
@@ -67,13 +89,70 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 	title.setFont(font);
 	title.setText(titleStr);
 	title.beginLayout();
-	    line = title.createLine();
-	    line.setLineWidth(titleLineWidth);
-	    height += leading;
-	    line.setPosition(QPointF(0, y+height));
+		line = title.createLine();
+		line.setLineWidth(titleLineWidth);
+		height += leading;
+		line.setPosition(QPointF(0, y+height));
 	title.endLayout();
+	title.draw(painter,QPoint(artistLineWidth ,h/3));
 
-	title.draw(painter,QPoint(15 + x+artistLineWidth ,h/3));
+	int durationLineWidth = 5 * w / 100;
+	QTextLayout durationText;
+	durationText.setFont(font);
+	durationText.setText(durationStr);
+	durationText.beginLayout();
+		line = durationText.createLine();
+		line.setLineWidth(durationLineWidth);
+		height += leading;
+		line.setPosition(QPointF(0, y+height));
+	durationText.endLayout();
+	durationText.draw(painter,QPoint(artistLineWidth + titleLineWidth ,h/3));
+
+//	int statusX = x + artistLineWidth + titleLineWidth;
+//	int statusY = y + h/2;
+	int statusLineWidth = 20 * w / 100;
+
+	if (progress > 0) {
+		//TODO: show progress
+		qDebug() << progress;
+	} else {
+		QString statusStr;
+		switch (status)
+		{
+		case VK::AudioModel::STATUS_NEEDDOWNLOAD:
+			statusStr = "Need Download";
+			break;
+
+		case VK::AudioModel::STATUS_NEEDUPLOAD:
+			statusStr = "Need Upload";
+			break;
+
+		case VK::AudioModel::STATUS_NOTSYNCHNIZE:
+			statusStr = "Not Sunchnize";
+			break;
+
+		case VK::AudioModel::STATUS_SYNCHRONIZED:
+			statusStr = "Complete";
+			break;
+
+		case VK::AudioModel::STATUS_UNDEFINED:
+		default:
+			//nothing
+			break;
+		}
+
+		QTextLayout statusText;
+		statusText.setFont(font);
+		statusText.setText(statusStr);
+		statusText.beginLayout();
+			line = statusText.createLine();
+			line.setLineWidth(statusLineWidth);
+			height += leading;
+			line.setPosition(QPointF(0, y+height));
+		statusText.endLayout();
+		statusText.draw(painter,QPoint( artistLineWidth + titleLineWidth + statusLineWidth ,h/3));
+	}
+
 
 	pen.setStyle(Qt::DashLine);
 	painter->setPen(pen);

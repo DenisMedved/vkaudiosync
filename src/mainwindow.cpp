@@ -29,8 +29,8 @@
 #include <vk/provider.h>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+	QMainWindow(parent),
+	ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
 
@@ -52,6 +52,8 @@ MainWindow::MainWindow(QWidget *parent) :
 		this,SLOT(slotLoginSuccess(const VK::ProfileModel*)));
 	connect(m_vkProvider, SIGNAL(loginUnsuccess()),
 		this,SLOT(slotLoginUnsuccess()));
+	/*connect(m_synch, SIGNAL(modelStatusesChanged()),
+			ui->listView, SLOT(update()));*/
 
 	m_loginSuccessHandled = false;
 	m_audioItemDelegate = new AudioItemDelegate(this);

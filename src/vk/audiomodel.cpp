@@ -26,6 +26,7 @@ using namespace VK;
 AudioModel::AudioModel()
 {
 	m_status = STATUS_UNDEFINED;
+	m_progress = 0;
 }
 
 AudioModel::~AudioModel()
@@ -92,12 +93,12 @@ void AudioModel::setUrl(QUrl newUrl)
 	m_url = newUrl;
 }
 
-Status AudioModel::status()
+unsigned short AudioModel::status() const
 {
 	return m_status;
 }
 
-void AudioModel::setStatus(Status status)
+void AudioModel::setStatus(unsigned short status)
 {
 	m_status = status;
 }
@@ -112,3 +113,12 @@ void AudioModel::setPath(QString file)
 	m_path = file;
 }
 
+unsigned short AudioModel::progress() const
+{
+	return m_progress;
+}
+
+void AudioModel::setSrogress(unsigned short progress)
+{
+	m_progress = progress;
+}

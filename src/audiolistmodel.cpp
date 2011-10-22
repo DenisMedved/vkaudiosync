@@ -3,7 +3,7 @@
 #include "audiolistmodel.h"
 
 AudioListModel::AudioListModel(QObject *parent) :
-    QAbstractListModel(parent)
+	QAbstractListModel(parent)
 {
 }
 
@@ -34,7 +34,7 @@ QSettings* AudioListModel::settings()
 
 int AudioListModel::rowCount(const QModelIndex&) const
 {
-	if (!m_audioList->empty() && m_audioList->size() >0)
+	if (!m_audioList->empty() && m_audioList->size() > 0)
 	{
 		return m_audioList->size();
 	}
@@ -44,16 +44,24 @@ int AudioListModel::rowCount(const QModelIndex&) const
 QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 {
 	int row = index.row();
+
 	switch (role)
 	{
-	case ROLE_ARTIST:
+	case AudioListModel::ROLE_ARTIST:
 		return m_audioList->at(row).artist();
-	case ROLE_TITLE:
-		return m_audioList->at(row).title();
-	case ROLE_DURATION:
+
+	case AudioListModel::ROLE_TITLE:
+		return  m_audioList->at(row).title();
+
+	case AudioListModel::ROLE_DURATION:
 		return m_audioList->at(row).duration();
-	/*case ROLE_STATUS:
-		return m_audioList->at(row).status();*/
+
+	case AudioListModel::ROLE_STATUS:
+		return m_audioList->at(row).status();
+
+	case AudioListModel::ROLE_PROGRESS:
+		return m_audioList->at(row).progress();
+
 	default:
 		return QVariant();
 	}

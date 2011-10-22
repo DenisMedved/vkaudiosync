@@ -33,14 +33,14 @@ class Synchronizer;
 namespace Synch{
 class Synchronizer : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 private:
 	QDir m_dir;
 	QSettings* m_settings;
 	QList<VK::AudioModel>* m_audioList;
 
 public:
-    explicit Synchronizer(QObject *parent = 0);
+	explicit Synchronizer(QObject *parent = 0);
 	~Synchronizer();
 
 	void setDir(QDir dir);
@@ -56,7 +56,7 @@ public:
 public slots:
 
 signals:
-
+	void modelStatusesChanged();
 };
 }
 

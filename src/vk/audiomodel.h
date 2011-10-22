@@ -25,23 +25,29 @@
 
 namespace VK
 {
-    enum Status{STATUS_NOTSYNCHNIZE, STATUS_NEEDUPLOAD,STATUS_NEEDDOWNLOAD, STATUS_SYNCHRONIZED,  STATUS_UNDEFINED};
-    class AudioModel
-    {
-    private:
-	    QString m_aid;
-	    QString m_owner;
-	    QString m_artist;
-	    QString m_title;
-	    QUrl m_url;
-	    QString m_path;
+	class AudioModel
+	{
+	private:
+		QString m_aid;
+		QString m_owner;
+		QString m_artist;
+		QString m_title;
+		QUrl m_url;
+		QString m_path;
 
-	    Status m_status ;
-	    unsigned short m_duration;
+		unsigned short m_progress;
+		unsigned short m_status ;
+		unsigned short m_duration;
 
-    public:
-	AudioModel();
-	~AudioModel();
+	public:
+		static const int STATUS_NOTSYNCHNIZE = 1;
+		static const int STATUS_NEEDUPLOAD   = 2;
+		static const int STATUS_NEEDDOWNLOAD = 3;
+		static const int STATUS_SYNCHRONIZED = 4;
+		static const int STATUS_UNDEFINED    = 5;
+
+		AudioModel();
+		~AudioModel();
 
 	QString aid() const;
 	void setAid(QString newAid);
@@ -61,12 +67,16 @@ namespace VK
 	QUrl url() const;
 	void setUrl(QUrl newUrl);
 
-	Status status();
-	void setStatus(Status status);
-
 	QString path() const;
 	void setPath(QString file);
-    };
+
+	unsigned short status() const;
+	void setStatus(unsigned short status);
+
+	unsigned short progress() const;
+	void setSrogress(unsigned short progress);
+
+	};
 }
 
 #endif // AUDIOMODEL_H

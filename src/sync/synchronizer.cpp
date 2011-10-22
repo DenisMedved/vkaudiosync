@@ -21,7 +21,7 @@
 using namespace Synch;
 
 Synchronizer::Synchronizer(QObject *parent) :
-    QObject(parent)
+	QObject(parent)
 {
 }
 
@@ -61,42 +61,50 @@ void Synchronizer::setAudioList(QList<VK::AudioModel>* list)
 
 void Synchronizer::synchronize()
 {
+	bool changed = false;
+
 	if (m_dir.path().isEmpty() || !m_dir.isReadable())
 		return;
 
 	m_dir.setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot );
 	QFileInfoList files = m_dir.entryInfoList();
-	 QList<VK::AudioModel>::iterator model;
+	QList<VK::AudioModel>::iterator model;
 	bool modelFinded ;
 	for (int i = 0; i < files.size(); ++i)
 	{
-	    modelFinded = false;
-	    QFileInfo fileInfo = files.at(i);
-	    for (model = m_audioList->begin(); model != m_audioList->end(); ++model)
-	    {
-		    if (VK::STATUS_UNDEFINED == model->status())
-		    {
-			    QString fullName = model->artist();
-			    fullName.append(" - ");
-			    fullName.append(model->title());
-			    if (fileInfo.exists() &&  fullName == fileInfo.baseName() && "mp3" == fileInfo.suffix())
-			    {
-				    modelFinded = true;
-				    model->setStatus(VK::STATUS_SYNCHRONIZED);
-			    }
-		    }
-	    }
-	    if (modelFinded)
-	    {
-		    //TODO: upload file  to vk
-	    }
+		modelFinded = false;
+		QFileInfo fileInfo = files.at(i);
+		for (model = m_audioList->begin(); model != m_audioList->end(); ++model)
+		{
+			if (VK::AudioModel::STATUS_UNDEFINED == model->status())
+			{
+				QString fullName = model->artist();
+				fullName.append(" - ");
+				fullName.append(model->title());
+				if (fileInfo.exists() &&  fullName == fileInfo.baseName() && "mp3" == fileInfo.suffix())
+				{
+					modelFinded = true;
+					model->setStatus(VK::AudioModel::STATUS_SYNCHRONIZED);
+					if (!changed)
+						changed = true;
+				}
+			}
+		}
+		if (modelFinded)
+		{
+			//TODO: upload file  to vk
+		}
 	}
 	for (model = m_audioList->begin(); model != m_audioList->end(); ++model)
 	{
-		if (VK::STATUS_UNDEFINED == model->status())
+		if (VK::AudioModel::STATUS_UNDEFINED == model->status())
 		{
-			model->setStatus(VK::STATUS_NEEDDOWNLOAD);
-			break;
+			model->setStatus(VK::AudioModel::STATUS_NEEDDOWNLOAD);
+			if (!changed)
+				changed = true;
 		}
 	}
+
+	if (changed)
+		emit modelStatusesChanged();
 }
