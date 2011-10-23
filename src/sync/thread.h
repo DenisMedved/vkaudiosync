@@ -19,9 +19,11 @@
 #ifndef THREAD_H
 #define THREAD_H
 
+#include <QtNetwork>
 #include <QThread>
 #include <QDir>
 #include <QQueue>
+#include <QObject>
 
 #include "../vk/audiomodel.h"
 
@@ -32,11 +34,16 @@ class Thread : public QThread
 private:
     QDir *m_dir;
     QQueue<VK::AudioModel*> m_queue;
+    QNetworkAccessManager m_networkAccessManager;
 
 public:
+    Thread(QObject * parent = 0);
     void enqueue(VK::AudioModel *model);
     void setDir(QDir *dir);
     void run();
+
+private slots:
+    void replyFinished(QNetworkReply*);
 
 };
 }

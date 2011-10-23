@@ -20,6 +20,12 @@
 
 using namespace Synch;
 
+Thread::Thread(QObject * parent) : QThread(parent)
+{
+    connect(&m_networkAccessManager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(replyFinished(QNetworkReply*)));
+}
+
 void Thread::run()
 {
 
@@ -34,4 +40,9 @@ void Thread::enqueue(VK::AudioModel *model)
 void Thread::setDir(QDir *dir)
 {
     m_dir = dir;
+}
+
+void Thread::replyFinished(QNetworkReply *)
+{
+
 }
