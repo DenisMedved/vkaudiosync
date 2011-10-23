@@ -84,6 +84,7 @@ void MainWindow::slotSelectDirectory()
 {
 	QString dir = QFileDialog::getExistingDirectory(this, "Synch with...","", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 	setDir(QDir(dir));
+	ui->synchBtn->setEnabled(true);
 }
 
  void MainWindow::setDir(QDir dir)

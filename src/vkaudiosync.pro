@@ -16,7 +16,8 @@ SOURCES += main.cpp\
     vk/profilefactory.cpp \
     sync/synchronizer.cpp \
     audioitemdelegate.cpp \
-    audiolistmodel.cpp
+    audiolistmodel.cpp \
+    sync/thread.cpp
 HEADERS  += mainwindow.h \
     vk/provider.h \
     vk/audiofactory.h \
@@ -25,7 +26,8 @@ HEADERS  += mainwindow.h \
     vk/profilefactory.h \
     sync/synchronizer.h \
     audioitemdelegate.h \
-    audiolistmodel.h
+    audiolistmodel.h \
+    sync/thread.h
 FORMS    += ui/mainwindow.ui
 OTHER_FILES += \
     .gitignore\
