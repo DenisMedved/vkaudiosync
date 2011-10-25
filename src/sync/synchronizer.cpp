@@ -17,12 +17,15 @@
 */
 
 #include "synchronizer.h"
+#include "thread.h"
+
 #include <QDebug>
 using namespace Synch;
 
 Synchronizer::Synchronizer(QObject *parent) :
 	QObject(parent)
 {
+	m_threadCount = 5;
 }
 
 Synchronizer::~Synchronizer()
@@ -95,16 +98,41 @@ void Synchronizer::synchronize()
 			//TODO: upload file  to vk
 		}
 	}
+	Thread threads[m_threadCount];
+
+	unsigned short threadIndex = 0, threadCounter = 0;
+
 	for (model = m_audioList->begin(); model != m_audioList->end(); ++model)
 	{
 		if (VK::AudioModel::STATUS_UNDEFINED == model->status())
 		{
 			model->setStatus(VK::AudioModel::STATUS_NEEDDOWNLOAD);
+
+			threadIndex = threadCounter % m_threadCount;
+			threads[threadIndex].enqueue(&(*model));
+			++threadCounter;
+
 			if (!changed)
 				changed = true;
 		}
 	}
 
+	for (unsigned short i=0; i < m_threadCount; ++i)
+	{
+		threads[i].setDir(&m_dir);
+		//threads[i].run();
+	}
+
 	if (changed)
 		emit modelStatusesChanged();
+}
+
+void Synchronizer::setThreadCount(unsigned short count)
+{
+	m_threadCount = count;
+}
+
+unsigned short Synchronizer::threadCount()
+{
+	return m_threadCount;
 }

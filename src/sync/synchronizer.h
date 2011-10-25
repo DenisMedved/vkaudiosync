@@ -38,6 +38,7 @@ private:
 	QDir m_dir;
 	QSettings* m_settings;
 	QList<VK::AudioModel>* m_audioList;
+	unsigned short m_threadCount;
 
 public:
 	explicit Synchronizer(QObject *parent = 0);
@@ -52,6 +53,9 @@ public:
 	void setAudioList(QList<VK::AudioModel>* list);
 
 	void synchronize();
+
+	void setThreadCount(unsigned short count);
+	unsigned short threadCount();
 
 public slots:
 
