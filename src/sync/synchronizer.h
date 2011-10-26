@@ -23,6 +23,7 @@
 #include <QSettings>
 #include <QDir>
 
+#include "thread.h"
 #include "../vk/audiomodel.h"
 
 namespace VK
@@ -36,9 +37,10 @@ class Synchronizer : public QObject
 	Q_OBJECT
 private:
 	QDir m_dir;
-	QSettings* m_settings;
-	QList<VK::AudioModel>* m_audioList;
+	QSettings *m_settings;
+	QList<VK::AudioModel> *m_audioList;
 	unsigned short m_threadCount;
+	Thread *m_thread;
 
 public:
 	explicit Synchronizer(QObject *parent = 0);

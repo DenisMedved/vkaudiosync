@@ -102,6 +102,7 @@ void MainWindow::slotSelectDirectory()
 
   void MainWindow::slotSynh()
   {
+	  ui->synchBtn->setEnabled(false); //TODO: enable on synch finished
 	  m_synch->synchronize();
   }
 

@@ -22,27 +22,63 @@ using namespace Synch;
 
 Thread::Thread(QObject * parent) : QThread(parent)
 {
-    connect(&m_networkAccessManager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(replyFinished(QNetworkReply*)));
+	/*connect(&m_networkAccessManager, SIGNAL(finished(QNetworkReply*)),
+			this, SLOT(replyFinished(QNetworkReply* reply)));*/
 }
 
 void Thread::run()
 {
+	//QThread::run();
+	qDebug() << "thread runing";
+	m_networkAccessManager = new QNetworkAccessManager;
+	QNetworkRequest request;
+	QNetworkReply *reply;
+	QString filename;
+	VK::AudioModel *model;
+	while (!m_queue.isEmpty())
+	{
+		model = m_queue.dequeue();
+		filename.clear();
+		filename.append(model->artist());
+		filename.append(" - ");
+		filename.append(model->title());
+		filename.append(".mp3");
 
-    exec();
+		m_file = new QFile();
+		m_file->setFileName(m_dir->path() + QDir::separator() + filename);
+		if (m_file->open(QIODevice::WriteOnly) )
+		{
+			request.setUrl(model->url());
+			reply = m_networkAccessManager->get(request);
+			m_file->write(reply->readAll());
+			model->setStatus(VK::AudioModel::STATUS_SYNCHRONIZED);
+			m_file->close();
+
+			qDebug() << m_file->fileName();
+			sleep(3);
+		}
+
+		delete m_file;
+		delete m_networkAccessManager;
+
+		qDebug() << "thread closed";
+		exec();
+	}
+
+	exec();
 }
 
 void Thread::enqueue(VK::AudioModel *model)
 {
-    m_queue.enqueue(model);
+	m_queue.enqueue(model);
 }
 
 void Thread::setDir(QDir *dir)
 {
-    m_dir = dir;
+	m_dir = dir;
 }
 
-void Thread::replyFinished(QNetworkReply *)
+void Thread::replyFinished(QNetworkReply* reply)
 {
-
+	m_file->write(reply->readAll());
 }

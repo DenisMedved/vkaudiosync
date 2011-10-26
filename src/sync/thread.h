@@ -22,6 +22,7 @@
 #include <QtNetwork>
 #include <QThread>
 #include <QDir>
+#include <QFile>
 #include <QQueue>
 #include <QObject>
 
@@ -32,18 +33,21 @@ namespace Synch
 class Thread : public QThread
 {
 private:
-    QDir *m_dir;
-    QQueue<VK::AudioModel*> m_queue;
-    QNetworkAccessManager m_networkAccessManager;
+	QDir *m_dir;
+	QQueue<VK::AudioModel*> m_queue;
+	QNetworkAccessManager *m_networkAccessManager;
+	QFile *m_file;
+
+protected:
+	virtual void run();
 
 public:
-    Thread(QObject * parent = 0);
-    void enqueue(VK::AudioModel *model);
-    void setDir(QDir *dir);
-    void run();
+	Thread(QObject * parent = 0);
+	void enqueue(VK::AudioModel *model);
+	void setDir(QDir *dir);
 
-private slots:
-    void replyFinished(QNetworkReply*);
+public slots:
+	void replyFinished(QNetworkReply* reply);
 
 };
 }
