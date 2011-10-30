@@ -118,7 +118,7 @@ unsigned short AudioModel::progress() const
 	return m_progress;
 }
 
-void AudioModel::setSrogress(unsigned short progress)
+void AudioModel::setProgress(unsigned short progress)
 {
 	m_progress = progress;
 }

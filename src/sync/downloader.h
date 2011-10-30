@@ -26,6 +26,7 @@ protected:
 	QQueue<VK::AudioModel*> m_queue;
 	QString m_name;
 	QFile* m_file;
+	VK::AudioModel *m_model;
 
 	bool ready();
 	bool m_needWait;
@@ -40,7 +41,7 @@ public:
 signals:
 
 protected slots:
-	void finished(QNetworkReply* reply);
+	void downloadProgress( qint64 bytesReceived, qint64 bytesTotal);
 };
 }
 #endif // DOWNLOADER_H

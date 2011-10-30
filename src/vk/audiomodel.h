@@ -74,7 +74,7 @@ namespace VK
 	void setStatus(unsigned short status);
 
 	unsigned short progress() const;
-	void setSrogress(unsigned short progress);
+	void setProgress(unsigned short progress);
 
 	};
 }

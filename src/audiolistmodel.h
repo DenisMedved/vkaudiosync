@@ -3,7 +3,7 @@
 
 #include <QAbstractListModel>
 #include <QVariant>
-
+#include <QDebug>
 #include <vk/provider.h>
 
 namespace VK

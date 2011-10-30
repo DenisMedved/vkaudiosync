@@ -1,10 +1,6 @@
 
-#include <QDebug>
-#include <QPainter>
-#include <QTextLayout>
-#include <QTextLine>
 #include "audioitemdelegate.h"
-#include "audiolistmodel.h"
+
 
 AudioItemDelegate::AudioItemDelegate(QObject *parent) :
 	QItemDelegate(parent)
@@ -81,10 +77,9 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 	//draw title
 	pen.setColor(Qt::black);
 	painter->setPen(pen);
-
 	font.setBold(false);
-
 	int titleLineWidth = 30 * w / 100;
+
 	QTextLayout title;
 	title.setFont(font);
 	title.setText(titleStr);
@@ -95,8 +90,8 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 		line.setPosition(QPointF(0, y+height));
 	title.endLayout();
 	title.draw(painter,QPoint(artistLineWidth ,h/3));
-
 	int durationLineWidth = 5 * w / 100;
+
 	QTextLayout durationText;
 	durationText.setFont(font);
 	durationText.setText(durationStr);
@@ -108,13 +103,34 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 	durationText.endLayout();
 	durationText.draw(painter,QPoint(artistLineWidth + titleLineWidth ,h/3));
 
-//	int statusX = x + artistLineWidth + titleLineWidth;
-//	int statusY = y + h/2;
 	int statusLineWidth = 20 * w / 100;
 
 	if (progress > 0) {
-		//TODO: show progress
-		qDebug() << progress;
+		unsigned int progerssWidth = 20 * w / 100;
+		unsigned int progressHeight = h/2;
+		QRect progressBarRect(w - progerssWidth - 15 ,y + (h - progressHeight)/2,progerssWidth,progressHeight);
+		progress = 50;
+
+		QString progressText;
+		progressText.append(QString().number(progress));
+		progressText.append("%");
+
+		QStyleOptionProgressBar opt;
+		opt.rect = progressBarRect;
+		opt.minimum = 0;
+		opt.maximum = 100;
+		opt.progress = progress;
+
+		QApplication::style()->drawControl(QStyle::CE_ProgressBar, &opt, painter, 0);
+
+		unsigned int textWidth = option.fontMetrics.width(progressText);
+		unsigned int textHeight = option.fontMetrics.height();
+
+		QRect textRect(progressBarRect.x() + (progressBarRect.width() - textWidth) / 2,
+					   progressBarRect.y() + (progressBarRect.height() - textHeight) / 2,
+					   textWidth,
+					   textHeight );
+		painter->drawText(textRect,progressText);
 	} else {
 		QString statusStr;
 		switch (status)
@@ -137,7 +153,6 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 
 		case VK::AudioModel::STATUS_UNDEFINED:
 		default:
-			//nothing
 			break;
 		}
 
@@ -153,12 +168,10 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 		statusText.draw(painter,QPoint( artistLineWidth + titleLineWidth + statusLineWidth ,h/3));
 	}
 
-
 	pen.setStyle(Qt::DashLine);
 	painter->setPen(pen);
 	painter->drawLine(x ,y+h,x + w,y + h);
 }
-
 
 QSize AudioItemDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {

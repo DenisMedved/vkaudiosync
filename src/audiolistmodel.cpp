@@ -1,5 +1,4 @@
 
-#include <QDebug>
 #include "audiolistmodel.h"
 
 AudioListModel::AudioListModel(QObject *parent) :
