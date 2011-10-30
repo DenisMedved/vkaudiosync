@@ -18,7 +18,6 @@
 
 #include "synchronizer.h"
 
-#include <QDebug>
 using namespace Synch;
 
 Synchronizer::Synchronizer(QObject *parent) :
@@ -26,12 +25,12 @@ Synchronizer::Synchronizer(QObject *parent) :
 {
 	m_threadCount = 5; //TODO: some config
 
-	m_thread = new Thread[m_threadCount];
+	m_downloader = new Downloader(this);
 }
 
 Synchronizer::~Synchronizer()
 {
-	delete[] m_thread;
+	delete m_downloader;
 }
 
 void Synchronizer::setDir(QDir dir)
@@ -109,18 +108,20 @@ void Synchronizer::synchronize()
 			model->setStatus(VK::AudioModel::STATUS_NEEDDOWNLOAD);
 
 			threadIndex = threadCounter % m_threadCount;
-			m_thread[threadIndex].enqueue(&(*model));
+
+			m_downloader->enqueue(&(*model));
 			++threadCounter;
 
 			if (!changed)
 				changed = true;
 		}
 	}
-
+	m_downloader->setDir(&m_dir);
+	m_downloader->start();
 	for (unsigned short i=0; i < m_threadCount; ++i)
 	{
-		m_thread[i].setDir(&m_dir);
-		m_thread[i].start();
+		/*m_thread[i].setDir(&m_dir);
+		m_thread[i].start();*/
 	}
 
 	if (changed)

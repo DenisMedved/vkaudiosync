@@ -23,7 +23,7 @@
 #include <QSettings>
 #include <QDir>
 
-#include "thread.h"
+#include "downloader.h"
 #include "../vk/audiomodel.h"
 
 namespace VK
@@ -40,7 +40,7 @@ private:
 	QSettings *m_settings;
 	QList<VK::AudioModel> *m_audioList;
 	unsigned short m_threadCount;
-	Thread *m_thread;
+	Downloader *m_downloader;
 
 public:
 	explicit Synchronizer(QObject *parent = 0);

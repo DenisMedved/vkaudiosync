@@ -17,7 +17,7 @@ SOURCES += main.cpp\
     sync/synchronizer.cpp \
     audioitemdelegate.cpp \
     audiolistmodel.cpp \
-    sync/thread.cpp
+    sync/downloader.cpp
 HEADERS  += mainwindow.h \
     vk/provider.h \
     vk/audiofactory.h \
@@ -27,7 +27,7 @@ HEADERS  += mainwindow.h \
     sync/synchronizer.h \
     audioitemdelegate.h \
     audiolistmodel.h \
-    sync/thread.h
+    sync/downloader.h
 FORMS    += ui/mainwindow.ui
 OTHER_FILES += \
     .gitignore\
