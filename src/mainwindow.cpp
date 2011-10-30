@@ -42,14 +42,14 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_vkProvider = new VK::Provider(this);
 	m_synch = new Synch::Synchronizer(this);
 
-	connect(m_vkProvider,SIGNAL(modelsChanged(QList<VK::AudioModel>*)),
-		this,SLOT(slotAudioModelChanged(QList<VK::AudioModel>*)));
+	connect(m_vkProvider,SIGNAL(modelsChanged(QList<VK::AudioModel>)),
+		this,SLOT(slotAudioModelChanged(QList<VK::AudioModel>)));
 	connect(ui->synchBtn, SIGNAL(clicked()),
 		this, SLOT(slotSynh())); //TODO: rename method
 	connect(ui->dirBtn, SIGNAL(clicked()),
 		this, SLOT(slotSelectDirectory())); //TODO: rename method
-	connect(m_vkProvider,SIGNAL(loginSuccess(const VK::ProfileModel*)),
-		this,SLOT(slotLoginSuccess(const VK::ProfileModel*)));
+	connect(m_vkProvider,SIGNAL(loginSuccess(const VK::ProfileModel)),
+		this,SLOT(slotLoginSuccess(const VK::ProfileModel)));
 	connect(m_vkProvider, SIGNAL(loginUnsuccess()),
 		this,SLOT(slotLoginUnsuccess()));
 	/*connect(m_synch, SIGNAL(modelStatusesChanged()),
@@ -95,12 +95,12 @@ void MainWindow::slotSelectDirectory()
 	 m_synch->setDir(dir);
  }
 
-  void MainWindow::slotAudioModelChanged(QList<VK::AudioModel> *list)
+  void MainWindow::slotAudioModelChanged(QList<VK::AudioModel> list)
   {
 	  m_audioListModel.setAudioList(list);
+	  m_synch->setAudioList(m_audioListModel.audioList());
 	  ui->listView->setModel(&m_audioListModel);
 	  ui->listView->show();
-	  m_synch->setAudioList(list);
   }
 
   void MainWindow::slotSynh()
@@ -109,7 +109,7 @@ void MainWindow::slotSelectDirectory()
 	  m_synch->synchronize();
   }
 
-  void MainWindow::slotLoginSuccess(const VK::ProfileModel* profile)
+  void MainWindow::slotLoginSuccess(VK::ProfileModel profile)
   {
 	  if (!m_loginSuccessHandled)
 	  {
@@ -120,9 +120,8 @@ void MainWindow::slotSelectDirectory()
 
   void MainWindow::slotLoginUnsuccess()
   {
-	  qDebug() << "unsuccess";
 	 close();
-	 QApplication::exit();
+	 QApplication::exit(1);
   }
 
   void MainWindow::login()

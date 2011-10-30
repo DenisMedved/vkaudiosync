@@ -37,16 +37,16 @@ class Provider : public QObject
 	Q_OBJECT
 
 private:
-	QString m_appId;
-	QString m_uid;
-	QString m_token;
-	QString m_expire;
-	QString m_lastError;
-	QUrl m_authUrl;
-	QList<AudioModel> m_audioModels;
-	QWebView m_webView;
-	QNetworkAccessManager m_networkManager;
-	ProfileModel m_profileModel;
+	QString *m_appId;
+	QString *m_uid;
+	QString *m_token;
+	QString *m_expire;
+	QString *m_lastError;
+	QUrl *m_authUrl;
+	QList<AudioModel> *m_audioModels;
+	QWebView *m_webView;
+	QNetworkAccessManager *m_networkManager;
+	ProfileModel *m_profileModel;
 
 	QSettings *m_settings;
 	bool m_errorHandled;
@@ -73,9 +73,9 @@ public:
 public slots:
 
 signals:
-	void modelsChanged(QList<VK:: AudioModel>*);
-	void loginSuccess(const VK::ProfileModel*);
-	void  loginUnsuccess();
+	void modelsChanged(QList<VK::AudioModel>);
+	void loginSuccess(VK::ProfileModel);
+	void loginUnsuccess();
 };
 }
 #endif // VKMODEL_H

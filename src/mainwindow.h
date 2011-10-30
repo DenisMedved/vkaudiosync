@@ -32,49 +32,49 @@
 
 namespace Ui
 {
-    class MainWindow;
+	class MainWindow;
 }
 
 namespace VK
 {
-    class MainWindow;
+	class MainWindow;
 }
 
-    namespace Synch
+	namespace Synch
 {
-    class MainWindow;
+	class MainWindow;
 }
 
 class MainWindow : public QMainWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 private:
-    Ui::MainWindow *ui;
-    QSettings *m_settings;
-    VK::Provider *m_vkProvider;
-    Synch::Synchronizer *m_synch;
-    AudioItemDelegate *m_audioItemDelegate;
-    AudioListModel m_audioListModel;
+	Ui::MainWindow *ui;
+	QSettings *m_settings;
+	VK::Provider *m_vkProvider;
+	Synch::Synchronizer *m_synch;
+	AudioItemDelegate *m_audioItemDelegate;
+	AudioListModel m_audioListModel;
 
-    bool m_loginSuccessHandled;
+	bool m_loginSuccessHandled;
 
 
 private slots:
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
-    void setSettings(QSettings *settings);
-    QSettings* getSettings();
-    void setDir(QDir dir);
-    void  login();
+	explicit MainWindow(QWidget *parent = 0);
+	~MainWindow();
+	void setSettings(QSettings *settings);
+	QSettings* getSettings();
+	void setDir(QDir dir);
+	void  login();
 
  public slots:
-    void slotLoginSuccess(const VK::ProfileModel* profile);
-    void slotLoginUnsuccess();
-    void slotSelectDirectory();
-    void slotAudioModelChanged(QList<VK::AudioModel>* list);
-    void slotSynh();
+	void slotLoginSuccess(const VK::ProfileModel profile);
+	void slotLoginUnsuccess();
+	void slotSelectDirectory();
+	void slotAudioModelChanged(QList<VK::AudioModel> list);
+	void slotSynh();
 };
 
 

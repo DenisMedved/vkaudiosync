@@ -10,15 +10,15 @@ AudioListModel::~AudioListModel()
 {
 }
 
-void AudioListModel::setAudioList(QList<VK::AudioModel> *audioList)
+void AudioListModel::setAudioList(QList<VK::AudioModel> audioList)
 {
 	m_audioList = audioList;
 }
 
 
-QList<VK::AudioModel>* AudioListModel::audioList() const
+QList<VK::AudioModel>* AudioListModel::audioList()
 {
-	return m_audioList;
+	return &m_audioList;
 }
 
 void AudioListModel::setSettings(QSettings *settings)
@@ -33,9 +33,9 @@ QSettings* AudioListModel::settings()
 
 int AudioListModel::rowCount(const QModelIndex&) const
 {
-	if (!m_audioList->empty() && m_audioList->size() > 0)
+	if (!m_audioList.empty() && m_audioList.size() > 0)
 	{
-		return m_audioList->size();
+		return m_audioList.size();
 	}
 	return 0;
 }
@@ -47,19 +47,19 @@ QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 	switch (role)
 	{
 	case AudioListModel::ROLE_ARTIST:
-		return m_audioList->at(row).artist();
+		return m_audioList.at(row).artist();
 
 	case AudioListModel::ROLE_TITLE:
-		return  m_audioList->at(row).title();
+		return  m_audioList.at(row).title();
 
 	case AudioListModel::ROLE_DURATION:
-		return m_audioList->at(row).duration();
+		return m_audioList.at(row).duration();
 
 	case AudioListModel::ROLE_STATUS:
-		return m_audioList->at(row).status();
+		return m_audioList.at(row).status();
 
 	case AudioListModel::ROLE_PROGRESS:
-		return m_audioList->at(row).progress();
+		return m_audioList.at(row).progress();
 
 	default:
 		return QVariant();
