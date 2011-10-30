@@ -16,17 +16,17 @@
   *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include  <QWidget>
-#include  <QTextEdit>
+#include <QWidget>
+#include <QTextEdit>
 #include <QApplication>
-#include  <QVBoxLayout>
+#include <QVBoxLayout>
 #include <QDesktopWidget>
 #include <QSettings>
 #include <QFileDialog>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <vk/provider.h>
+#include "vk/provider.h"
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -52,11 +52,10 @@ MainWindow::MainWindow(QWidget *parent) :
 		this,SLOT(slotLoginSuccess(const VK::ProfileModel)));
 	connect(m_vkProvider, SIGNAL(loginUnsuccess()),
 		this,SLOT(slotLoginUnsuccess()));
-	/*connect(m_synch, SIGNAL(modelStatusesChanged()),
-			ui->listView, SLOT(update()));*/
+	connect(m_synch, SIGNAL(modelStatusesChanged()),
+			this, SLOT(slotModelStatusesChanged()));
 	connect(m_synch,SIGNAL(synchronizeFinished(bool)),
 			ui->synchBtn,SLOT(setEnabled(bool)));
-
 
 	m_loginSuccessHandled = false;
 	m_audioItemDelegate = new AudioItemDelegate(this);
@@ -121,10 +120,15 @@ void MainWindow::slotSelectDirectory()
   void MainWindow::slotLoginUnsuccess()
   {
 	 close();
-	 QApplication::exit(1);
+	 QApplication::exit();
   }
 
   void MainWindow::login()
   {
-	  m_vkProvider->login();
+	 m_vkProvider->login();
+  }
+
+  void MainWindow::slotModelStatusesChanged()
+  {
+	  ui->listView->setItemDelegate(m_audioItemDelegate);
   }

@@ -9,22 +9,21 @@ AudioItemDelegate::AudioItemDelegate(QObject *parent) :
 
 void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const
 {
-	int x = option.rect.x() -1 ;
+	int x = option.rect.x() -1;
 	int y = option.rect.y() -1;
 	int w = option.rect.width() -1;
 	int h = option.rect.height()-1;
 
 	QString artistStr = index.data(AudioListModel::ROLE_ARTIST).toString();
 	QString titleStr  = index.data(AudioListModel::ROLE_TITLE).toString();
-	unsigned short status   =  index.data(AudioListModel::ROLE_STATUS).toInt();
+	unsigned short status   = index.data(AudioListModel::ROLE_STATUS).toInt();
 	unsigned short progress = index.data(AudioListModel::ROLE_PROGRESS).toInt();
 	int duration = index.data(AudioListModel::ROLE_DURATION).toInt(); // minutes
 
-	int mins = qFloor(duration  / 60);
-	int secs = qCeil(duration -(mins * 60));
+	int mins = qFloor(duration / 60);
+	int secs = qCeil(duration - (mins * 60));
 	QString minsStr;
 	QString secsStr;
-
 	if (mins < 10) {
 		minsStr.append("0");
 	}
@@ -36,7 +35,6 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 	secsStr.append(QString::number(secs));
 
 	QString durationStr(QString(" (%1:%2)").arg(minsStr).arg(secsStr));
-
 
 	QRect selectedRect(x,y,w,h);
 	if (option.state & (QStyle::State_Selected | QStyle::State_MouseOver) )
@@ -108,8 +106,10 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 	if (progress > 0) {
 		unsigned int progerssWidth = 20 * w / 100;
 		unsigned int progressHeight = h/2;
-		QRect progressBarRect(w - progerssWidth - 15 ,y + (h - progressHeight)/2,progerssWidth,progressHeight);
-		progress = 50;
+		QRect progressBarRect(w - progerssWidth - 15 ,
+							  y + (h - progressHeight)/2,
+							  progerssWidth,
+							  progressHeight);
 
 		QString progressText;
 		progressText.append(QString().number(progress));
@@ -129,7 +129,7 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 		QRect textRect(progressBarRect.x() + (progressBarRect.width() - textWidth) / 2,
 					   progressBarRect.y() + (progressBarRect.height() - textHeight) / 2,
 					   textWidth,
-					   textHeight );
+					   textHeight);
 		painter->drawText(textRect,progressText);
 	} else {
 		QString statusStr;
@@ -165,12 +165,12 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 			height += leading;
 			line.setPosition(QPointF(0, y+height));
 		statusText.endLayout();
-		statusText.draw(painter,QPoint( artistLineWidth + titleLineWidth + statusLineWidth ,h/3));
+		statusText.draw(painter, QPoint(artistLineWidth + titleLineWidth + statusLineWidth, h/3));
 	}
 
 	pen.setStyle(Qt::DashLine);
 	painter->setPen(pen);
-	painter->drawLine(x ,y+h,x + w,y + h);
+	painter->drawLine(x, y+h, x+w, y+h);
 }
 
 QSize AudioItemDelegate::sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const

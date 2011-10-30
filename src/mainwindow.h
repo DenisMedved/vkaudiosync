@@ -75,6 +75,7 @@ public:
 	void slotSelectDirectory();
 	void slotAudioModelChanged(QList<VK::AudioModel> list);
 	void slotSynh();
+	void slotModelStatusesChanged();
 };
 
 

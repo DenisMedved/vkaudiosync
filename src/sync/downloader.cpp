@@ -35,8 +35,6 @@ void Downloader::run()
 	if (!ready())
 		exit();
 
-	qDebug() << "thread runing";
-
 	m_file = new QFile;
 	while (!m_queue.isEmpty())
 	{
@@ -48,7 +46,6 @@ void Downloader::run()
 		m_file->setFileName(m_dir->path() + QDir::separator() + m_name);
 		if (m_file->open(QIODevice::WriteOnly))
 		{
-			qDebug() << "file created " << m_file->fileName();
 			QNetworkRequest request;
 			request.setUrl(m_model->url());
 			reply = networkManager->get(request);
@@ -61,22 +58,18 @@ void Downloader::run()
 			loop.exec();
 
 			if (reply->error() == QNetworkReply::NoError) {
-				qDebug() << "success";
 				m_file->write(reply->readAll());
 				m_file->close();
 				m_model->setStatus(VK::AudioModel::STATUS_SYNCHRONIZED);
 			} else {
-				qDebug() << "unsuccess : " << reply->errorString();
 				m_file->remove();
 			}
 		}
 
-		break;//TODO: remove after debug
 	}
 	delete m_file;
 	delete networkManager;
 
-	qDebug() << "thread finished";
 	exec();
 }
 
@@ -96,6 +89,5 @@ void Downloader::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
 	if (m_model->progress() != percent)
 	{
 		m_model->setProgress(percent);
-		qDebug() << percent;
 	}
 }
