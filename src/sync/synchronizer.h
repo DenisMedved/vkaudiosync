@@ -63,6 +63,7 @@ public slots:
 
 signals:
 	void modelStatusesChanged();
+	void synchronizeFinished(bool);
 };
 }
 

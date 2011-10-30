@@ -54,6 +54,9 @@ MainWindow::MainWindow(QWidget *parent) :
 		this,SLOT(slotLoginUnsuccess()));
 	/*connect(m_synch, SIGNAL(modelStatusesChanged()),
 			ui->listView, SLOT(update()));*/
+	connect(m_synch,SIGNAL(synchronizeFinished(bool)),
+			ui->synchBtn,SLOT(setEnabled(bool)));
+
 
 	m_loginSuccessHandled = false;
 	m_audioItemDelegate = new AudioItemDelegate(this);

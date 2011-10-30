@@ -160,7 +160,10 @@ void Provider::slotReplyFinished(QNetworkReply * reply )
 	} else if ("/method/getVariable.xml" == reply->url().path()) {
 		ProfileFactory::parseProfileModel(&xml, &m_profileModel);
 		if (isLogined())
+		{
+			saveCookieJar();
 			emit loginSuccess(&m_profileModel);
+		}
 	}
 }
 

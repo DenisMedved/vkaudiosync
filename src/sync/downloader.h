@@ -8,6 +8,7 @@
 #include <QtNetwork>
 #include <QFile>
 #include <QDebug>
+#include <QEventLoop>
 
 #include "../vk/audiomodel.h"
 
@@ -18,27 +19,28 @@ class Downloader;
 namespace Synch {
 class Downloader : public QThread
 {
-    Q_OBJECT
+	Q_OBJECT
 
 protected:
-    QDir *m_dir;
-    QQueue<VK::AudioModel*> m_queue;
-    QNetworkAccessManager *m_networkManager;
-    QString m_name;
+	QDir *m_dir;
+	QQueue<VK::AudioModel*> m_queue;
+	QString m_name;
+	QFile* m_file;
 
-    bool ready();
-    void run();
+	bool ready();
+	bool m_needWait;
+	void run();
 public:
-    explicit Downloader(QObject *parent = 0);
-
-    void setDir(QDir *dir);
-    QDir* dir();
-    void enqueue(VK::AudioModel *model);
-    VK::AudioModel * dequeue();
+	explicit Downloader(QObject *parent = 0);
+	~Downloader();
+	void setDir(QDir *dir);
+	QDir* dir();
+	void enqueue(VK::AudioModel *model);
+	VK::AudioModel * dequeue();
 signals:
 
 protected slots:
-    void finished(QNetworkReply* reply);
+	void finished(QNetworkReply* reply);
 };
 }
 #endif // DOWNLOADER_H

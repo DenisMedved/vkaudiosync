@@ -3,72 +3,102 @@
 using namespace Synch;
 
 Downloader::Downloader(QObject *parent) :
-    QThread(parent)
+	QThread(parent)
+{
+}
+
+Downloader::~Downloader()
 {
 }
 
 void Downloader::enqueue(VK::AudioModel *model)
 {
-    m_queue.enqueue(model);
+	m_queue.enqueue(model);
 }
 
 VK::AudioModel* Downloader::dequeue()
 {
-    return m_queue.dequeue();
+	return m_queue.dequeue();
 }
 
 bool Downloader::ready()
 {
-    return m_dir->exists() && !m_queue.isEmpty();
+	return m_dir->exists() && !m_queue.isEmpty();
 }
 
 void Downloader::run()
 {
-    if (!ready())
-        exit();
-    qDebug() << "thread runing";
-    m_networkManager = new QNetworkAccessManager(this);
+	m_needWait = false;
+	QNetworkAccessManager *networkManager = new QNetworkAccessManager;
+	QNetworkReply *reply;
 
-    connect(m_networkManager,SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(finished(QNetworkReply*)));
+	/*connect(networkManager, SIGNAL(finished(QNetworkReply*)),
+		this, SLOT(finished(QNetworkReply*)));*/
 
-    VK::AudioModel *model;
-    QNetworkRequest request;
-    while (!m_queue.isEmpty())
-    {
-        model = dequeue();
-        m_name = QString("%1 - %2.mp3")
-                .arg(model->artist())
-                .arg(model->title());
+	//connect(reply, SIGNAL(finished()), this, SLOT())
 
-        request.setUrl(model->url());
-        m_networkManager->get(request);
-        //wait()
-    }
-    delete m_networkManager;
+	if (!ready())
+		exit();
+	qDebug() << "thread runing";
 
 
-    qDebug() << "thread finished";
-    exec();
+	VK::AudioModel *model;
+
+	m_file = new QFile;
+	while (!m_queue.isEmpty())
+	{
+		model = dequeue();
+		m_name = QString("%1 - %2.mp3")
+				.arg(model->artist())
+				.arg(model->title());
+
+		m_file->setFileName(m_dir->path() + QDir::separator() + m_name);
+		if (m_file->open(QIODevice::WriteOnly))
+		{
+			qDebug() << "file created " << m_file->fileName();
+			QNetworkRequest request;
+			request.setUrl(model->url());
+			reply = networkManager->get(request);
+
+			QEventLoop loop;
+			connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
+			loop.exec();
+
+			if (reply->error() == QNetworkReply::NoError) {
+				qDebug() << "success";
+				m_file->write(reply->readAll());
+				m_file->close();
+				model->setStatus(VK::AudioModel::STATUS_SYNCHRONIZED);
+			} else {
+				qDebug() << "unsuccess : " << reply->errorString();
+				m_file->remove();
+			}
+		}
+
+		break;
+	}
+	delete m_file;
+
+
+	delete networkManager;
+
+	qDebug() << "thread finished";
+	exec();
 }
 
 void Downloader::finished(QNetworkReply* reply)
 {
-    QFile file;
-    file.setFileName(m_dir->path() + QDir::separator() + m_name);
-    if (file.isWritable() && file.open(QIODevice::WriteOnly))
-    {
-        file.write(reply->readAll());
-        file.close();
-    }
+	m_file->write(reply->readAll());
+	m_needWait = false;
+	qDebug() << "unlock";
 }
 
 void Downloader::setDir(QDir *dir)
 {
-    m_dir = dir;
+	m_dir = dir;
 }
 
 QDir* Downloader::dir()
 {
-    return m_dir;
+	return m_dir;
 }

@@ -25,7 +25,7 @@ Synchronizer::Synchronizer(QObject *parent) :
 {
 	m_threadCount = 5; //TODO: some config
 
-	m_downloader = new Downloader(this);
+	m_downloader = new Downloader;
 }
 
 Synchronizer::~Synchronizer()
@@ -103,7 +103,8 @@ void Synchronizer::synchronize()
 
 	for (model = m_audioList->begin(); model != m_audioList->end(); ++model)
 	{
-		if (VK::AudioModel::STATUS_UNDEFINED == model->status())
+		if (VK::AudioModel::STATUS_UNDEFINED == model->status()
+				|| VK::AudioModel::STATUS_NEEDDOWNLOAD == model->status())
 		{
 			model->setStatus(VK::AudioModel::STATUS_NEEDDOWNLOAD);
 
@@ -118,6 +119,7 @@ void Synchronizer::synchronize()
 	}
 	m_downloader->setDir(&m_dir);
 	m_downloader->start();
+
 	for (unsigned short i=0; i < m_threadCount; ++i)
 	{
 		/*m_thread[i].setDir(&m_dir);
@@ -126,6 +128,7 @@ void Synchronizer::synchronize()
 
 	if (changed)
 		emit modelStatusesChanged();
+	emit synchronizeFinished(true);
 }
 
 void Synchronizer::setThreadCount(unsigned short count)
