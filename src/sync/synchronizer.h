@@ -60,6 +60,7 @@ public:
 	unsigned short threadCount();
 
 public slots:
+	void slotThreadChangeModel();
 
 signals:
 	void modelStatusesChanged();

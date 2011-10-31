@@ -38,7 +38,9 @@ public:
 	QDir* dir();
 	void enqueue(VK::AudioModel *model);
 	VK::AudioModel * dequeue();
+
 signals:
+	void modelChanged();
 
 protected slots:
 	void downloadProgress( qint64 bytesReceived, qint64 bytesTotal);

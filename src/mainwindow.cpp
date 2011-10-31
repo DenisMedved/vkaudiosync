@@ -130,5 +130,7 @@ void MainWindow::slotSelectDirectory()
 
   void MainWindow::slotModelStatusesChanged()
   {
-	  ui->listView->setItemDelegate(m_audioItemDelegate);
+	  //ui->listView->setItemDelegate(m_audioItemDelegate);
+	  qDebug() << "repaint";
+	  ui->listView->repaint();
   }

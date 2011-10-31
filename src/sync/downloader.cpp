@@ -89,5 +89,6 @@ void Downloader::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
 	if (m_model->progress() != percent)
 	{
 		m_model->setProgress(percent);
+		emit modelChanged();
 	}
 }

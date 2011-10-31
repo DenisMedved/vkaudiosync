@@ -25,6 +25,9 @@ Synchronizer::Synchronizer(QObject *parent) :
 {
 	m_threadCount = 5;
 	m_downloader = new Downloader[m_threadCount];
+
+	connect(m_downloader, SIGNAL(modelChanged()),
+			this,  SLOT(slotThreadChangeModel()));
 }
 
 Synchronizer::~Synchronizer()
@@ -135,4 +138,9 @@ void Synchronizer::setThreadCount(unsigned short count)
 unsigned short Synchronizer::threadCount()
 {
 	return m_threadCount;
+}
+
+void Synchronizer::slotThreadChangeModel()
+{
+	emit modelStatusesChanged();
 }
