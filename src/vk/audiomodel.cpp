@@ -18,9 +18,6 @@
 
 #include "audiomodel.h"
 
-#include <QUrl>
-#include <QString>
-
 using namespace VK;
 
 AudioModel::AudioModel()

@@ -16,13 +16,6 @@
   *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QApplication>
-#include <QDesktopWidget>
-#include <QMessageBox>
-#include <QTextCodec>
-
-#include "profilefactory.h"
-#include "audiofactory.h"
 #include "provider.h"
 
 using namespace VK;

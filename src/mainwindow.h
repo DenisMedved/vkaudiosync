@@ -23,11 +23,13 @@
 #include <QSettings>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include <QWidget>
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QFileDialog>
 
 #include "audiolistmodel.h"
 #include "vk/provider.h"
-#include <audioitemdelegate.h>
+#include "audioitemdelegate.h"
 #include "sync/synchronizer.h"
 
 namespace Ui

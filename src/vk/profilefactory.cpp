@@ -17,7 +17,7 @@
 */
 
 #include "profilefactory.h"
-#include <QtXml>
+
 using namespace VK;
 
 ProfileFactory::ProfileFactory()

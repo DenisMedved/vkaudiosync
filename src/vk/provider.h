@@ -19,14 +19,22 @@
 #ifndef VKMODEL_H
 #define VKMODEL_H
 
-#include <QString>
-#include <QObject>
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QMessageBox>
+#include <QTextCodec>
+
 #include <QtWebKit>
 #include <QtNetwork>
+
+#include <QString>
+#include <QObject>
 #include <QList>
 #include <QSettings>
 #include <QUrl>
 
+#include "profilefactory.h"
+#include "audiofactory.h"
 #include "audiomodel.h"
 #include "profilemodel.h"
 

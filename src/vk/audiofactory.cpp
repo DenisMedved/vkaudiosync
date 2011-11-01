@@ -16,12 +16,6 @@
   *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QList>
-#include <QString>
-#include <QByteArray>
-#include <QtXml>
-
-#include "audiomodel.h"
 #include "audiofactory.h"
 
 using namespace VK;

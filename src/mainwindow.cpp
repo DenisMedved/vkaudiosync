@@ -16,17 +16,8 @@
   *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QWidget>
-#include <QTextEdit>
-#include <QApplication>
-#include <QVBoxLayout>
-#include <QDesktopWidget>
-#include <QSettings>
-#include <QFileDialog>
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "vk/provider.h"
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),

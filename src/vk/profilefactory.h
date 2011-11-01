@@ -19,6 +19,7 @@
 #ifndef PROFILEFACTORY_H
 #define PROFILEFACTORY_H
 
+#include <QtXml>
 #include "profilemodel.h"
 
 namespace VK
@@ -26,7 +27,7 @@ namespace VK
 class ProfileFactory
 {
 private:
-    explicit ProfileFactory();
+	explicit ProfileFactory();
 	~ProfileFactory();
 public:
 	static void parseProfileModel(const QByteArray *xml , ProfileModel *model) ;

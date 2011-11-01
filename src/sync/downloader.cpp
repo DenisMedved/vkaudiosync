@@ -54,7 +54,11 @@ void Downloader::run()
 			connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
 					this,SLOT(downloadProgress(qint64,qint64)));
 			connect(reply, SIGNAL(finished()),
-					&loop, SLOT(quit()));
+					&loop, SLOT(quit()));#include <QList>
+		#include <QString>
+		#include <QByteArray>
+		#include <QtXml>
+		#include "audiomodel.h"
 			loop.exec();
 
 			if (reply->error() == QNetworkReply::NoError) {
