@@ -183,6 +183,7 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 			line.setPosition(QPointF(0, y+height));
 		statusText.endLayout();
 		statusText.draw(painter, QPoint(artistLineWidth + titleLineWidth + statusLineWidth, h/3));
+
 	}
 
 	pen.setStyle(Qt::DashLine);

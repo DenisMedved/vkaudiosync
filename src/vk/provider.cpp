@@ -188,7 +188,7 @@ void Provider::slotLoadFinished(bool ok)
 	if (!ok && ! m_errorHandled)
 	{
 		m_webView->close();
-		(*m_lastError) = "connection failure";
+		m_lastError->append("connection failure");
 		QMessageBox::critical(m_webView,"Connection error","Connect to vk com failed");
 		emit loginUnsuccess();
 	}
