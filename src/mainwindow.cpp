@@ -77,49 +77,56 @@ void MainWindow::slotSelectDirectory()
 {
 	QString dir = QFileDialog::getExistingDirectory(this, "Synch with...","", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 	setDir(QDir(dir));
+	//reset model statuses after directory changed
+	QList<VK::AudioModel>* list = m_audioListModel.audioList();
+	QList<VK::AudioModel>::iterator iterator;
+	for (iterator = list->begin(); iterator != list->end(); ++iterator)
+	{
+		iterator->setStatus(VK::AudioModel::STATUS_UNDEFINED);
+	}
 	ui->synchBtn->setEnabled(true);
 }
 
- void MainWindow::setDir(QDir dir)
- {
-	 m_synch->setDir(dir);
- }
+void MainWindow::setDir(QDir dir)
+{
+	m_synch->setDir(dir);
+}
 
-  void MainWindow::slotAudioModelChanged(QList<VK::AudioModel> list)
-  {
-	  m_audioListModel.setAudioList(list);
-	  m_synch->setAudioList(m_audioListModel.audioList());
-	  ui->listView->setModel(&m_audioListModel);
-	  ui->listView->show();
-  }
+void MainWindow::slotAudioModelChanged(QList<VK::AudioModel> list)
+{
+	m_audioListModel.setAudioList(list);
+	m_synch->setAudioList(m_audioListModel.audioList());
+	ui->listView->setModel(&m_audioListModel);
+	ui->listView->show();
+}
 
-  void MainWindow::slotSynh()
-  {
-	  ui->synchBtn->setEnabled(false); //TODO: enable on synch finished
-	  m_synch->synchronize();
-  }
+void MainWindow::slotSynh()
+{
+	ui->synchBtn->setEnabled(false); //TODO: enable on synch finished
+	m_synch->synchronize();
+}
 
-  void MainWindow::slotLoginSuccess(VK::ProfileModel profile)
-  {
-	  if (!m_loginSuccessHandled)
-	  {
-		  m_loginSuccessHandled = true;
-		  show();
-	  }
-  }
+void MainWindow::slotLoginSuccess(VK::ProfileModel /*profile*/)
+{
+	if (!m_loginSuccessHandled)
+	{
+		m_loginSuccessHandled = true;
+		show();
+	}
+}
 
-  void MainWindow::slotLoginUnsuccess()
-  {
-	 close();
-	 QApplication::exit();
-  }
+void MainWindow::slotLoginUnsuccess()
+{
+	close();
+	QApplication::exit();
+}
 
-  void MainWindow::login()
-  {
-	 m_vkProvider->login();
-  }
+void MainWindow::login()
+{
+	m_vkProvider->login();
+}
 
-  void MainWindow::slotModelStatusesChanged()
-  {
-	  ui->listView->update();//TODO: issue not work
-  }
+void MainWindow::slotModelStatusesChanged()
+{
+	ui->listView->update();//TODO: issue not work
+}

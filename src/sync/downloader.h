@@ -56,6 +56,7 @@ public:
 	QDir* dir();
 	void enqueue(VK::AudioModel *model);
 	VK::AudioModel * dequeue();
+	void clearQueue();
 
 signals:
 	void modelChanged();

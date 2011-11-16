@@ -103,6 +103,12 @@ void Synchronizer::synchronize()
 	}
 	unsigned short threadIndex = 0, threadCounter = 0;
 
+	for (unsigned short i=0; i < m_threadCount; ++i)
+	{
+		m_downloader[i].clearQueue();
+	}
+
+
 	for (model = m_audioList->begin(); model != m_audioList->end(); ++model)
 	{
 		if (VK::AudioModel::STATUS_UNDEFINED == model->status()
