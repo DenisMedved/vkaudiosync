@@ -5,6 +5,7 @@ using namespace Synch;
 Downloader::Downloader(QObject *parent) :
 	QThread(parent)
 {
+
 }
 
 Downloader::~Downloader()
@@ -24,6 +25,11 @@ VK::AudioModel* Downloader::dequeue()
 bool Downloader::ready()
 {
 	return m_dir->exists() && !m_queue.isEmpty();
+}
+
+void Downloader::clearQueue()
+{
+	m_queue.clear();
 }
 
 void Downloader::run()
