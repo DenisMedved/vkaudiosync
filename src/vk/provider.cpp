@@ -171,14 +171,14 @@ void Provider::slotReplyFinished(QNetworkReply * reply )
 		AudioFactory::parseAudioModel(&xml, m_audioModels);
 		if (m_audioModels->length())
 		{
-			emit modelsChanged(*m_audioModels);
+			emit modelsChanged(m_audioModels);
 		}
 	} else if ("/method/getVariable.xml" == reply->url().path()) {
 		ProfileFactory::parseProfileModel(&xml, m_profileModel);
 		if (isLogined())
 		{
 			saveCookieJar();
-			emit loginSuccess(*m_profileModel);
+			emit loginSuccess(m_profileModel);
 		}
 	}
 }

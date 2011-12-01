@@ -81,8 +81,8 @@ public:
 public slots:
 
 signals:
-	void modelsChanged(QList<VK::AudioModel>);
-	void loginSuccess(VK::ProfileModel);
+	void modelsChanged(QList<VK::AudioModel>*);
+	void loginSuccess(const VK::ProfileModel*);
 	void loginUnsuccess();
 };
 }

@@ -56,7 +56,7 @@ private:
 	VK::Provider *m_vkProvider;
 	Synch::Synchronizer *m_synch;
 	AudioItemDelegate *m_audioItemDelegate;
-	AudioListModel m_audioListModel;
+	AudioListModel *m_audioListModel;
 
 	bool m_loginSuccessHandled;
 
@@ -72,10 +72,10 @@ public:
 	void  login();
 
  public slots:
-	void slotLoginSuccess(const VK::ProfileModel profile);
+	void slotLoginSuccess(const VK::ProfileModel *profile);
 	void slotLoginUnsuccess();
 	void slotSelectDirectory();
-	void slotAudioModelChanged(QList<VK::AudioModel> list);
+	void slotAudioModelChanged(QList<VK::AudioModel> *plist);
 	void slotSynh();
 	void slotModelStatusesChanged();
 };
