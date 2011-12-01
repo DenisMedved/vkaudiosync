@@ -35,13 +35,13 @@ Synchronizer::~Synchronizer()
 	delete[] m_downloader;
 }
 
-void Synchronizer::setDir(QDir dir)
+void Synchronizer::setDir(QDir *pdir)
 {
-	m_settings->setValue("dir",dir.path());
-	m_dir = dir;
+	m_settings->setValue("dir",pdir->path());
+	m_dir = pdir;
 }
 
-QDir Synchronizer::dir() const
+QDir* Synchronizer::dir() const
 {
 	return m_dir;
 }
@@ -49,10 +49,6 @@ QDir Synchronizer::dir() const
 void Synchronizer::setSettings(QSettings *settings)
 {
 	m_settings = settings;
-	if (!m_settings->value("dir").toString().isEmpty())
-	{
-		m_dir = QDir(m_settings->value("dir").toString());
-	}
 }
 
 QSettings* Synchronizer::settings() const
@@ -69,11 +65,11 @@ void Synchronizer::synchronize()
 {
 	bool changed = false;
 
-	if (m_dir.path().isEmpty() || !m_dir.isReadable())
+	if (m_dir->path().isEmpty() || !m_dir->isReadable())
 		return;
 
-	m_dir.setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot );
-	QFileInfoList files = m_dir.entryInfoList();
+	m_dir->setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot );
+	QFileInfoList files = m_dir->entryInfoList();
 	QList<VK::AudioModel>::iterator iterator;
 	bool modelFinded ;
 	for (int i = 0; i < files.size(); ++i)
@@ -128,7 +124,7 @@ void Synchronizer::synchronize()
 
 	for (unsigned short i=0; i < m_threadCount; ++i)
 	{
-		m_downloader[i].setDir(&m_dir);
+		m_downloader[i].setDir(m_dir);
 		m_downloader[i].start();
 	}
 

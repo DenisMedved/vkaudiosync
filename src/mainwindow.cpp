@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_vkProvider = new VK::Provider(this);
 	m_synch = new Synch::Synchronizer(this);
 	m_audioListModel = new AudioListModel(this);
+	m_dir = new QDir();
 
 	connect(m_vkProvider,SIGNAL(modelsChanged(QList<VK::AudioModel>*)),
 		this,SLOT(slotAudioModelChanged(QList<VK::AudioModel>*)));
@@ -61,6 +62,7 @@ MainWindow::~MainWindow()
 	delete m_audioItemDelegate;
 	delete m_synch;
 	delete m_audioListModel;
+	delete m_dir;
 }
 
 void MainWindow::setSettings(QSettings *settings)
@@ -68,6 +70,13 @@ void MainWindow::setSettings(QSettings *settings)
 	m_settings = settings;
 	m_vkProvider->setSettings(settings);
 	m_synch->setSettings(settings);
+
+	if (!m_settings->value("dir").toString().isEmpty())
+	{
+		m_dir->setPath(m_settings->value("dir").toString());
+		setDir(m_dir);
+	}
+
 }
 
 QSettings* MainWindow::getSettings()
@@ -78,14 +87,15 @@ QSettings* MainWindow::getSettings()
 void MainWindow::slotSelectDirectory()
 {
 	QString dir = QFileDialog::getExistingDirectory(this, "Synch with...","", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-	setDir(QDir(dir));
+	m_dir->setPath(dir);
+	setDir(m_dir);
 	m_audioListModel->resetStatuses();
 	ui->synchBtn->setEnabled(true);
 }
 
-void MainWindow::setDir(QDir dir)
+void MainWindow::setDir(QDir *pdir)
 {
-	m_synch->setDir(dir);
+	m_synch->setDir(pdir);
 }
 
 void MainWindow::slotAudioModelChanged(QList<VK::AudioModel> *plist)
@@ -98,11 +108,11 @@ void MainWindow::slotAudioModelChanged(QList<VK::AudioModel> *plist)
 
 void MainWindow::slotSynh()
 {
-	ui->synchBtn->setEnabled(false); //TODO: enable on synch finished
+	ui->synchBtn->setEnabled(false);
 	m_synch->synchronize();
 }
 
-void MainWindow::slotLoginSuccess(const VK::ProfileModel */*profile*/)
+void MainWindow::slotLoginSuccess(const VK::ProfileModel */*profile*/t)
 {
 	if (!m_loginSuccessHandled)
 	{

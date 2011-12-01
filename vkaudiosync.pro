@@ -3,11 +3,27 @@
 ######################################################################
 
 TEMPLATE = app
-QT += qt webkit network xml thread debug
-DEPENDPATH += . build src src/sync src/ui src/vk
-INCLUDEPATH += . src src/vk src/sync build
 
-# Input
+QT += qt \
+	  webkit \
+	  network \
+	  xml \
+	  thread \
+	  debug
+
+DEPENDPATH += .\
+			  build  \
+			  src \
+			  src/sync \
+			  src/ui \
+			  src/vk
+
+INCLUDEPATH += . \
+			   src \
+			   build \
+			   src/vk \
+			   src/sync
+
 HEADERS += src/audioitemdelegate.h \
 		   src/audiolistmodel.h \
 		   src/mainwindow.h \
@@ -18,7 +34,9 @@ HEADERS += src/audioitemdelegate.h \
 		   src/vk/profilefactory.h \
 		   src/vk/profilemodel.h \
 		   src/vk/provider.h
+
 FORMS += src/ui/mainwindow.ui
+
 SOURCES += src/audioitemdelegate.cpp \
 		   src/audiolistmodel.cpp \
 		   src/main.cpp \

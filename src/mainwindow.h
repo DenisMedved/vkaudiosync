@@ -57,7 +57,7 @@ private:
 	Synch::Synchronizer *m_synch;
 	AudioItemDelegate *m_audioItemDelegate;
 	AudioListModel *m_audioListModel;
-
+	QDir *m_dir;
 	bool m_loginSuccessHandled;
 
 
@@ -68,7 +68,7 @@ public:
 	~MainWindow();
 	void setSettings(QSettings *settings);
 	QSettings* getSettings();
-	void setDir(QDir dir);
+	void setDir(QDir *pdir);
 	void  login();
 
  public slots:

@@ -36,7 +36,7 @@ class Synchronizer : public QObject
 {
 	Q_OBJECT
 private:
-	QDir m_dir;
+	QDir *m_dir;
 	QSettings *m_settings;
 	QList<VK::AudioModel> *m_audioList;
 	unsigned short m_threadCount;
@@ -46,8 +46,8 @@ public:
 	explicit Synchronizer(QObject *parent = 0);
 	~Synchronizer();
 
-	void setDir(QDir dir);
-	QDir dir() const;
+	void setDir(QDir *pdir);
+	QDir* dir() const;
 
 	void setSettings(QSettings * settings);
 	QSettings* settings() const;
