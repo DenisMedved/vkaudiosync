@@ -54,6 +54,8 @@ public:
 
 	virtual int rowCount(const QModelIndex&) const;
 	virtual QVariant data(const QModelIndex &index, int role) const;
+	virtual bool setData ( const QModelIndex & index, const QVariant &value, int role = Qt::EditRole);
+	virtual void resetStatuses();
 
 public slots:
 

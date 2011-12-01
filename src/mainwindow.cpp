@@ -77,13 +77,7 @@ void MainWindow::slotSelectDirectory()
 {
 	QString dir = QFileDialog::getExistingDirectory(this, "Synch with...","", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 	setDir(QDir(dir));
-	//reset model statuses after directory changed
-	QList<VK::AudioModel>* list = m_audioListModel.audioList();
-	QList<VK::AudioModel>::iterator iterator;
-	for (iterator = list->begin(); iterator != list->end(); ++iterator)
-	{
-		iterator->setStatus(VK::AudioModel::STATUS_UNDEFINED);
-	}
+	m_audioListModel.resetStatuses();
 	ui->synchBtn->setEnabled(true);
 }
 

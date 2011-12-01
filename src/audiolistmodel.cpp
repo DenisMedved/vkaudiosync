@@ -82,3 +82,39 @@ QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 		return QVariant();
 	}
 }
+
+bool AudioListModel::setData ( const QModelIndex &index, const QVariant &value, int role /*= Qt::EditRole*/)
+{
+	bool result = false;
+
+	switch(role) {
+	case AudioListModel::ROLE_PROGRESS:
+		m_audioList[index.row()].setProgress(value.toInt());
+		break;
+
+	default:
+		break;
+	}
+
+	/*
+	 * The dataChanged() signal should be emitted if the data was successfully set.
+	 */
+	if (result)
+		emit dataChanged(index,index);
+
+	return result;
+}
+
+void AudioListModel::resetStatuses()
+{
+	QList<VK::AudioModel>::iterator iterator;
+	for (iterator = m_audioList.begin(); iterator != m_audioList.end(); ++iterator)
+	{
+		iterator->setStatus(VK::AudioModel::STATUS_UNDEFINED);
+	}
+	unsigned int count = m_audioList.size();
+
+	if (count > 0)
+		emit dataChanged(index(0),index(count-1));
+
+}

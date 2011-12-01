@@ -74,23 +74,24 @@ void Synchronizer::synchronize()
 
 	m_dir.setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot );
 	QFileInfoList files = m_dir.entryInfoList();
-	QList<VK::AudioModel>::iterator model;
+	QList<VK::AudioModel>::iterator iterator;
 	bool modelFinded ;
 	for (int i = 0; i < files.size(); ++i)
 	{
 		modelFinded = false;
 		QFileInfo fileInfo = files.at(i);
-		for (model = m_audioList->begin(); model != m_audioList->end(); ++model)
+		for (iterator = m_audioList->begin(); iterator != m_audioList->end(); ++iterator)
 		{
-			if (VK::AudioModel::STATUS_UNDEFINED == model->status())
+			if (VK::AudioModel::STATUS_UNDEFINED == iterator->status())
 			{
-				QString fullName = model->artist();
+				QString fullName = iterator->artist();
 				fullName.append(" - ");
-				fullName.append(model->title());
+				fullName.append(iterator->title());
 				if (fileInfo.exists() &&  fullName == fileInfo.baseName() && "mp3" == fileInfo.suffix())
 				{
 					modelFinded = true;
-					model->setStatus(VK::AudioModel::STATUS_SYNCHRONIZED);
+					//TODO: change status with model
+					iterator->setStatus(VK::AudioModel::STATUS_SYNCHRONIZED);
 					if (!changed)
 						changed = true;
 				}
@@ -109,15 +110,15 @@ void Synchronizer::synchronize()
 	}
 
 
-	for (model = m_audioList->begin(); model != m_audioList->end(); ++model)
+	for (iterator = m_audioList->begin(); iterator != m_audioList->end(); ++iterator)
 	{
-		if (VK::AudioModel::STATUS_UNDEFINED == model->status()
-				|| VK::AudioModel::STATUS_NEEDDOWNLOAD == model->status())
+		if (VK::AudioModel::STATUS_UNDEFINED == iterator->status()
+				|| VK::AudioModel::STATUS_NEEDDOWNLOAD == iterator->status())
 		{
-			model->setStatus(VK::AudioModel::STATUS_NEEDDOWNLOAD);
+			iterator->setStatus(VK::AudioModel::STATUS_NEEDDOWNLOAD);
 
 			threadIndex = threadCounter % m_threadCount;
-			m_downloader[threadIndex].enqueue(&(*model));
+			m_downloader[threadIndex].enqueue(&(*iterator));
 			++threadCounter;
 
 			if (!changed)
