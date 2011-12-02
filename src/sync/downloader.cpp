@@ -59,8 +59,8 @@ void Downloader::run()
 			QEventLoop loop;
 			connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
 					this,SLOT(downloadProgress(qint64,qint64)));
-			/*connect(reply, SIGNAL(finished()),
-					&loop, SLOT(quit()));*/
+			connect(reply, SIGNAL(finished()),
+					&loop, SLOT(quit()));
 
 			loop.exec();
 

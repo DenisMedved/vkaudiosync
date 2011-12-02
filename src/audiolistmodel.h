@@ -58,7 +58,7 @@ public:
 	virtual void resetStatuses();
 
 public slots:
-
+	virtual void updateAllItems();
 signals:
 };
 

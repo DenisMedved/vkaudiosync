@@ -134,5 +134,5 @@ void MainWindow::login()
 
 void MainWindow::slotModelStatusesChanged()
 {
-	ui->listView->update();//TODO: issue not work
+	m_audioListModel->updateAllItems();
 }

@@ -86,10 +86,15 @@ QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 bool AudioListModel::setData ( const QModelIndex &index, const QVariant &value, int role /*= Qt::EditRole*/)
 {
 	bool result = false;
+	QList<VK::AudioModel>::iterator iterator = m_audioList->begin();
+	iterator += index.row();
 
 	switch(role) {
 	case AudioListModel::ROLE_PROGRESS:
-		(*m_audioList)[index.row()].setProgress(value.toInt());
+		iterator->setProgress(value.toInt());
+		if (iterator->progress() == 100) {
+			iterator->setStatus(VK::AudioModel::STATUS_SYNCHRONIZED);
+		}
 		break;
 
 	default:
@@ -117,4 +122,9 @@ void AudioListModel::resetStatuses()
 	if (count > 0)
 		emit dataChanged(index(0),index(count-1));
 
+}
+
+void AudioListModel::updateAllItems()
+{
+	emit dataChanged(index(0), index(m_audioList->size()-1));
 }

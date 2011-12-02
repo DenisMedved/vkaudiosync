@@ -20,7 +20,7 @@
 
 namespace Synch {
 
-Synch::Synchronizer::Synchronizer(QObject *parent) :
+Synchronizer::Synchronizer(QObject *parent) :
 	QObject(parent)
 {
 	m_threadCount = 5;
@@ -86,7 +86,6 @@ void Synchronizer::synchronize()
 				if (fileInfo.exists() &&  fullName == fileInfo.baseName() && "mp3" == fileInfo.suffix())
 				{
 					modelFinded = true;
-					//TODO: change status with model
 					iterator->setStatus(VK::AudioModel::STATUS_SYNCHRONIZED);
 					if (!changed)
 						changed = true;
@@ -114,6 +113,7 @@ void Synchronizer::synchronize()
 			iterator->setStatus(VK::AudioModel::STATUS_NEEDDOWNLOAD);
 
 			threadIndex = threadCounter % m_threadCount;
+
 			m_downloader[threadIndex].enqueue(&(*iterator));
 			++threadCounter;
 
