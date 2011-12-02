@@ -18,7 +18,7 @@
 
 #include "audiomodel.h"
 
-using namespace VK;
+namespace VK {
 
 AudioModel::AudioModel()
 {
@@ -118,4 +118,5 @@ unsigned short AudioModel::progress() const
 void AudioModel::setProgress(unsigned short progress)
 {
 	m_progress = progress;
+}
 }

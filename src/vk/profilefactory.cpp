@@ -18,7 +18,7 @@
 
 #include "profilefactory.h"
 
-using namespace VK;
+namespace VK {
 
 ProfileFactory::ProfileFactory()
 {
@@ -38,3 +38,5 @@ void ProfileFactory::parseProfileModel(const QByteArray *xml ,ProfileModel *mode
 		model->setName(root.text());
 	}
 }
+}
+

@@ -89,7 +89,7 @@ bool AudioListModel::setData ( const QModelIndex &index, const QVariant &value, 
 
 	switch(role) {
 	case AudioListModel::ROLE_PROGRESS:
-		//m_audioList[index.row()].setProgress(value.toInt());
+		(*m_audioList)[index.row()].setProgress(value.toInt());
 		break;
 
 	default:

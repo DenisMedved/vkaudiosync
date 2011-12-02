@@ -1,6 +1,6 @@
 #include "downloader.h"
 
-using namespace Synch;
+namespace Synch{
 
 Downloader::Downloader(QObject *parent) :
 	QThread(parent)
@@ -98,4 +98,5 @@ void Downloader::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
 		m_model->setProgress(percent);
 		emit modelChanged();
 	}
+}
 }

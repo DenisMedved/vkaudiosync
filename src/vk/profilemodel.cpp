@@ -18,7 +18,7 @@
 
 #include "profilemodel.h"
 
-using namespace VK;
+namespace VK {
 
 ProfileModel::ProfileModel()
 {
@@ -36,4 +36,5 @@ void ProfileModel::setName(QString name)
 QString ProfileModel::name() const
 {
 	return m_name;
+}
 }

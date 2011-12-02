@@ -18,7 +18,7 @@
 
 #include "provider.h"
 
-using namespace VK;
+namespace VK {
 
 Provider::Provider (QObject *parent /*=0*/) : QObject(parent)
 {
@@ -218,3 +218,5 @@ QList<VK:: AudioModel>* Provider::audioModels()
 {
 	return m_audioModels;
 }
+}
+

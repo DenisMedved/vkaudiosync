@@ -18,9 +18,9 @@
 
 #include "synchronizer.h"
 
-using namespace Synch;
+namespace Synch {
 
-Synchronizer::Synchronizer(QObject *parent) :
+Synch::Synchronizer::Synchronizer(QObject *parent) :
 	QObject(parent)
 {
 	m_threadCount = 5;
@@ -146,4 +146,6 @@ unsigned short Synchronizer::threadCount()
 void Synchronizer::slotThreadChangeModel()
 {
 	emit modelStatusesChanged();
+}
+
 }

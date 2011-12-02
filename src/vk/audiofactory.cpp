@@ -18,7 +18,7 @@
 
 #include "audiofactory.h"
 
-using namespace VK;
+namespace VK {
 
 AudioFactory::AudioFactory()
 {
@@ -55,4 +55,5 @@ void AudioFactory::parseAudioModel(const QByteArray *xml , QList<AudioModel> *li
 			}
 		}
 	}
+}
 }

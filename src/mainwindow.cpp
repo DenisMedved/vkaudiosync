@@ -112,7 +112,7 @@ void MainWindow::slotSynh()
 	m_synch->synchronize();
 }
 
-void MainWindow::slotLoginSuccess(const VK::ProfileModel */*profile*/t)
+void MainWindow::slotLoginSuccess(const VK::ProfileModel */*profile*/)
 {
 	if (!m_loginSuccessHandled)
 	{
