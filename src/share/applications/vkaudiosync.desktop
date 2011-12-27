@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=VkAudioSync
+Name[ru]=VkAudioSync
+GenericName=VKontakte sudio synchronizer
+GenericName[ru]=Клиент для социальной сети Вконтакте позволяющий синхронизировть аудиозаписи с выбранной директорией.
+Exec=vkaudiosync
+Icon=vkaudiosync
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Network;InstantMessaging;Qt
