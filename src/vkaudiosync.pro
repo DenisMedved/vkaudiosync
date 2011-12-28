@@ -63,7 +63,10 @@ SOURCES += \
 	vk/provider.cpp
 
 OTHER_FILES += \
-	share/applications/vkaudiosync.desktop
+	share/applications/vkaudiosync.desktop \
+    ../README \
+    ../AUTHORS \
+    ../.gitignore
 
 unix {
 	target.path = /usr/bin
@@ -79,4 +82,7 @@ unix {
 
 	INSTALLS += target applications icons data
 }
+
+
+
 
