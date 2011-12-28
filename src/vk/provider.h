@@ -19,6 +19,10 @@
 #ifndef VKMODEL_H
 #define VKMODEL_H
 
+#ifndef VK_APPLICATION_ID
+#define VK_APPLICATION_ID 0 //mast defined by compiler
+#endif
+
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QMessageBox>
@@ -38,7 +42,7 @@
 #include "audiomodel.h"
 #include "profilemodel.h"
 
-namespace VK{
+namespace VK {
 
 class Provider : public QObject
 {

@@ -29,6 +29,11 @@ TRANSLATIONS += \
 	translations/main_en.ts \
 	translations/main_ru.ts
 
+RESOURCES += \
+	icons.qrc
+
+DEFINES += "VK_APPLICATION_ID=$(shell cat VK_APPLICATION_ID.txt)" # application id mast put to VK_APPLICATION_ID file
+
 HEADERS += \
 	audioitemdelegate.h \
 	audiolistmodel.h \
@@ -74,7 +79,4 @@ unix {
 
 	INSTALLS += target applications icons data
 }
-
-
-
 

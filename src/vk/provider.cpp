@@ -40,7 +40,7 @@ Provider::Provider (QObject *parent /*=0*/) : QObject(parent)
 	m_webView->move((width - m_webView->width()) / 2 , (height - m_webView->height()) / 3);
 
 	m_authUrl->setUrl("http://api.vkontakte.ru/oauth/authorize");
-	m_authUrl->addQueryItem("client_id","2169954");
+	m_authUrl->addQueryItem("client_id", QString::number(VK_APPLICATION_ID).toAscii());
 	m_authUrl->addQueryItem("scope","audio");
 	m_authUrl->addQueryItem("redirect_uri","http://api.vkontakte.ru/blank.html");
 	m_authUrl->addQueryItem("display","popup");
