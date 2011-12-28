@@ -1,1 +1,48 @@
- 
+VKAudioSync
+----------------------------------------------------
+(Sorry for my english)
+
+License:
+	GNU General Public License, version 3 or later
+
+Description:
+	VKAudioSync - programm for synchronize selected directory with playlist on social network vkontakte.
+
+Source:
+	https://bitbucket.org/denis_medved/vkaudiosync/src
+
+Clone this repository:
+	$ git clone git@bitbucket.org:denis_medved/vkaudiosync.git
+
+Contact:
+	Email: Denis Medved <denis.medved91@gmail.com>
+	Bitbucket: https://bitbucket.org/denis_medved
+	Twitter: https://twitter.com/theBuCeFaL
+
+Issues:
+	https://bitbucket.org/denis_medved/vkaudiosync/issues
+
+Build:
+	Create application ( http://vkontakte.ru/apps.php?act=add ) get "application id"
+	(also you can write to me and i give you my application id).
+	Create file with application id in src:
+		$ echo "xxxxxx" > src/VK_APPLICATION_ID.txt
+	where xxxxxx - is application id of your app.
+
+	Change current directory to dir with source code:
+		$ cd src
+
+	Build Makefile:
+		$ qmake
+
+	Build:
+		$ make
+
+	Run:
+		$ bin/vkaudiosync
+
+Install:
+	Please don't use `make install` for install application. Create package or wait.
+
+Thanks To:
+	Ruslan H Nazarov ( titanim http://gitorious.org/titanim )
