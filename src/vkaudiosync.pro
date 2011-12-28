@@ -16,10 +16,18 @@
 QT += qt webkit network xml thread debug
 
 TEMPLATE = app
+
 TARGET = vkaudiosync
+
 DESTDIR = bin
+
 MOC_DIR = build
+
 OBJECTS_DIR = build
+
+TRANSLATIONS += \
+	translations/main_en.ts \
+	translations/main_ru.ts
 
 HEADERS += \
 	audioitemdelegate.h \
@@ -32,8 +40,10 @@ HEADERS += \
 	vk/profilefactory.h \
 	vk/profilemodel.h \
 	vk/provider.h
+
 FORMS += \
 	ui/mainwindow.ui
+
 SOURCES += \
 	audioitemdelegate.cpp \
 	audiolistmodel.cpp \
@@ -46,6 +56,7 @@ SOURCES += \
 	vk/profilefactory.cpp \
 	vk/profilemodel.cpp \
 	vk/provider.cpp
+
 OTHER_FILES += \
 	share/applications/vkaudiosync.desktop
 
@@ -55,16 +66,13 @@ unix {
 	applications.path = /usr/share/applications
 	applications.files = share/applications/vkaudiosync.desktop
 
-#	icons.path = /usr/share/icons/hicolor/64x64/apps
-#	icons.files = share/icons/hicolor/64x64/apps/*
+	icons.path = /usr/share/icons/hicolor/64x64/apps
+	icons.files = share/icons/hicolor/64x64/apps/*
 
 	data.path = /usr/share/vkaudiosync
 	data.files = share/vkaudiosync/*
 
-	INSTALLS += target
-	INSTALLS += applications
-#	INSTALLS += icons
-	INSTALLS += data
+	INSTALLS += target applications icons data
 }
 
 
