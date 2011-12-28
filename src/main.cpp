@@ -22,16 +22,17 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+	QApplication a(argc, argv);
 
-    QApplication::setOrganizationName(""); //no organization
-    QApplication::setApplicationName("VKAudioSync");
-    QApplication::setApplicationVersion("0.01a");
+	QApplication::setApplicationName("VKAudioSync");
+	QApplication::setOrganizationName("Denis Medved"); //no organization
+	QApplication::setApplicationVersion("0.02a");
+	QApplication::setOrganizationDomain("https://bitbucket.org/denis_medved/vkaudiosync");
 
-    QSettings settings("./config.ini", QSettings::IniFormat);
+	QSettings settings("./config.ini", QSettings::IniFormat);
 
-    MainWindow w;
-    w.setSettings(&settings);
-    w.login();
-    return a.exec();
+	MainWindow w;
+	w.setSettings(&settings);
+	w.login();
+	return a.exec();
 }
