@@ -32,7 +32,6 @@ MainWindow::MainWindow(QWidget *parent) :
 	m_pAudioItemDelegate = new AudioItemDelegate(this);
 	m_pSynchService = new SynchService(this);
 
-
 	//setup model and delerator for audio list view
 	ui->listView->setItemDelegate(m_pAudioItemDelegate);
 	ui->listView->setModel(m_pAudioModel);
@@ -43,7 +42,12 @@ MainWindow::MainWindow(QWidget *parent) :
 	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
 
 	//load configuration file and create if not exist
-	m_pAppSettings->load();
+	try {
+		m_pAppSettings->load();
+	} catch (QString e){
+		//
+		throw;
+	}
 }
 
 MainWindow::~MainWindow()
