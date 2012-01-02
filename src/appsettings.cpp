@@ -36,11 +36,11 @@ void AppSettings::load()
 		path = QFile::exists(m_pUserDir->absolutePath() + QDir::separator() + "settings.ini");
 		file.setFileName(path);
 		if (file.exists() && file.isWritable()) {
-			m_pSettings->setPath(path);
+//			m_pSettings->setPath(QSettings::IniFormat,);
 			m_useConfig = true;
 		} else if (file.open(QIODevice::ReadWrite)) {
 			file.close();
-			m_pSettings->setPath(file.fileName());
+			//m_pSettings->setPath(file.fileName());
 			m_useConfig = true;
 		} else {
 			m_useConfig = false;
