@@ -19,18 +19,21 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+
 #include <QMainWindow>
-#include <QSettings>
-#include <QPushButton>
-#include <QVBoxLayout>
+
+#include <appsettings.h>
+#include <vk/vkservice.h>
+#include <synchservice.h>
+
+//use in impl.
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QFileDialog>
 
+#include "ui_mainwindow.h"
 #include "audiolistmodel.h"
-#include "vk/provider.h"
 #include "audioitemdelegate.h"
-#include "sync/synchronizer.h"
 
 namespace Ui
 {
@@ -42,7 +45,7 @@ namespace VK
 	class MainWindow;
 }
 
-	namespace Synch
+namespace Synch
 {
 	class MainWindow;
 }
@@ -50,34 +53,22 @@ namespace VK
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
+
 private:
 	Ui::MainWindow *ui;
-	QSettings *m_settings;
-	VK::Provider *m_vkProvider;
-	Synch::Synchronizer *m_synch;
-	AudioItemDelegate *m_audioItemDelegate;
-	AudioListModel *m_audioListModel;
-	QDir *m_dir;
-	bool m_loginSuccessHandled;
-
+	VK::VKService *m_pVkService;
+	AudioListModel *m_pAudioModel;
+	AudioItemDelegate *m_pAudioItemDelegate;
+	AppSettings *m_pAppSettings;
+	SynchService *m_pSynchService;
 
 private slots:
 
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
-	void setSettings(QSettings *settings);
-	QSettings* getSettings();
-	void setDir(QDir *pdir);
-	void  login();
 
  public slots:
-	void slotLoginSuccess(const VK::ProfileModel *profile);
-	void slotLoginUnsuccess();
-	void slotSelectDirectory();
-	void slotAudioModelChanged(QList<VK::AudioModel> *plist);
-	void slotSynh();
-	void slotModelStatusesChanged();
 };
 
 

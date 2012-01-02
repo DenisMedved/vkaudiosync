@@ -17,122 +17,42 @@
 */
 
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
+	//setup ui
 	ui->setupUi(this);
 
+	//setup model delegate serice and settings
+	m_pAppSettings = new AppSettings(this);
+	m_pVkService = new VK::VKService(this);
+	m_pAudioModel = new AudioListModel(this);
+	m_pAudioItemDelegate = new AudioItemDelegate(this);
+	m_pSynchService = new SynchService(this);
+
+
+	//setup model and delerator for audio list view
+	ui->listView->setItemDelegate(m_pAudioItemDelegate);
+	ui->listView->setModel(m_pAudioModel);
+
+	//move vindow to center top
 	int desktopWidth = QApplication::desktop()->width();
 	int desktoHeight = QApplication::desktop()->height();
-
 	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
 
-	m_vkProvider = new VK::Provider(this);
-	m_synch = new Synch::Synchronizer(this);
-	m_audioListModel = new AudioListModel(this);
-	m_dir = new QDir();
-
-	connect(m_vkProvider,SIGNAL(modelsChanged(QList<VK::AudioModel>*)),
-		this,SLOT(slotAudioModelChanged(QList<VK::AudioModel>*)));
-	connect(ui->synchBtn, SIGNAL(clicked()),
-		this, SLOT(slotSynh())); //TODO: rename method
-	connect(ui->dirBtn, SIGNAL(clicked()),
-		this, SLOT(slotSelectDirectory())); //TODO: rename method
-	connect(m_vkProvider,SIGNAL(loginSuccess(const VK::ProfileModel*)),
-		this,SLOT(slotLoginSuccess(const VK::ProfileModel*)));
-	connect(m_vkProvider, SIGNAL(loginUnsuccess()),
-		this,SLOT(slotLoginUnsuccess()));
-	connect(m_synch, SIGNAL(modelStatusesChanged()),
-			this, SLOT(slotModelStatusesChanged()));
-	connect(m_synch,SIGNAL(synchronizeFinished(bool)),
-			ui->synchBtn,SLOT(setEnabled(bool)));
-
-	m_loginSuccessHandled = false;
-	m_audioItemDelegate = new AudioItemDelegate(this);
-	ui->listView->setItemDelegate(m_audioItemDelegate);
+	//load configuration file and create if not exist
+	m_pAppSettings->load();
 }
 
 MainWindow::~MainWindow()
 {
 	delete ui;
-	delete m_vkProvider;
-	delete m_audioItemDelegate;
-	delete m_synch;
-	delete m_audioListModel;
-	delete m_dir;
+	delete m_pAppSettings;
+	delete m_pVkService;
+	delete m_pAudioModel;
+	delete m_pAudioItemDelegate;
+	delete m_pSynchService;
 }
 
-void MainWindow::setSettings(QSettings *settings)
-{
-	m_settings = settings;
-	m_vkProvider->setSettings(settings);
-	m_synch->setSettings(settings);
-
-	if (!m_settings->value("dir").toString().isEmpty())
-	{
-		m_dir->setPath(m_settings->value("dir").toString());
-		setDir(m_dir);
-	}
-
-}
-
-QSettings* MainWindow::getSettings()
-{
-	return m_settings;
-}
-
-void MainWindow::slotSelectDirectory()
-{
-	QString dir = QFileDialog::getExistingDirectory(this, "Synch with...","", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-	m_dir->setPath(dir);
-	setDir(m_dir);
-	m_audioListModel->resetStatuses();
-	ui->synchBtn->setEnabled(true);
-}
-
-void MainWindow::setDir(QDir *pdir)
-{
-	m_synch->setDir(pdir);
-}
-
-void MainWindow::slotAudioModelChanged(QList<VK::AudioModel> *plist)
-{
-	m_audioListModel->setAudioList(plist);
-	m_synch->setAudioList(m_audioListModel->audioList());
-	ui->listView->setModel(m_audioListModel);
-	ui->listView->show();
-}
-
-void MainWindow::slotSynh()
-{
-	ui->synchBtn->setEnabled(false);
-	m_synch->synchronize();
-}
-
-void MainWindow::slotLoginSuccess(const VK::ProfileModel */*profile*/)
-{
-	if (!m_loginSuccessHandled)
-	{
-		m_loginSuccessHandled = true;
-		show();
-	}
-}
-
-void MainWindow::slotLoginUnsuccess()
-{
-	close();
-	QApplication::exit();
-}
-
-void MainWindow::login()
-{
-	m_vkProvider->login();
-}
-
-void MainWindow::slotModelStatusesChanged()
-{
-	m_audioListModel->updateAllItems();
-}

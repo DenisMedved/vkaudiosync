@@ -18,6 +18,8 @@
 
 #include <QtGui/QApplication>
 #include <QSettings>
+#include <QString>
+
 #include "mainwindow.h"
 
 int main(int argc, char *argv[])
@@ -29,10 +31,13 @@ int main(int argc, char *argv[])
 	QApplication::setApplicationVersion("0.02a");
 	QApplication::setOrganizationDomain("https://bitbucket.org/denis_medved/vkaudiosync");
 
-	QSettings settings("./config.ini", QSettings::IniFormat);
+	try {
+		MainWindow w;
+		w.show();
+	} catch (QString e) {
+		QMessageBox::warning(0, MainWindow::tr("Exteption"),e);
+		throw;
+	}
 
-	MainWindow w;
-	w.setSettings(&settings);
-	w.login();
 	return a.exec();
 }

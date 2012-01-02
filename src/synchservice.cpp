@@ -16,54 +16,52 @@
   *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "synchronizer.h"
+#include "synchservice.h"
 
-namespace Synch {
 
-Synchronizer::Synchronizer(QObject *parent) :
+SynchService::SynchService(QObject *parent) :
 	QObject(parent)
 {
 	m_threadCount = 5;
-	m_downloader = new Downloader[m_threadCount];
-
+/*
 	connect(m_downloader, SIGNAL(modelChanged()),
-			this,  SLOT(slotThreadChangeModel()));
+			this,  SLOT(slotThreadChangeModel()));*/
 }
 
-Synchronizer::~Synchronizer()
+SynchService::~SynchService()
 {
-	delete[] m_downloader;
+//	delete[] m_downloader;
 }
 
-void Synchronizer::setDir(QDir *pdir)
+void SynchService::setDir(QDir *pdir)
 {
 	m_settings->setValue("dir",pdir->path());
 	m_dir = pdir;
 }
 
-QDir* Synchronizer::dir() const
+QDir* SynchService::dir() const
 {
 	return m_dir;
 }
 
-void Synchronizer::setSettings(QSettings *settings)
+void SynchService::setSettings(QSettings *settings)
 {
 	m_settings = settings;
 }
 
-QSettings* Synchronizer::settings() const
+QSettings* SynchService::settings() const
 {
 	return m_settings;
 }
 
-void Synchronizer::setAudioList(QList<VK::AudioModel>* list)
+void SynchService::setAudioList(QList<VK::AudioModel>* list)
 {
 	m_audioList = list;
 }
 
-void Synchronizer::synchronize()
+void SynchService::synchronize()
 {
-	bool changed = false;
+	/*bool changed = false;
 
 	if (m_dir->path().isEmpty() || !m_dir->isReadable())
 		return;
@@ -99,10 +97,6 @@ void Synchronizer::synchronize()
 	}
 	unsigned short threadIndex = 0, threadCounter = 0;
 
-	for (unsigned short i=0; i < m_threadCount; ++i)
-	{
-		m_downloader[i].clearQueue();
-	}
 
 
 	for (iterator = m_audioList->begin(); iterator != m_audioList->end(); ++iterator)
@@ -130,22 +124,20 @@ void Synchronizer::synchronize()
 
 	if (changed)
 		emit modelStatusesChanged();
-	emit synchronizeFinished(true);
+	emit synchronizeFinished(true);*/
 }
 
-void Synchronizer::setThreadCount(unsigned short count)
+void SynchService::setThreadCount(unsigned short count)
 {
 	m_threadCount = count;
 }
 
-unsigned short Synchronizer::threadCount()
+unsigned short SynchService::threadCount()
 {
 	return m_threadCount;
 }
 
-void Synchronizer::slotThreadChangeModel()
+void SynchService::slotThreadChangeModel()
 {
 	emit modelStatusesChanged();
-}
-
 }

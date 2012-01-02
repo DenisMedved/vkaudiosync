@@ -38,13 +38,14 @@ HEADERS += \
 	audioitemdelegate.h \
 	audiolistmodel.h \
 	mainwindow.h \
-	sync/synchronizer.h \
-	sync/downloader.h \
+	appsettings.h \
+	synchservice.h \
+	downloader.h \
 	vk/audiofactory.h \
 	vk/audiomodel.h \
 	vk/profilefactory.h \
 	vk/profilemodel.h \
-	vk/provider.h
+	vk/vkservice.h
 
 FORMS += \
 	ui/mainwindow.ui
@@ -54,19 +55,20 @@ SOURCES += \
 	audiolistmodel.cpp \
 	main.cpp \
 	mainwindow.cpp \
-	sync/synchronizer.cpp \
-	sync/downloader.cpp \
+	appsettings.cpp \
+	synchservice.cpp \
+	downloader.cpp \
 	vk/audiofactory.cpp \
 	vk/audiomodel.cpp \
 	vk/profilefactory.cpp \
 	vk/profilemodel.cpp \
-	vk/provider.cpp
+	vk/vkservice.cpp
 
 OTHER_FILES += \
 	share/applications/vkaudiosync.desktop \
-    ../README \
-    ../AUTHORS \
-    ../.gitignore
+	../README \
+	../AUTHORS \
+	../.gitignore
 
 unix {
 	target.path = /usr/bin
@@ -82,6 +84,8 @@ unix {
 
 	INSTALLS += target applications icons data
 }
+
+
 
 
 

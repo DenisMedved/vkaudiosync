@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>631</width>
-    <height>357</height>
+    <height>375</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -128,13 +128,19 @@
          </item>
          <item>
           <widget class="QPushButton" name="selectButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
-            <string>Select</string>
+            <string>Choose dir</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="syncButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Synchronize</string>
            </property>

@@ -22,7 +22,7 @@
 #include <QAbstractListModel>
 #include <QVariant>
 #include <QDebug>
-#include <vk/provider.h>
+#include <vk/vkservice.h>.h>
 
 namespace VK
 {

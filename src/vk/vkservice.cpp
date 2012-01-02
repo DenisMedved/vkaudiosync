@@ -16,11 +16,11 @@
   *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "provider.h"
+#include "vkservice.h"
 
 namespace VK {
 
-Provider::Provider (QObject *parent /*=0*/) : QObject(parent)
+VKService::VKService (QObject *parent /*=0*/) : QObject(parent)
 {
 	m_appId = new QString;
 	m_uid = new QString;
@@ -28,11 +28,9 @@ Provider::Provider (QObject *parent /*=0*/) : QObject(parent)
 	m_expire = new QString;
 	m_lastError = new QString;
 	m_authUrl = new QUrl;
-	m_audioModels = new QList<AudioModel>;
 	m_webView = new QWebView;
 	m_networkManager = new QNetworkAccessManager(this);
 	m_profileModel = new ProfileModel;
-	m_settings = new QSettings(this);
 
 	m_webView->resize(640,420);
 	int width = QApplication::desktop()->width();
@@ -55,7 +53,7 @@ Provider::Provider (QObject *parent /*=0*/) : QObject(parent)
 		this, SLOT(slotLoadFinished(bool)));
 }
 
-Provider::~Provider()
+VKService::~VKService()
 {
 	saveCookieJar();
 
@@ -65,17 +63,14 @@ Provider::~Provider()
 	delete m_expire;
 	delete m_lastError;
 	delete m_authUrl;
-	delete m_audioModels;
 	delete m_webView;
 	delete m_networkManager;
 	delete m_profileModel;
 }
 
-void Provider::restoreCookieJar()
+void VKService::restoreCookieJar()
 {
-	if (!m_settings)
-		return;
-
+/*
 	m_settings->beginGroup("cookies");
 	QList<QNetworkCookie> cookieList;
 	QStringList keys = m_settings->childKeys();
@@ -86,35 +81,33 @@ void Provider::restoreCookieJar()
 		m_settings->remove(keys.at(index));
 	}
 	m_webView->page()->networkAccessManager()->cookieJar()->setCookiesFromUrl(cookieList, *m_authUrl);
-	m_settings->endGroup();
+	m_settings->endGroup();*/
 }
 
-void Provider::saveCookieJar()
+void VKService::saveCookieJar()
 {
-	if (!m_settings)
-		return ;
-
+/*
 	QList<QNetworkCookie> cookies = m_webView->page()->networkAccessManager()->cookieJar()->cookiesForUrl(*m_authUrl);
 	m_settings->beginGroup("cookies");
 	for (int index = 0; index < cookies.count() ; ++index )
 	{
 		m_settings->setValue(QString::number(index),QString( cookies.at(index).toRawForm().replace(";","**")));//TODO: bad bad hack for escape ';'
 	}
-	m_settings->endGroup();
+	m_settings->endGroup();*/
 }
 
-void Provider::setApplicationId(QString appId)
+void VKService::setApplicationId(QString appId)
 {
 	(*m_appId) = appId;
 }
 
-void Provider::login()
+void VKService::login()
 {
 	m_webView->load(*m_authUrl);
 	m_webView->show();
 }
 
-void Provider::slotUrlChanged(const QUrl &url )
+void VKService::slotUrlChanged(const QUrl &url )
 {
 
 	QString urlAsString = url.toString();
@@ -139,7 +132,7 @@ void Provider::slotUrlChanged(const QUrl &url )
 	m_webView->hide();
 }
 
-void Provider::loadAudioList()
+void VKService::loadAudioList()
 {
 	if (m_lastError->isEmpty() && !m_token->isEmpty() && !m_expire->isEmpty())
 	{
@@ -150,7 +143,7 @@ void Provider::loadAudioList()
 	}
 }
 
-void Provider::loadProfile()
+void VKService::loadProfile()
 {
 	if (m_lastError->isEmpty() && !m_token->isEmpty() && !m_expire->isEmpty())
 	{
@@ -162,12 +155,11 @@ void Provider::loadProfile()
 	}
 }
 
-void Provider::slotReplyFinished(QNetworkReply * reply )
+void VKService::slotReplyFinished(QNetworkReply * reply )
 {
-	QByteArray xml (reply->readAll());
+/*	QByteArray xml (reply->readAll());
 	if ("/method/audio.get.xml" == reply->url().path())
 	{
-		m_audioModels->clear();
 		AudioFactory::parseAudioModel(&xml, m_audioModels);
 		if (m_audioModels->length())
 		{
@@ -180,10 +172,10 @@ void Provider::slotReplyFinished(QNetworkReply * reply )
 			saveCookieJar();
 			emit loginSuccess(m_profileModel);
 		}
-	}
+	}*/
 }
 
-void Provider::slotLoadFinished(bool ok)
+void VKService::slotLoadFinished(bool ok)
 {
 	if (!ok && ! m_errorHandled)
 	{
@@ -194,29 +186,13 @@ void Provider::slotLoadFinished(bool ok)
 	}
 }
 
-QSettings* Provider::getSettings() const
-{
-	return m_settings;
-}
-
-void Provider::setSettings(QSettings *settings)
-{
-	m_settings = settings;
-	restoreCookieJar();
-}
-
-bool Provider::isLogined() const
+bool VKService::isLogined() const
 {
 	if (!m_expire->isEmpty() && m_lastError->isEmpty() && !m_profileModel->name().isEmpty())
 	{
 		return true;
 	}
 	return false;
-}
-
-QList<VK:: AudioModel>* Provider::audioModels()
-{
-	return m_audioModels;
 }
 }
 

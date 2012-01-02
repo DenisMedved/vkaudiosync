@@ -26,13 +26,7 @@
 #include "downloader.h"
 #include "../vk/audiomodel.h"
 
-namespace VK
-{
-class Synchronizer;
-}
-
-namespace Synch{
-class Synchronizer : public QObject
+class SynchService : public QObject
 {
 	Q_OBJECT
 private:
@@ -40,11 +34,10 @@ private:
 	QSettings *m_settings;
 	QList<VK::AudioModel> *m_audioList;
 	unsigned short m_threadCount;
-	Downloader *m_downloader;
 
 public:
-	explicit Synchronizer(QObject *parent = 0);
-	~Synchronizer();
+	explicit SynchService(QObject *parent = 0);
+	~SynchService();
 
 	void setDir(QDir *pdir);
 	QDir* dir() const;
@@ -66,6 +59,5 @@ signals:
 	void modelStatusesChanged();
 	void synchronizeFinished(bool);
 };
-}
 
 #endif // SYNCHRONIZER_H

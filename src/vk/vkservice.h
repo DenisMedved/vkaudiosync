@@ -44,7 +44,7 @@
 
 namespace VK {
 
-class Provider : public QObject
+class VKService : public QObject
 {
 	Q_OBJECT
 
@@ -55,12 +55,11 @@ private:
 	QString *m_expire;
 	QString *m_lastError;
 	QUrl *m_authUrl;
-	QList<AudioModel> *m_audioModels;
+
 	QWebView *m_webView;
 	QNetworkAccessManager *m_networkManager;
 	ProfileModel *m_profileModel;
 
-	QSettings *m_settings;
 	bool m_errorHandled;
 	void restoreCookieJar();
 	void saveCookieJar();
@@ -68,13 +67,13 @@ private:
 	void loadProfile() ;
 
 private slots:
-	void slotUrlChanged(const QUrl & url);
-	void slotReplyFinished(QNetworkReply * reply );
+	void slotUrlChanged(const QUrl &url);
+	void slotReplyFinished(QNetworkReply *reply );
 	void slotLoadFinished(bool ok);
 
 public:
-	explicit Provider(QObject *parent = 0 );
-	~Provider();
+	explicit VKService(QObject *parent = 0 );
+	~VKService();
 	void setApplicationId(QString appId);
 	void login() ;
 	void setSettings(QSettings *settings);
