@@ -41,10 +41,6 @@ HEADERS += \
 	appsettings.h \
 	synchservice.h \
 	downloader.h \
-	vk/audiofactory.h \
-	vk/audiomodel.h \
-	vk/profilefactory.h \
-	vk/profilemodel.h \
 	vk/vkservice.h
 
 FORMS += \
@@ -58,10 +54,6 @@ SOURCES += \
 	appsettings.cpp \
 	synchservice.cpp \
 	downloader.cpp \
-	vk/audiofactory.cpp \
-	vk/audiomodel.cpp \
-	vk/profilefactory.cpp \
-	vk/profilemodel.cpp \
 	vk/vkservice.cpp
 
 OTHER_FILES += \

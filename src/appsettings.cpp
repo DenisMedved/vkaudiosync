@@ -1,5 +1,6 @@
 
 #include "appsettings.h"
+#include <QDebug>
 
 AppSettings::AppSettings(QObject *parent /*=0*/) : QObject(parent)
 {
@@ -13,11 +14,21 @@ AppSettings::AppSettings(QObject *parent /*=0*/) : QObject(parent)
 
 	#ifdef Q_WS_X11
 		m_pAppDir->setPath("/usr/share/vkaudiosync/");
-		m_pUserDir->setPath(QDesktopServices::storageLocation(QDesktopServices::HomeLocation) + "/.vkaudiosync/");
+		m_pUserDir->setPath(QDesktopServices::storageLocation(QDesktopServices::HomeLocation));
+
+		if (!m_pUserDir->exists(".vkaudiosync")) {
+			if ( m_pUserDir->mkdir(".vkaudiosync")) {
+				m_pUserDir->cd(".vkaudiosync");
+			}
+		} else {
+			m_pUserDir->cd(".vkaudiosync");
+		}
+
 	#else
 		m_pAppDir->setPath(m_pApp->applicationDirPath());
 		m_pUserDir->setPath(m_pApp->applicationDirPath());
-	#endif;
+	#endif
+
 }
 
 AppSettings::~AppSettings()
@@ -32,11 +43,7 @@ void AppSettings::load()
 	QFile file;
 	QString path;
 
-	if (!m_pUserDir->exists() && !m_pUserDir->mkpath(m_pUserDir->path())) {
-		throw QString(tr("Permision denied: Can't write ") + m_pUserDir->path());
-	}
-
-	if (m_pUserDir->exists() && m_pUserDir->isReadable()) {
+	if ( m_pUserDir->exists() && m_pUserDir->isReadable()) {
 		path = m_pUserDir->absolutePath() + QDir::separator() + "settings.ini";
 		file.setFileName(path);
 		if (file.exists() && file.isWritable()) {
@@ -44,7 +51,7 @@ void AppSettings::load()
 			m_useConfig = true;
 		} else if (file.open(QIODevice::ReadWrite)) {
 			file.close();
-			m_pSettings->setPath(QSettings::IniFormat,QSettings::UserScope, file.fileName());
+			m_pSettings->setPath(QSettings::IniFormat,QSettings::UserScope, path);
 			m_useConfig = true;
 		} else {
 			m_useConfig = false;

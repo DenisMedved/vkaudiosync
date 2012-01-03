@@ -20,7 +20,7 @@
 #define VKMODEL_H
 
 #ifndef VK_APPLICATION_ID
-#define VK_APPLICATION_ID 0 //mast defined by compiler
+#define VK_APPLICATION_ID 0 //mast defined by compiler. Read README file
 #endif
 
 #include <QApplication>
@@ -33,14 +33,8 @@
 
 #include <QString>
 #include <QObject>
-#include <QList>
-#include <QSettings>
 #include <QUrl>
-
-#include "profilefactory.h"
-#include "audiofactory.h"
-#include "audiomodel.h"
-#include "profilemodel.h"
+#include <QByteArray>
 
 namespace VK {
 
@@ -49,22 +43,20 @@ class VKService : public QObject
 	Q_OBJECT
 
 private:
-	QString *m_appId;
-	QString *m_uid;
-	QString *m_token;
-	QString *m_expire;
-	QString *m_lastError;
-	QUrl *m_authUrl;
+	QString m_appId;
+	QString m_uid;
+	QString m_token;
+	QString m_expire;
+	QString m_lastError;
+	QUrl m_authUrl;
 
 	QWebView *m_webView;
 	QNetworkAccessManager *m_networkManager;
-	ProfileModel *m_profileModel;
 
 	bool m_errorHandled;
-	void restoreCookieJar();
-	void saveCookieJar();
-	void loadAudioList() ;
-	void loadProfile() ;
+
+	void loadAudioList();
+	void loadProfile();
 
 private slots:
 	void slotUrlChanged(const QUrl &url);
@@ -72,20 +64,19 @@ private slots:
 	void slotLoadFinished(bool ok);
 
 public:
-	explicit VKService(QObject *parent = 0 );
+	explicit VKService(QWidget *parent = 0 );
 	~VKService();
+
 	void setApplicationId(QString appId);
 	void login() ;
-	void setSettings(QSettings *settings);
 	bool isLogined() const;
-	QSettings* getSettings( ) const;
-	QList<VK:: AudioModel>* audioModels();
 
 public slots:
 
 signals:
-	void modelsChanged(QList<VK::AudioModel>*);
-	void loginSuccess(const VK::ProfileModel*);
+	void loginSuccess(const QByteArray);
+	void audioListLoaded(const QByteArray);
+	void profileLoaded(const QByteArray);
 	void loginUnsuccess();
 };
 }

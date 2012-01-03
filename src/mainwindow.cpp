@@ -18,7 +18,7 @@
 
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	QMainWindow(parent),
 	ui(new Ui::MainWindow)
 {
@@ -28,13 +28,13 @@ MainWindow::MainWindow(QWidget *parent) :
 	//setup model delegate serice and settings
 	m_pAppSettings = new AppSettings(this);
 	m_pVkService = new VK::VKService(this);
-	m_pAudioModel = new AudioListModel(this);
+	//m_pAudioModel = new AudioListModel(this);
 	m_pAudioItemDelegate = new AudioItemDelegate(this);
 	m_pSynchService = new SynchService(this);
 
 	//setup model and delerator for audio list view
 	ui->listView->setItemDelegate(m_pAudioItemDelegate);
-	ui->listView->setModel(m_pAudioModel);
+	//ui->listView->setModel(m_pAudioModel);
 
 	//move vindow to center top
 	int desktopWidth = QApplication::desktop()->width();
@@ -42,12 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
 
 	//load configuration file and create if not exist
-	try {
-		m_pAppSettings->load();
-	} catch (QString e){
-		//
-		throw;
-	}
+	m_pAppSettings->load();
 }
 
 MainWindow::~MainWindow()

@@ -22,7 +22,7 @@
 #include <QAbstractListModel>
 #include <QVariant>
 #include <QDebug>
-#include <vk/vkservice.h>.h>
+#include <vk/vkservice.h>
 
 namespace VK
 {
@@ -33,7 +33,7 @@ class AudioListModel : public QAbstractListModel
 {
 	Q_OBJECT
 private:
-	QList<VK::AudioModel> *m_audioList;
+//	QList<VK::AudioModel> *m_audioList;
 	QSettings *m_settings;
 
 public:
@@ -46,8 +46,8 @@ public:
 	explicit AudioListModel(QObject *parent = 0);
 	virtual ~AudioListModel();
 
-	void setAudioList(QList<VK::AudioModel> *audioList);
-	QList<VK::AudioModel>* audioList();
+/*	void setAudioList(QList<VK::AudioModel> *audioList);
+	QList<VK::AudioModel>* audioList();*/
 
 	void setSettings(QSettings *settings);
 	QSettings* settings() ;
