@@ -21,14 +21,21 @@
 
 #include <QAbstractListModel>
 #include <QVariant>
+
+#include <QtCore/QVector>
+
+#include <QByteArray>
+#include <QtXml>
 #include <QDebug>
+
+#include "audioitem.h"
 
 class AudioListModel : public QAbstractListModel
 {
 	Q_OBJECT
 
 private:
-
+	QVector<AudioItem*> m_pItems;
 
 public:
 	static const int ROLE_ARTIST   = 33;
@@ -42,8 +49,11 @@ public:
 
 	virtual int rowCount(const QModelIndex&) const;
 	virtual QVariant data(const QModelIndex &index, int role) const;
-	virtual bool setData ( const QModelIndex & index, const QVariant &value, int role = Qt::EditRole);
+	virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 	virtual void resetStatuses();
+
+	void parseXml(const QByteArray &xml);
+	void clear();
 
 public slots:
 	//

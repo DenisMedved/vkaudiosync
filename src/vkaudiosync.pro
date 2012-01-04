@@ -41,6 +41,7 @@ HEADERS += \
 	appsettings.h \
 	synchservice.h \
 	downloader.h \
+	audioitem.cpp \
 	vk/vkservice.h
 
 FORMS += \
@@ -54,6 +55,7 @@ SOURCES += \
 	appsettings.cpp \
 	synchservice.cpp \
 	downloader.cpp \
+	audioitem.cpp \
 	vk/vkservice.cpp
 
 OTHER_FILES += \

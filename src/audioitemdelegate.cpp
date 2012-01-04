@@ -152,23 +152,23 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 		QString statusStr;
 		switch (status)
 		{
-		case VK::AudioModel::STATUS_NEEDDOWNLOAD:
-			statusStr = "Need Download";
+		case AudioItem::STATUS_NEEDDOWNLOAD:
+			statusStr = tr("Need Download");
 			break;
 
-		case VK::AudioModel::STATUS_NEEDUPLOAD:
-			statusStr = "Need Upload";
+		case AudioItem::STATUS_NEEDUPLOAD:
+			statusStr = tr("Need Upload");
 			break;
 
-		case VK::AudioModel::STATUS_NOTSYNCHNIZE:
-			statusStr = "Not Sunchnize";
+		case AudioItem::STATUS_NOTSYNCHNIZE:
+			statusStr = tr("Not Synchronized");
 			break;
 
-		case VK::AudioModel::STATUS_SYNCHRONIZED:
-			statusStr = "Complete";
+		case AudioItem::STATUS_SYNCHRONIZED:
+			statusStr = tr("Complete");
 			break;
 
-		case VK::AudioModel::STATUS_UNDEFINED:
+		case AudioItem::STATUS_UNDEFINED:
 		default:
 			break;
 		}
