@@ -21,9 +21,7 @@
 
 #include <QAbstractListModel>
 #include <QVariant>
-
-#include <QtCore/QVector>
-
+#include <QVector>
 #include <QByteArray>
 #include <QtXml>
 #include <QDebug>
