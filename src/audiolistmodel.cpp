@@ -21,16 +21,18 @@
 AudioListModel::AudioListModel(QObject *parent) :
 	QAbstractListModel(parent)
 {
+	m_pItems = new QList<AudioItem>;
 }
 
 AudioListModel::~AudioListModel()
 {
+	delete m_pItems;
 }
 
 int AudioListModel::rowCount(const QModelIndex&) const
 {
-	if (!m_pItems.empty()) {
-		return m_pItems.size();
+	if (!m_pItems->empty()) {
+		return m_pItems->size();
 	}
 	return 0;
 }
@@ -42,19 +44,19 @@ QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 	switch (role)
 	{
 	case AudioListModel::ROLE_ARTIST:
-		return m_pItems.at(row)->artist();
+		return m_pItems->at(row).artist();
 
 	case AudioListModel::ROLE_TITLE:
-		return  m_pItems.at(row)->title();
+		return  m_pItems->at(row).title();
 
 	case AudioListModel::ROLE_DURATION:
-		return m_pItems.at(row)->duration();
+		return m_pItems->at(row).duration();
 
 	case AudioListModel::ROLE_STATUS:
-		return m_pItems.at(row)->status();
+		return m_pItems->at(row).status();
 
 	case AudioListModel::ROLE_PROGRESS:
-		return m_pItems.at(row)->progress();
+		return m_pItems->at(row).progress();
 
 	default:
 		return QVariant();
@@ -63,16 +65,15 @@ QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 
 bool AudioListModel::setData ( const QModelIndex &index, const QVariant &value, int role /*= Qt::EditRole*/)
 {
-	QVector<AudioItem*>::iterator iterator = m_pItems.begin();
+	QList<AudioItem>::iterator iterator = m_pItems->begin();
 	AudioItem* pitem;
 	iterator += index.row();
 
 	switch(role) {
 	case AudioListModel::ROLE_PROGRESS:
-		pitem = *iterator;
-		pitem->setProgress(value.toInt());
-		if (pitem->progress() >= 100) {
-			pitem->setStatus(AudioItem::STATUS_SYNCHRONIZED);
+		iterator->setProgress(value.toInt());
+		if (iterator->progress() >= 100) {
+			iterator->setStatus(AudioItem::STATUS_SYNCHRONIZED);
 		}
 		break;
 
@@ -87,14 +88,13 @@ bool AudioListModel::setData ( const QModelIndex &index, const QVariant &value, 
 
 void AudioListModel::resetStatuses()
 {
-	QVector<AudioItem*>::iterator iterator;
+	QList<AudioItem>::iterator iterator;
 	AudioItem* pitem;
 
-	for (iterator = m_pItems.begin(); iterator != m_pItems.end(); ++iterator) {
-		pitem = *iterator;
-		pitem->setStatus(AudioItem::STATUS_UNDEFINED);
+	for (iterator = m_pItems->begin(); iterator != m_pItems->end(); ++iterator) {
+		iterator->setStatus(AudioItem::STATUS_UNDEFINED);
 	}
-	unsigned int count = m_pItems.size();
+	unsigned int count = m_pItems->size();
 
 	if (count > 0)
 		emit dataChanged(index(0),index(count-1));
@@ -109,7 +109,7 @@ void AudioListModel::parseXml(const QByteArray &xml)
 	QString title;
 	QUrl url;
 	unsigned int duration;
-	AudioItem *pItem;
+	AudioItem item;
 	QDomDocument dom;
 	dom.setContent(xml);
 	QDomElement root = dom.firstChildElement(); // <response> root element
@@ -120,7 +120,6 @@ void AudioListModel::parseXml(const QByteArray &xml)
 			QDomNodeList nodeList;
 			while (!audioElement.isNull()) {
 				QDomElement element = audioElement.toElement();
-				pItem = new AudioItem;
 
 				nodeList = element.elementsByTagName("aid");
 				if (nodeList.count() > 0) {
@@ -164,15 +163,15 @@ void AudioListModel::parseXml(const QByteArray &xml)
 					url.clear();
 				}
 
-				pItem->setAid(aid);
-				pItem->setOwner(owner);
-				pItem->setArtist(artist);
-				pItem->setTitle(title);
-				pItem->setDuration(duration);
-				pItem->setUrl(url);
+				item.setAid(aid);
+				item.setOwner(owner);
+				item.setArtist(artist);
+				item.setTitle(title);
+				item.setDuration(duration);
+				item.setUrl(url);
 
 				//copy temporary AudioItem to list and delete temporary object
-				m_pItems.append(pItem);
+				m_pItems->append(item);
 
 				audioElement = audioElement.nextSibling();
 			}
@@ -182,5 +181,5 @@ void AudioListModel::parseXml(const QByteArray &xml)
 
 void AudioListModel::clear()
 {
-	m_pItems.clear();
+	m_pItems->clear();
 }

@@ -21,7 +21,7 @@
 
 #include <QAbstractListModel>
 #include <QVariant>
-#include <QVector>
+#include <QList>
 #include <QByteArray>
 #include <QtXml>
 #include <QDebug>
@@ -33,7 +33,7 @@ class AudioListModel : public QAbstractListModel
 	Q_OBJECT
 
 private:
-	QVector<AudioItem*> m_pItems;
+	QList<AudioItem> *m_pItems;
 
 public:
 	static const int ROLE_ARTIST   = 33;

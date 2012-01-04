@@ -24,7 +24,7 @@
 
 #include <appsettings.h>
 #include <vk/vkservice.h>
-#include <synchservice.h>
+//#include <synchservice.h>
 
 //use in impl.
 #include <QApplication>
@@ -60,7 +60,7 @@ private:
 	AudioListModel *m_pAudioModel;
 	AudioItemDelegate *m_pAudioItemDelegate;
 	AppSettings *m_pAppSettings;
-	SynchService *m_pSynchService;
+//	SynchService *m_pSynchService;
 
 private slots:
 

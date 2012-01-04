@@ -39,8 +39,8 @@ HEADERS += \
 	audiolistmodel.h \
 	mainwindow.h \
 	appsettings.h \
-	synchservice.h \
-	downloader.h \
+#	synchservice.h \
+#	downloader.h \
 	audioitem.cpp \
 	vk/vkservice.h
 
@@ -53,8 +53,8 @@ SOURCES += \
 	main.cpp \
 	mainwindow.cpp \
 	appsettings.cpp \
-	synchservice.cpp \
-	downloader.cpp \
+#	synchservice.cpp \
+#	downloader.cpp \
 	audioitem.cpp \
 	vk/vkservice.cpp
 

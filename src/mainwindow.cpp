@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	m_pVkService = new VK::VKService(this);
 	m_pAudioModel = new AudioListModel(this);
 	m_pAudioItemDelegate = new AudioItemDelegate(this);
-	m_pSynchService = new SynchService(this);
+	//m_pSynchService = new SynchService(this);
 
 	//setup model and delerator for audio list view
 	ui->listView->setItemDelegate(m_pAudioItemDelegate);
@@ -52,6 +52,6 @@ MainWindow::~MainWindow()
 	delete m_pVkService;
 	delete m_pAudioModel;
 	delete m_pAudioItemDelegate;
-	delete m_pSynchService;
+//	delete m_pSynchService;
 }
 

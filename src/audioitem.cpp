@@ -16,107 +16,105 @@
   *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "audiomodel.h"
+#include "audioitem.h"
 
-namespace VK {
 
-AudioModel::AudioModel()
+AudioItem::AudioItem()
 {
 	m_status = STATUS_UNDEFINED;
 	m_progress = 0;
 }
 
-AudioModel::~AudioModel()
+AudioItem::~AudioItem()
 {
 }
 
-QString AudioModel::aid() const
+QString AudioItem::aid() const
 {
 	return m_aid;
 }
 
-void AudioModel::setAid(QString newAid)
+void AudioItem::setAid(QString newAid)
 {
 	m_aid = newAid;
 }
 
-QString AudioModel::owner() const
+QString AudioItem::owner() const
 {
 	return m_owner;
 }
 
-void AudioModel::setOwner(QString newOwner)
+void AudioItem::setOwner(QString newOwner)
 {
 	m_owner = newOwner;
 }
 
-QString AudioModel::artist() const
+QString AudioItem::artist() const
 {
 	return m_artist;
 }
 
-void AudioModel::setArtist(QString newArtist)
+void AudioItem::setArtist(QString newArtist)
 {
 	m_artist = newArtist;
 }
 
-QString AudioModel::title() const
+QString AudioItem::title() const
 {
 	return m_title;
 }
 
-void AudioModel::setTitle(QString newTitle)
+void AudioItem::setTitle(QString newTitle)
 {
 	m_title = newTitle;
 }
 
-unsigned short AudioModel::duration() const
+unsigned short AudioItem::duration() const
 {
 	return m_duration;
 }
 
-void AudioModel::setDuration(unsigned short newDuration)
+void AudioItem::setDuration(unsigned short newDuration)
 {
 	m_duration = newDuration;
 }
 
-QUrl AudioModel::url() const
+QUrl AudioItem::url() const
 {
 	return m_url;
 }
 
-void AudioModel::setUrl(QUrl newUrl)
+void AudioItem::setUrl(QUrl newUrl)
 {
 	m_url = newUrl;
 }
 
-unsigned short AudioModel::status() const
+unsigned short AudioItem::status() const
 {
 	return m_status;
 }
 
-void AudioModel::setStatus(unsigned short status)
+void AudioItem::setStatus(unsigned short status)
 {
 	m_status = status;
 }
 
-QString AudioModel::path() const
+QString AudioItem::path() const
 {
 	return m_path;
 }
 
-void AudioModel::setPath(QString file)
+void AudioItem::setPath(QString file)
 {
 	m_path = file;
 }
 
-unsigned short AudioModel::progress() const
+unsigned short AudioItem::progress() const
 {
 	return m_progress;
 }
 
-void AudioModel::setProgress(unsigned short progress)
+void AudioItem::setProgress(unsigned short progress)
 {
 	m_progress = progress;
-}
 }
