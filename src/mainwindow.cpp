@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	//setup model delegate serice and settings
 	m_pAppSettings = new AppSettings(this);
 	m_pVkService = new VK::VKService(this);
-	//m_pAudioModel = new AudioListModel(this);
+	m_pAudioModel = new AudioListModel(this);
 	m_pAudioItemDelegate = new AudioItemDelegate(this);
 	m_pSynchService = new SynchService(this);
 

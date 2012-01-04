@@ -22,19 +22,13 @@
 #include <QAbstractListModel>
 #include <QVariant>
 #include <QDebug>
-#include <vk/vkservice.h>
-
-namespace VK
-{
-class AudioListModel;
-}
 
 class AudioListModel : public QAbstractListModel
 {
 	Q_OBJECT
+
 private:
-//	QList<VK::AudioModel> *m_audioList;
-	QSettings *m_settings;
+
 
 public:
 	static const int ROLE_ARTIST   = 33;
@@ -46,19 +40,13 @@ public:
 	explicit AudioListModel(QObject *parent = 0);
 	virtual ~AudioListModel();
 
-/*	void setAudioList(QList<VK::AudioModel> *audioList);
-	QList<VK::AudioModel>* audioList();*/
-
-	void setSettings(QSettings *settings);
-	QSettings* settings() ;
-
 	virtual int rowCount(const QModelIndex&) const;
 	virtual QVariant data(const QModelIndex &index, int role) const;
 	virtual bool setData ( const QModelIndex & index, const QVariant &value, int role = Qt::EditRole);
 	virtual void resetStatuses();
 
 public slots:
-	virtual void updateAllItems();
+	//
 signals:
 };
 

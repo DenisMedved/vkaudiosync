@@ -27,27 +27,6 @@ AudioListModel::~AudioListModel()
 {
 }
 
-void AudioListModel::setAudioList(QList<VK::AudioModel> *audioList)
-{
-	m_audioList = audioList;
-}
-
-
-QList<VK::AudioModel>* AudioListModel::audioList()
-{
-	return m_audioList;
-}
-
-void AudioListModel::setSettings(QSettings *settings)
-{
-	m_settings = settings;
-}
-
-QSettings* AudioListModel::settings()
-{
-	return m_settings;
-}
-
 int AudioListModel::rowCount(const QModelIndex&) const
 {
 	if (!m_audioList->empty() && m_audioList->size() > 0)
@@ -122,9 +101,4 @@ void AudioListModel::resetStatuses()
 	if (count > 0)
 		emit dataChanged(index(0),index(count-1));
 
-}
-
-void AudioListModel::updateAllItems()
-{
-	emit dataChanged(index(0), index(m_audioList->size()-1));
 }
