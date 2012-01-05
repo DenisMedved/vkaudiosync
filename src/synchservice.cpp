@@ -22,41 +22,20 @@
 SynchService::SynchService(QObject *parent) :
 	QObject(parent)
 {
-	m_threadCount = 5;
-/*
-	connect(m_downloader, SIGNAL(modelChanged()),
-			this,  SLOT(slotThreadChangeModel()));*/
 }
 
 SynchService::~SynchService()
 {
-//	delete[] m_downloader;
 }
 
-void SynchService::setDir(QDir *pdir)
+void SynchService::setDir(const QDir *pdir)
 {
-	m_settings->setValue("dir",pdir->path());
 	m_dir = pdir;
 }
 
-QDir* SynchService::dir() const
+const QDir* SynchService::dir() const
 {
 	return m_dir;
-}
-
-void SynchService::setSettings(QSettings *settings)
-{
-	m_settings = settings;
-}
-
-QSettings* SynchService::settings() const
-{
-	return m_settings;
-}
-
-void SynchService::setAudioList(QList<VK::AudioModel>* list)
-{
-	m_audioList = list;
 }
 
 void SynchService::synchronize()
@@ -127,17 +106,12 @@ void SynchService::synchronize()
 	emit synchronizeFinished(true);*/
 }
 
-void SynchService::setThreadCount(unsigned short count)
+void SynchService::setThreadsCount(unsigned short count)
 {
-	m_threadCount = count;
+	m_theadsCount = count;
 }
 
-unsigned short SynchService::threadCount()
+void SynchService::setAudioModel(const AudioListModel *pAudioListModel)
 {
-	return m_threadCount;
-}
-
-void SynchService::slotThreadChangeModel()
-{
-	emit modelStatusesChanged();
+	m_pAudioListModel = pAudioListModel;
 }

@@ -16,42 +16,22 @@
   *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SYNCHRONIZER_H
-#define SYNCHRONIZER_H
+#ifndef PROFILEMODEL_H
+#define PROFILEMODEL_H
 
-#include <QObject>
-#include <QSettings>
-#include <QDir>
-#include <QVector>
+#include <QString>
 
-#include "downloadthread.h"
-#include "audiolistmodel.h"
-
-class SynchService : public QObject
+class ProfileModel
 {
-	Q_OBJECT
-
 private:
-	const QDir *m_dir;
-	unsigned short m_theadsCount;
-	const AudioListModel *m_pAudioListModel; //weak ptr
+	QString m_name;
 
 public:
-	explicit SynchService(QObject *parent = 0);
-	~SynchService();
+	explicit ProfileModel();
+	~ProfileModel();
 
-	void setDir(const QDir *pdir);
-	const QDir* dir() const;
-
-	void setThreadsCount(unsigned short count);
-	unsigned short threadsCount() const;
-
-	void setAudioModel(const AudioListModel *pAudioListModel);
-
-	void synchronize();
-
-signals:
-	void synchronizeFinished(bool);
+	void setName(QString name);
+	QString name() const;
 };
 
-#endif // SYNCHRONIZER_H
+#endif // PROFILEMODEL_H

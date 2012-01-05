@@ -30,11 +30,14 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	m_pVkService = new VK::VKService(this);
 	m_pAudioModel = new AudioListModel(this);
 	m_pAudioItemDelegate = new AudioItemDelegate(this);
-	//m_pSynchService = new SynchService(this);
+	m_pSynchService = new SynchService(this);
+	m_pProfileModel = new ProfileModel;
+
+	m_pSynchService->setAudioModel(m_pAudioModel);
 
 	//setup model and delerator for audio list view
 	ui->listView->setItemDelegate(m_pAudioItemDelegate);
-	//ui->listView->setModel(m_pAudioModel);
+	ui->listView->setModel(m_pAudioModel);
 
 	//move vindow to center top
 	int desktopWidth = QApplication::desktop()->width();
@@ -52,6 +55,13 @@ MainWindow::~MainWindow()
 	delete m_pVkService;
 	delete m_pAudioModel;
 	delete m_pAudioItemDelegate;
-//	delete m_pSynchService;
+	delete m_pSynchService;
+	delete m_pProfileModel;
+}
+
+void MainWindow::runSynch()
+{
+	m_pSynchService->setThreadsCount(5); //TODO: load from some config
+	m_pSynchService->synchronize();
 }
 

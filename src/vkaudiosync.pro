@@ -39,10 +39,11 @@ HEADERS += \
 	audiolistmodel.h \
 	mainwindow.h \
 	appsettings.h \
-#	synchservice.h \
-#	downloader.h \
+	synchservice.h \
+	downloadthread.h \
 	audioitem.cpp \
-	vk/vkservice.h
+	vk/vkservice.h \
+	profilemodel.h
 
 FORMS += \
 	ui/mainwindow.ui
@@ -53,10 +54,12 @@ SOURCES += \
 	main.cpp \
 	mainwindow.cpp \
 	appsettings.cpp \
-#	synchservice.cpp \
-#	downloader.cpp \
+	synchservice.cpp \
+	downloadthread.cpp \
 	audioitem.cpp \
-	vk/vkservice.cpp
+	vk/vkservice.cpp \
+	profilemodel.cpp
+
 
 OTHER_FILES += \
 	share/applications/vkaudiosync.desktop \

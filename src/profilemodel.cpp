@@ -16,56 +16,23 @@
   *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
-
-#include <QMainWindow>
-
-#include <appsettings.h>
-#include <vk/vkservice.h>
-#include <synchservice.h>
-
-//use in impl.
-#include <QApplication>
-#include <QDesktopWidget>
-#include <QFileDialog>
-
-#include "ui_mainwindow.h"
-#include "audiolistmodel.h"
-#include "audioitemdelegate.h"
 #include "profilemodel.h"
 
-namespace Ui
+
+ProfileModel::ProfileModel()
 {
-	class MainWindow;
 }
 
-namespace VK
+ProfileModel::~ProfileModel()
 {
-	class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+void ProfileModel::setName(QString name)
 {
-	Q_OBJECT
+	m_name = name;
+}
 
-private:
-	Ui::MainWindow *ui;
-	VK::VKService *m_pVkService;
-	AudioListModel *m_pAudioModel;
-	AudioItemDelegate *m_pAudioItemDelegate;
-	AppSettings *m_pAppSettings;
-	SynchService *m_pSynchService;
-	ProfileModel *m_pProfileModel;
-
-	void runSynch();
-public:
-	explicit MainWindow(QWidget *parent = 0);
-	~MainWindow();
-
- public slots:
-};
-
-
-#endif // MAINWINDOW_H
+QString ProfileModel::name() const
+{
+	return m_name;
+}

@@ -1,40 +1,19 @@
-#include "downloader.h"
+#include "downloadthread.h"
 
-namespace Synch{
 
-Downloader::Downloader(QObject *parent) :
+DownloadThread::DownloadThread(QObject *parent) :
 	QThread(parent)
 {
 
 }
 
-Downloader::~Downloader()
+DownloadThread::~DownloadThread()
 {
 }
 
-void Downloader::enqueue(VK::AudioModel *model)
+void DownloadThread::run()
 {
-	m_queue.enqueue(model);
-}
-
-VK::AudioModel* Downloader::dequeue()
-{
-	return m_queue.dequeue();
-}
-
-bool Downloader::ready()
-{
-	return m_dir->exists() && !m_queue.isEmpty();
-}
-
-void Downloader::clearQueue()
-{
-	m_queue.clear();
-}
-
-void Downloader::run()
-{
-	m_needWait = false;
+/*	m_needWait = false;
 	QNetworkAccessManager *networkManager = new QNetworkAccessManager;
 	QNetworkReply *reply;
 
@@ -75,28 +54,27 @@ void Downloader::run()
 
 	}
 	delete m_file;
-	delete networkManager;
-
+	delete n*=etworkManager;
+*/
 	exec();
 }
 
-void Downloader::setDir(QDir *dir)
+void DownloadThread::setDir(const QDir *dir)
 {
 	m_dir = dir;
 }
 
-QDir* Downloader::dir()
+const QDir* DownloadThread::dir() const
 {
 	return m_dir;
 }
 
-void Downloader::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
+void DownloadThread::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
 {
-	unsigned short percent = qRound(bytesReceived * 100 / bytesTotal);
+	/*unsigned short percent = qRound(bytesReceived * 100 / bytesTotal);
 	if (m_model->progress() != percent)
 	{
 		m_model->setProgress(percent);
 		emit modelChanged();
-	}
-}
+	}*/
 }
