@@ -28,25 +28,33 @@
 #include <QDebug>
 #include <QEventLoop>
 
+#include "audioitem.h"
+
 class DownloadThread : public QThread
 {
 	Q_OBJECT
 
-protected:
+private:
 	const QDir *m_dir;
 	QString m_name;
 	QFile* m_file;
+	QQueue<AudioItem*> m_queue;
 
-	bool ready();
 	bool m_needWait;
-	void run();
+	bool ready();
+
+protected:
+	virtual void run();
 
 public:
 	explicit DownloadThread(QObject *parent = 0);
-	~DownloadThread();
+	virtual ~DownloadThread();
 
 	void setDir(const QDir *dir);
 	const QDir* dir() const;
+
+	void enqueue(AudioItem* pItem);
+	AudioItem* dequeue();
 
 	void clearQueue();
 

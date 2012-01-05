@@ -4,7 +4,6 @@
 DownloadThread::DownloadThread(QObject *parent) :
 	QThread(parent)
 {
-
 }
 
 DownloadThread::~DownloadThread()
@@ -77,4 +76,14 @@ void DownloadThread::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
 		m_model->setProgress(percent);
 		emit modelChanged();
 	}*/
+}
+
+void DownloadThread::enqueue(AudioItem* pItem)
+{
+	m_queue.enqueue(pItem);
+}
+
+AudioItem* DownloadThread::dequeue()
+{
+	return m_queue.dequeue();
 }
