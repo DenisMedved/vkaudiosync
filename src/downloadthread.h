@@ -16,8 +16,8 @@
   *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DOWNLOADER_H
-#define DOWNLOADER_H
+#ifndef DOWNLOADTHREAD_H
+#define DOWNLOADTHREAD_H
 
 #include <QThread>
 #include <QQueue>
@@ -27,7 +27,6 @@
 #include <QFile>
 #include <QDebug>
 #include <QEventLoop>
-
 
 class DownloadThread : public QThread
 {
@@ -41,6 +40,7 @@ protected:
 	bool ready();
 	bool m_needWait;
 	void run();
+
 public:
 	explicit DownloadThread(QObject *parent = 0);
 	~DownloadThread();
@@ -56,4 +56,4 @@ signals:
 protected slots:
 	void downloadProgress( qint64 bytesReceived, qint64 bytesTotal);
 };
-#endif // DOWNLOADER_H
+#endif // DOWNLOADTHREAD_H
