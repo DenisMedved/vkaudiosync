@@ -114,6 +114,8 @@ void AudioListModel::parseXml(const QByteArray &xml)
 	dom.setContent(xml);
 	QDomElement root = dom.firstChildElement(); // <response> root element
 
+	clear();
+
 	if (root.nodeName() == "response") {
 		QDomNode  audioElement = root.firstChildElement(); // <audio>
 		if (audioElement.nodeName() == "audio") {
@@ -170,7 +172,6 @@ void AudioListModel::parseXml(const QByteArray &xml)
 				item.setDuration(duration);
 				item.setUrl(url);
 
-				//copy temporary AudioItem to list and delete temporary object
 				m_pItems->append(item);
 
 				audioElement = audioElement.nextSibling();
