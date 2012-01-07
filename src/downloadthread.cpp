@@ -10,6 +10,11 @@ DownloadThread::~DownloadThread()
 {
 }
 
+void DownloadThread::setAudioListModel(AudioListModel *model)
+{
+	m_pAudioListModel = model;
+}
+
 void DownloadThread::run()
 {
 /*	m_needWait = false;
@@ -58,14 +63,9 @@ void DownloadThread::run()
 	exec();
 }
 
-void DownloadThread::setDir(const QDir *dir)
+void DownloadThread::setDir(QDir *dir)
 {
 	m_dir = dir;
-}
-
-const QDir* DownloadThread::dir() const
-{
-	return m_dir;
 }
 
 void DownloadThread::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
@@ -78,12 +78,12 @@ void DownloadThread::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
 	}*/
 }
 
-void DownloadThread::enqueue(AudioItem* pItem)
+void DownloadThread::enqueue(QModelIndex &index)
 {
-	m_queue.enqueue(pItem);
+	m_queue.enqueue(index);
 }
 
-AudioItem* DownloadThread::dequeue()
+QModelIndex DownloadThread::dequeue()
 {
 	return m_queue.dequeue();
 }

@@ -29,7 +29,7 @@ AudioListModel::~AudioListModel()
 	delete m_pItems;
 }
 
-int AudioListModel::rowCount(const QModelIndex&) const
+int AudioListModel::rowCount(const QModelIndex &/*parent = QModelIndex()*/) const
 {
 	if (!m_pItems->empty()) {
 		return m_pItems->size();

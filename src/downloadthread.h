@@ -28,19 +28,21 @@
 #include <QDebug>
 #include <QEventLoop>
 
-#include "audioitem.h"
+#include "audiolistmodel.h"
 
 class DownloadThread : public QThread
 {
 	Q_OBJECT
 
 private:
-	const QDir *m_dir;
+	QDir *m_dir;
 	QString m_name;
 	QFile* m_file;
-	QQueue<AudioItem*> m_queue;
+	QQueue<QModelIndex> m_queue;
 
+	AudioListModel *m_pAudioListModel;
 	bool m_needWait;
+
 	bool ready();
 
 protected:
@@ -50,13 +52,13 @@ public:
 	explicit DownloadThread(QObject *parent = 0);
 	virtual ~DownloadThread();
 
-	void setDir(const QDir *dir);
-	const QDir* dir() const;
+	void setDir(QDir *dir);
 
-	void enqueue(AudioItem* pItem);
-	AudioItem* dequeue();
+	void enqueue(const QModelIndex &index);
+	QModelIndex dequeue();
 
 	void clearQueue();
+	void setAudioListModel(AudioListModel *model);
 
 signals:
 	void modelChanged();

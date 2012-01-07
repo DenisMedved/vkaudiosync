@@ -27,28 +27,37 @@
 #include "downloadthread.h"
 #include "audiolistmodel.h"
 
+#ifndef THREADS
+#define THREADS 5
+#endif
+
 class SynchService : public QObject
 {
 	Q_OBJECT
 
 private:
-	const QDir *m_dir;
+	QDir *m_dir;
 	unsigned short m_theadsCount;
-	const AudioListModel *m_pAudioListModel; //weak ptr
+	AudioListModel *m_pAudioListModel; //weak ptr
+	DownloadThread *m_pDownloadThreads[THREADS];
 
 public:
 	explicit SynchService(QObject *parent = 0);
 	~SynchService();
 
-	void setDir(const QDir *pdir);
+	void setDir(QDir *pdir);
 	const QDir* dir() const;
 
 	void setThreadsCount(unsigned short count);
 	unsigned short threadsCount() const;
 
-	void setAudioModel(const AudioListModel *pAudioListModel);
+	void setAudioModel(AudioListModel *pAudioListModel);
 
 	void synchronize();
+	void setStatuses();
+
+public slots:
+	void synchFinished();
 
 signals:
 	void synchronizeFinished(bool);

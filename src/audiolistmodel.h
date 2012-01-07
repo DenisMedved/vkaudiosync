@@ -45,7 +45,7 @@ public:
 	explicit AudioListModel(QObject *parent = 0);
 	virtual ~AudioListModel();
 
-	virtual int rowCount(const QModelIndex&) const;
+	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	virtual QVariant data(const QModelIndex &index, int role) const;
 	virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 	virtual void resetStatuses();
