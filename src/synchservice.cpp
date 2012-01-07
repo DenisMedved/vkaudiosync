@@ -40,7 +40,7 @@ const QDir* SynchService::dir() const
 
 void SynchService::synchronize()
 {
-	/*bool changed = false;
+	bool changed = false;
 
 	if (m_dir->path().isEmpty() || !m_dir->isReadable())
 		return;
@@ -49,19 +49,16 @@ void SynchService::synchronize()
 	QFileInfoList files = m_dir->entryInfoList();
 	QList<VK::AudioModel>::iterator iterator;
 	bool modelFinded ;
-	for (int i = 0; i < files.size(); ++i)
-	{
+
+	for (int i = 0; i < files.size(); ++i) {
 		modelFinded = false;
 		QFileInfo fileInfo = files.at(i);
-		for (iterator = m_audioList->begin(); iterator != m_audioList->end(); ++iterator)
-		{
-			if (VK::AudioModel::STATUS_UNDEFINED == iterator->status())
-			{
+		for (iterator = m_audioList->begin(); iterator != m_audioList->end(); ++iterator) {
+			if (VK::AudioModel::STATUS_UNDEFINED == iterator->status()) {
 				QString fullName = iterator->artist();
 				fullName.append(" - ");
 				fullName.append(iterator->title());
-				if (fileInfo.exists() &&  fullName == fileInfo.baseName() && "mp3" == fileInfo.suffix())
-				{
+				if (fileInfo.exists() &&  fullName == fileInfo.baseName() && "mp3" == fileInfo.suffix()) {
 					modelFinded = true;
 					iterator->setStatus(VK::AudioModel::STATUS_SYNCHRONIZED);
 					if (!changed)
@@ -69,8 +66,7 @@ void SynchService::synchronize()
 				}
 			}
 		}
-		if (modelFinded)
-		{
+		if (modelFinded) {
 			//TODO: upload file  to vk
 		}
 	}
@@ -78,11 +74,9 @@ void SynchService::synchronize()
 
 
 
-	for (iterator = m_audioList->begin(); iterator != m_audioList->end(); ++iterator)
-	{
+	for (iterator = m_audioList->begin(); iterator != m_audioList->end(); ++iterator) {
 		if (VK::AudioModel::STATUS_UNDEFINED == iterator->status()
-				|| VK::AudioModel::STATUS_NEEDDOWNLOAD == iterator->status())
-		{
+				|| VK::AudioModel::STATUS_NEEDDOWNLOAD == iterator->status()) {
 			iterator->setStatus(VK::AudioModel::STATUS_NEEDDOWNLOAD);
 
 			threadIndex = threadCounter % m_threadCount;
@@ -95,15 +89,14 @@ void SynchService::synchronize()
 		}
 	}
 
-	for (unsigned short i=0; i < m_threadCount; ++i)
-	{
+	for (unsigned short i=0; i < m_threadCount; ++i) {
 		m_downloader[i].setDir(m_dir);
 		m_downloader[i].start();
 	}
 
 	if (changed)
 		emit modelStatusesChanged();
-	emit synchronizeFinished(true);*/
+	emit synchronizeFinished(true);
 }
 
 void SynchService::setThreadsCount(unsigned short count)
