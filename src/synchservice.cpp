@@ -98,14 +98,14 @@ void SynchService::synchronize()
 
 			threadIndex = threadCounter % m_theadsCount;
 
-			m_pDownloadThreads[threadIndex]->enqueue(modelIndex);
+			m_pDownloadThreads[threadIndex].enqueue(modelIndex);
 			++threadCounter;
 
 		}
 	}
 
 	for (unsigned short i=0; i < m_theadsCount; ++i) {
-		m_pDownloadThreads[i]->setDir(m_dir);
+		m_pDownloadThreads[i].setDir(m_dir);
 		m_pDownloadThreads[i].start();
 	}
 }

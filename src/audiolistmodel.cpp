@@ -57,6 +57,8 @@ QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 
 	case AudioListModel::ROLE_PROGRESS:
 		return m_pItems->at(row).progress();
+	case AudioListModel::ROLE_URL:
+		return m_pItems->at(row).url();
 
 	default:
 		return QVariant();

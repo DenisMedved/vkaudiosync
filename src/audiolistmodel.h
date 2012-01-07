@@ -41,6 +41,7 @@ public:
 	static const int ROLE_DURATION = 35;
 	static const int ROLE_STATUS   = 36;
 	static const int ROLE_PROGRESS = 37;
+	static const int ROLE_URL	   = 38;
 
 	explicit AudioListModel(QObject *parent = 0);
 	virtual ~AudioListModel();

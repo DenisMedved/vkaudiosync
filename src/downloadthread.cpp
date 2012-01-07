@@ -17,26 +17,25 @@ void DownloadThread::setAudioListModel(AudioListModel *model)
 
 void DownloadThread::run()
 {
-/*	m_needWait = false;
+	if (m_queue.isEmpty())
+		exit();
+
+	m_needWait = false;
 	QNetworkAccessManager *networkManager = new QNetworkAccessManager;
 	QNetworkReply *reply;
 
-	if (!ready())
-		exit();
-
 	m_file = new QFile;
-	while (!m_queue.isEmpty())
-	{
-		m_model = dequeue();
+	while (!m_queue.isEmpty()) {
+		m_target = dequeue();
 		m_name = QString("%1 - %2.mp3")
-				.arg(m_model->artist())
-				.arg(m_model->title());
+				.arg(m_pAudioListModel->data(m_target, AudioListModel::ROLE_ARTIST).toString())
+				.arg(m_pAudioListModel->data(m_target, AudioListModel::ROLE_TITLE).toString());
 
 		m_file->setFileName(m_dir->path() + QDir::separator() + m_name);
-		if (m_file->open(QIODevice::WriteOnly))
-		{
+
+		if (m_file->open(QIODevice::WriteOnly)) {
 			QNetworkRequest request;
-			request.setUrl(m_model->url());
+			request.setUrl(m_pAudioListModel->data(m_target, AudioListModel::ROLE_URL).toUrl());
 			reply = networkManager->get(request);
 
 			QEventLoop loop;
@@ -50,16 +49,15 @@ void DownloadThread::run()
 			if (reply->error() == QNetworkReply::NoError) {
 				m_file->write(reply->readAll());
 				m_file->close();
-				m_model->setStatus(VK::AudioModel::STATUS_SYNCHRONIZED);
+				m_pAudioListModel->setData(m_target,QVariant(AudioItem::STATUS_SYNCHRONIZED),AudioListModel::ROLE_STATUS);
 			} else {
 				m_file->remove();
 			}
 		}
-
 	}
 	delete m_file;
-	delete n*=etworkManager;
-*/
+	delete networkManager;
+
 	exec();
 }
 
@@ -70,15 +68,14 @@ void DownloadThread::setDir(QDir *dir)
 
 void DownloadThread::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
 {
-	/*unsigned short percent = qRound(bytesReceived * 100 / bytesTotal);
-	if (m_model->progress() != percent)
-	{
-		m_model->setProgress(percent);
-		emit modelChanged();
-	}*/
+	unsigned short percent = qRound(bytesReceived * 100 / bytesTotal);
+	unsigned short progress = m_pAudioListModel->data(m_target, AudioListModel::ROLE_PROGRESS).toInt();
+	if (progress != percent) {
+		m_pAudioListModel->setData(m_target, QVariant(percent), AudioListModel::ROLE_PROGRESS);
+	}
 }
 
-void DownloadThread::enqueue(QModelIndex &index)
+void DownloadThread::enqueue(const QModelIndex &index)
 {
 	m_queue.enqueue(index);
 }

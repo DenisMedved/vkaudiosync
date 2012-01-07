@@ -39,6 +39,7 @@ private:
 	QString m_name;
 	QFile* m_file;
 	QQueue<QModelIndex> m_queue;
+	QModelIndex m_target;
 
 	AudioListModel *m_pAudioListModel;
 	bool m_needWait;
