@@ -22,7 +22,7 @@ namespace VK {
 
 VKService::VKService (QWidget *parent /*=0*/) : QObject(parent)
 {
-	m_webView = new QWebView(parent);
+	m_webView = new QWebView;
 	m_networkManager = new QNetworkAccessManager(this);
 
 	m_webView->resize(640,420);
@@ -60,6 +60,7 @@ void VKService::setApplicationId(QString appId)
 
 void VKService::login()
 {
+	qDebug() << m_authUrl;
 	m_webView->load(m_authUrl);
 	m_webView->show();
 }
@@ -111,6 +112,7 @@ void VKService::loadProfile()
 
 void VKService::slotReplyFinished(QNetworkReply *reply)
 {
+qDebug() << "repl()";
 	const QByteArray response = reply->readAll();
 
 	if ("/method/audio.get.xml" == reply->url().path()) {
@@ -125,6 +127,7 @@ void VKService::slotReplyFinished(QNetworkReply *reply)
 
 void VKService::slotLoadFinished(bool ok)
 {
+	qDebug() << "LoadFinished()";
 	if (!ok && ! m_errorHandled) {
 		m_webView->close();
 		m_lastError.append("connection failure");

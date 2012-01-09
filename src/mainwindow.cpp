@@ -19,11 +19,13 @@
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent /*=0*/) :
-	QMainWindow(parent),
-	ui(new Ui::MainWindow)
+	QMainWindow(parent)
 {
 	//setup ui
+	ui = new Ui::MainWindow;
 	ui->setupUi(this);
+
+	m_pAbout = new About(this);
 
 	//setup model delegate serice and settings
 	m_pAppSettings = new AppSettings(this);
@@ -46,6 +48,48 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 
 	//load configuration file and create if not exist
 	m_pAppSettings->load();
+
+	m_logined = false;
+
+	// connects
+	// UI
+	connect(ui->allowUpload, SIGNAL(clicked(bool)),
+			this,SLOT(slotAllowUpload(bool))
+	);
+	connect(ui->autoLogin, SIGNAL(clicked(bool)),
+			this,SLOT(slotAutoLogin(bool))
+	);
+	connect(ui->loginButton, SIGNAL(clicked()),
+				this,SLOT(slotLoginLogaut())
+	);
+	connect(ui->selectButton, SIGNAL(clicked()),
+			this,SLOT(slotChooseDir())
+	);
+	connect(ui->syncButton, SIGNAL(clicked()),
+			this,SLOT(slotStartSynch())
+	);
+	connect(ui->settingsButton, SIGNAL(clicked()),
+			this,SLOT(slotSettings())
+	);
+	connect(ui->aboutButton,SIGNAL(clicked()),
+			this,SLOT(slotAbout())
+	);
+	connect(ui->exitButton,SIGNAL(clicked()),
+			this,SLOT(slotExit())
+	);
+	//VK SERVICE
+	connect(m_pVkService,SIGNAL(loginSuccess(const QByteArray)),
+			this,SLOT(slotLoginSuccess(QByteArray))
+	);
+	connect(m_pVkService,SIGNAL(audioListLoaded(const QByteArray)),
+			this,SLOT(slotAudioListLoaded(QByteArray))
+	);
+	connect(m_pVkService,SIGNAL(profileLoaded(const QByteArray)),
+			this,SLOT(slotProfileLoaded(QByteArray))
+	);
+	connect(m_pVkService,SIGNAL(loginUnsuccess()),
+			this,SLOT(slotLoginUnsuccess())
+	);
 }
 
 MainWindow::~MainWindow()
@@ -65,3 +109,66 @@ void MainWindow::runSynch()
 	m_pSynchService->synchronize();
 }
 
+void MainWindow::slotAllowUpload(bool allow)
+{
+	QMessageBox::information(this,"Not work","temporary not work");
+}
+
+void MainWindow::slotAutoLogin(bool allow)
+{
+	QMessageBox::information(this,"Not work","temporary not work");
+}
+
+void MainWindow::slotLoginLogaut()
+{
+	if (m_logined) {
+		//mk logaut
+	} else {
+		ui->loginButton->setText(tr("Logout"));
+		m_pVkService->login();
+	}
+}
+
+void MainWindow::slotChooseDir()
+{
+
+}
+
+void MainWindow::slotStartSynch()
+{
+
+}
+
+void MainWindow::slotSettings()
+{
+	QMessageBox::information(this,"Not work","temporary not work");
+}
+
+void MainWindow::slotAbout()
+{
+	m_pAbout->show();
+}
+
+void MainWindow::slotExit()
+{
+	QApplication::exit();
+}
+
+void MainWindow::slotLoginSuccess(const QByteArray xml)
+{
+	m_logined = true;
+}
+
+void MainWindow::slotAudioListLoaded(const QByteArray xml)
+{
+	m_pAudioModel->parseXml(xml);
+}
+
+void MainWindow::slotProfileLoaded(const QByteArray xml)
+{
+}
+
+void MainWindow::slotLoginUnsuccess()
+{
+	m_logined = false;
+}

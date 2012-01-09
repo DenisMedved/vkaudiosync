@@ -180,6 +180,9 @@ void AudioListModel::parseXml(const QByteArray &xml)
 			}
 		}
 	}
+	if (!m_pItems->isEmpty()) {
+		emit dataChanged(index(0),index(m_pItems->size()));
+	}
 }
 
 void AudioListModel::clear()

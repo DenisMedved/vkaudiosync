@@ -43,10 +43,12 @@ HEADERS += \
 	downloadthread.h \
 	audioitem.cpp \
 	vk/vkservice.h \
-	profilemodel.h
+	profilemodel.h \
+    about.h
 
 FORMS += \
-	ui/mainwindow.ui
+	ui/mainwindow.ui \
+    ui/about.ui
 
 SOURCES += \
 	audioitemdelegate.cpp \
@@ -58,7 +60,8 @@ SOURCES += \
 	downloadthread.cpp \
 	audioitem.cpp \
 	vk/vkservice.cpp \
-	profilemodel.cpp
+	profilemodel.cpp \
+    about.cpp
 
 
 OTHER_FILES += \
@@ -81,6 +84,9 @@ unix {
 
 	INSTALLS += target applications icons data
 }
+
+
+
 
 
 

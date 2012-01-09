@@ -35,6 +35,7 @@
 #include "audiolistmodel.h"
 #include "audioitemdelegate.h"
 #include "profilemodel.h"
+#include "about.h"
 
 namespace Ui
 {
@@ -52,6 +53,8 @@ class MainWindow : public QMainWindow
 
 private:
 	Ui::MainWindow *ui;
+	About *m_pAbout;
+
 	VK::VKService *m_pVkService;
 	AudioListModel *m_pAudioModel;
 	AudioItemDelegate *m_pAudioItemDelegate;
@@ -59,12 +62,27 @@ private:
 	SynchService *m_pSynchService;
 	ProfileModel *m_pProfileModel;
 
+	bool m_logined;
+
 	void runSynch();
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
 
  public slots:
+	void slotAllowUpload(bool allow);
+	void slotAutoLogin(bool allow);
+	void slotLoginLogaut();
+	void slotChooseDir();
+	void slotStartSynch();
+	void slotSettings();
+	void slotAbout();
+	void slotExit();
+
+	void slotLoginSuccess(const QByteArray xml);
+	void slotAudioListLoaded(const QByteArray xml);
+	void slotProfileLoaded(const QByteArray xml);
+	void slotLoginUnsuccess();
 };
 
 
