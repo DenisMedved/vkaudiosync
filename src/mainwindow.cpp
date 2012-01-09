@@ -124,7 +124,6 @@ void MainWindow::slotLoginLogaut()
 	if (m_logined) {
 		//mk logaut
 	} else {
-		ui->loginButton->setText(tr("Logout"));
 		m_pVkService->login();
 	}
 }
@@ -156,6 +155,7 @@ void MainWindow::slotExit()
 
 void MainWindow::slotLoginSuccess(const QByteArray xml)
 {
+        ui->loginButton->setText(tr("Logout"));
 	m_logined = true;
 }
 
@@ -170,5 +170,6 @@ void MainWindow::slotProfileLoaded(const QByteArray xml)
 
 void MainWindow::slotLoginUnsuccess()
 {
+        ui->loginButton->setText(tr("Login"));
 	m_logined = false;
 }

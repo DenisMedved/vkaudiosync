@@ -60,7 +60,6 @@ void VKService::setApplicationId(QString appId)
 
 void VKService::login()
 {
-	qDebug() << m_authUrl;
 	m_webView->load(m_authUrl);
 	m_webView->show();
 }
