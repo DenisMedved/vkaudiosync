@@ -187,5 +187,8 @@ void AudioListModel::parseXml(const QByteArray &xml)
 
 void AudioListModel::clear()
 {
-	m_pItems->clear();
+	if (m_pItems->size() > 0) {
+		m_pItems->clear();
+		emit dataChanged(index(0), index(0));
+	}
 }

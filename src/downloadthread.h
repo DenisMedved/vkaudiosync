@@ -57,6 +57,7 @@ public:
 
 	void enqueue(const QModelIndex &index);
 	QModelIndex dequeue();
+	const QQueue<QModelIndex>* queue() const;
 
 	void clearQueue();
 	void setAudioListModel(AudioListModel *model);

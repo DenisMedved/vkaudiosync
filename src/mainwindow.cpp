@@ -51,6 +51,9 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 
 	m_logined = false;
 
+	m_pDir = new QDir;
+	m_pSynchService->setDir(m_pDir);
+
 	// connects
 	// UI
 	connect(ui->allowUpload, SIGNAL(clicked(bool)),
@@ -94,6 +97,7 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 
 MainWindow::~MainWindow()
 {
+	delete m_pDir;
 	delete ui;
 	delete m_pAppSettings;
 	delete m_pVkService;
@@ -105,7 +109,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::runSynch()
 {
-	m_pSynchService->setThreadsCount(5); //TODO: load from some config
 	m_pSynchService->synchronize();
 }
 
@@ -122,7 +125,12 @@ void MainWindow::slotAutoLogin(bool allow)
 void MainWindow::slotLoginLogaut()
 {
 	if (m_logined) {
-		//mk logaut
+		ui->selectButton->setDisabled(true);
+		ui->syncButton->setDisabled(true);
+		m_pAudioModel->clear();
+		m_logined = false;
+		ui->loginButton->setText(tr("Login"));
+		m_pVkService->logout();
 	} else {
 		m_pVkService->login();
 	}
@@ -130,12 +138,16 @@ void MainWindow::slotLoginLogaut()
 
 void MainWindow::slotChooseDir()
 {
-
+	QString dir = QFileDialog::getExistingDirectory(this, tr("Select directory"),"", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+	if (!dir.isEmpty()) {
+		m_pDir->setPath(dir);
+		ui->syncButton->setDisabled(false);
+	}
 }
 
 void MainWindow::slotStartSynch()
 {
-
+	runSynch();
 }
 
 void MainWindow::slotSettings()
@@ -155,7 +167,8 @@ void MainWindow::slotExit()
 
 void MainWindow::slotLoginSuccess(const QByteArray xml)
 {
-        ui->loginButton->setText(tr("Logout"));
+	ui->loginButton->setText(tr("Logout"));
+	ui->selectButton->setDisabled(false);
 	m_logined = true;
 }
 
@@ -170,6 +183,6 @@ void MainWindow::slotProfileLoaded(const QByteArray xml)
 
 void MainWindow::slotLoginUnsuccess()
 {
-        ui->loginButton->setText(tr("Login"));
+	ui->loginButton->setText(tr("Login"));
 	m_logined = false;
 }

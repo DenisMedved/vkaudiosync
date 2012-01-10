@@ -39,7 +39,7 @@ private:
 	QDir *m_dir;
 	unsigned short m_theadsCount;
 	AudioListModel *m_pAudioListModel; //weak ptr
-	DownloadThread *m_pDownloadThreads;
+	DownloadThread *m_pDownloadThreads[THREADS];
 
 public:
 	explicit SynchService(QObject *parent = 0);

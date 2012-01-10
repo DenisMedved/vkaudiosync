@@ -15,18 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget">
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>Tab 1</string>
-      </attribute>
-     </widget>
-     <widget class="QWidget" name="tab_2">
-      <attribute name="title">
-       <string>Tab 2</string>
-      </attribute>
-     </widget>
-    </widget>
+    <widget class="QTextBrowser" name="textBrowser"/>
    </item>
    <item>
     <widget class="QWidget" name="widget" native="true">
@@ -48,18 +37,27 @@
        <widget class="QPushButton" name="close">
         <property name="minimumSize">
          <size>
-          <width>56</width>
-          <height>14</height>
+          <width>105</width>
+          <height>36</height>
          </size>
         </property>
         <property name="baseSize">
          <size>
-          <width>27</width>
+          <width>33</width>
           <height>1</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Close</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../icons.qrc">
+          <normaloff>:/famfam/icons/cross.png</normaloff>:/famfam/icons/cross.png</iconset>
         </property>
        </widget>
       </item>
@@ -68,7 +66,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icons.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>close</sender>

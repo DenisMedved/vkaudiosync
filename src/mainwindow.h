@@ -62,6 +62,8 @@ private:
 	SynchService *m_pSynchService;
 	ProfileModel *m_pProfileModel;
 
+	QDir *m_pDir;
+
 	bool m_logined;
 
 	void runSynch();

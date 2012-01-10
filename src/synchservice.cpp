@@ -22,16 +22,18 @@
 SynchService::SynchService(QObject *parent) :
 	QObject(parent)
 {
-	/*
-		5 is temporary hardcode variable
-	*/
 	setThreadsCount(THREADS);
-	m_pDownloadThreads = new DownloadThread[THREADS];
+
+	for (unsigned short i=0; i < THREADS; ++i) {
+		m_pDownloadThreads[i] = new DownloadThread;
+	}
 }
 
 SynchService::~SynchService()
 {
-	delete[] m_pDownloadThreads;
+	for (unsigned short i=0; i < THREADS; ++i) {
+		delete m_pDownloadThreads[i];
+	}
 }
 
 void SynchService::setDir(QDir *pdir)
@@ -81,9 +83,12 @@ void SynchService::setStatuses()
 
 void SynchService::synchronize()
 {
-	unsigned short threadIndex = 0, threadCounter = 0;
+	unsigned short threadIndex = 0;
 
 	int modelsCount = m_pAudioListModel->rowCount();
+
+	qDebug() << "models" << modelsCount;
+
 	QModelIndex modelIndex;
 	unsigned short status ;
 	for (int m=0; m < modelsCount; ++m) {
@@ -96,17 +101,21 @@ void SynchService::synchronize()
 				QVariant(AudioItem::STATUS_NEEDDOWNLOAD),
 				AudioListModel::ROLE_STATUS);
 
-			threadIndex = threadCounter % m_theadsCount;
+			if (threadIndex == THREADS) {
+				threadIndex = 0;
+			}
 
-			m_pDownloadThreads[threadIndex].enqueue(modelIndex);
-			++threadCounter;
+			m_pDownloadThreads[threadIndex]->enqueue(modelIndex);
 
+			++threadIndex;
 		}
 	}
 
-	for (unsigned short i=0; i < m_theadsCount; ++i) {
-		m_pDownloadThreads[i].setDir(m_dir);
-		m_pDownloadThreads[i].start();
+	for (unsigned short i=0; i < THREADS; ++i) {
+		m_pDownloadThreads[i]->setDir(m_dir);
+		if (!m_pDownloadThreads[i]->queue()->isEmpty()) {
+			m_pDownloadThreads[i]->start();
+		}
 	}
 }
 

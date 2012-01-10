@@ -50,6 +50,7 @@ private:
 	QString m_lastError;
 	QUrl m_authUrl;
 
+	QNetworkCookieJar *m_pCookieJar;
 	QWebView *m_webView;
 	QNetworkAccessManager *m_networkManager;
 
@@ -70,6 +71,8 @@ public:
 	void setApplicationId(QString appId);
 	void login() ;
 	bool isLogined() const;
+
+	void logout();
 
 public slots:
 

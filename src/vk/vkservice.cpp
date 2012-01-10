@@ -39,6 +39,9 @@ VKService::VKService (QWidget *parent /*=0*/) : QObject(parent)
 
 	m_errorHandled = false;
 
+	m_pCookieJar = new QNetworkCookieJar(this);
+	m_webView->page()->networkAccessManager()->setCookieJar(m_pCookieJar);
+
 	connect(m_webView, SIGNAL(urlChanged(QUrl)),
 		this, SLOT(slotUrlChanged(QUrl)));
 	connect(m_networkManager, SIGNAL(finished(QNetworkReply*)),
@@ -49,6 +52,7 @@ VKService::VKService (QWidget *parent /*=0*/) : QObject(parent)
 
 VKService::~VKService()
 {
+	delete m_pCookieJar;
 	delete m_webView;
 	delete m_networkManager;
 }
@@ -142,5 +146,11 @@ bool VKService::isLogined() const
 	}
 	return false;
 }
-}
 
+void VKService::logout()
+{
+	delete m_pCookieJar;
+	m_pCookieJar = new QNetworkCookieJar(this);
+	m_webView->page()->networkAccessManager()->setCookieJar(m_pCookieJar);
+}
+}
