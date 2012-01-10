@@ -112,8 +112,9 @@ void SynchService::synchronize()
 	}
 
 	for (unsigned short i=0; i < THREADS; ++i) {
-		m_pDownloadThreads[i]->setDir(m_dir);
 		if (!m_pDownloadThreads[i]->queue()->isEmpty()) {
+			m_pDownloadThreads[i]->setDir(m_dir);
+			m_pDownloadThreads[i]->setAudioListModel(m_pAudioListModel);
 			m_pDownloadThreads[i]->start();
 		}
 	}

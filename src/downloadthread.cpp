@@ -30,7 +30,7 @@ void DownloadThread::run()
 		m_name = QString("%1 - %2.mp3")
 				.arg(m_pAudioListModel->data(m_target, AudioListModel::ROLE_ARTIST).toString())
 				.arg(m_pAudioListModel->data(m_target, AudioListModel::ROLE_TITLE).toString());
-/*
+
 		m_file->setFileName(m_dir->path() + QDir::separator() + m_name);
 
 		if (m_file->open(QIODevice::WriteOnly)) {
@@ -53,7 +53,7 @@ void DownloadThread::run()
 			} else {
 				m_file->remove();
 			}
-		}*/
+		}
 	}
 	delete m_file;
 	delete networkManager;
