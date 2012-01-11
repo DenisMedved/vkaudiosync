@@ -20,6 +20,16 @@
 
 ProfileModel::ProfileModel(QObject* parent /*= 0*/) : QObject(parent)
 {
+	m_pNetworkAccessManager = new QNetworkAccessManager(this);
+
+	connect(m_pNetworkAccessManager,SIGNAL(finished(QNetworkReply*)),
+			this, SLOT(slotFinished(QNetworkReply*))
+	);
+}
+
+ProfileModel::~ProfileModel()
+{
+	delete m_pNetworkAccessManager;
 }
 
 void ProfileModel::setUid(const QString &uid)
@@ -55,6 +65,10 @@ QString ProfileModel::lastName() const
 void ProfileModel::setPhotoUrl(const QUrl &url)
 {
 	m_photoUrl = url;
+	if (!m_photoUrl.isEmpty()) {
+		QNetworkRequest request(m_photoUrl);
+		m_pNetworkAccessManager->get(request);
+	}
 }
 
 QUrl ProfileModel::photoUrl() const
@@ -65,6 +79,10 @@ QUrl ProfileModel::photoUrl() const
 void ProfileModel::setPhotoMediumUrl(const QUrl &url)
 {
 	m_photoMediumUrl = url;
+	if (!m_photoMediumUrl.isEmpty()) {
+		QNetworkRequest request(m_photoMediumUrl);
+		m_pNetworkAccessManager->get(request);
+	}
 }
 
 QUrl ProfileModel::photoMediumUrl() const
@@ -137,4 +155,28 @@ void ProfileModel::parseXml(const QByteArray &xml)
 			}
 		}
 	}
+}
+
+void ProfileModel::slotFinished(QNetworkReply* reply)
+{
+	qDebug() << "slotFinished(QNetworkReply* reply)";
+	QByteArray imgData = reply->readAll();
+	qDebug();
+	if (reply->url().toString() == m_photoUrl.toString()) {
+		m_photo.loadFromData(imgData);
+		emit photoLoaded();
+	} else if (reply->url().toString() == m_photoMediumUrl.toString()) {
+		m_photoMedium.loadFromData(imgData);
+		emit photoMediumLoaded();
+	}
+}
+
+QImage ProfileModel::photo() const
+{
+	return m_photo;
+}
+
+QImage ProfileModel::photoMedium() const
+{
+	return m_photoMedium;
 }

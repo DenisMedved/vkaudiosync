@@ -30,6 +30,8 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QFileDialog>
+#include <QPixmap>
+#include <QImage>
 
 #include "ui_mainwindow.h"
 #include "audiolistmodel.h"
@@ -85,6 +87,9 @@ public:
 	void slotAudioListLoaded(const QByteArray &xml);
 	void slotProfileLoaded(const QByteArray &xml);
 	void slotLoginUnsuccess();
+
+	void slotPhotoLoaded();
+	void slotPhotoMediumLoaded();
 };
 
 

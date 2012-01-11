@@ -24,6 +24,10 @@
 #include <QUrl>
 #include <QByteArray>
 #include <QtXml>
+#include <QImage>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 
 class ProfileModel : public QObject
 {
@@ -35,10 +39,13 @@ private:
 	QString m_lastName;
 	QUrl m_photoUrl;
 	QUrl m_photoMediumUrl;
+	QImage m_photo;
+	QImage m_photoMedium;
+	QNetworkAccessManager *m_pNetworkAccessManager;
 
 public:
 	explicit ProfileModel(QObject* parent = 0);
-
+	~ProfileModel();
 	void  setUid(const QString &uid);
 	QString uid() const;
 
@@ -54,7 +61,17 @@ public:
 	void setPhotoMediumUrl(const QUrl &url);
 	QUrl photoMediumUrl() const;
 
+	QImage photo() const;
+	QImage photoMedium() const;
+
 	void parseXml(const QByteArray &xml);
+
+protected slots:
+	void slotFinished(QNetworkReply* reply);
+
+signals:
+	void photoLoaded();
+	void photoMediumLoaded();
 };
 
 #endif // PROFILEMODEL_H

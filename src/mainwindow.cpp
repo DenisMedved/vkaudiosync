@@ -95,6 +95,11 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	connect(m_pVkService,SIGNAL(loginUnsuccess()),
 			this,SLOT(slotLoginUnsuccess())
 	);
+	//VK PROFILE
+	connect(m_pProfileModel, SIGNAL(photoMediumLoaded()),
+			this, SLOT(slotPhotoMediumLoaded())
+	);
+
 }
 
 MainWindow::~MainWindow()
@@ -127,12 +132,19 @@ void MainWindow::slotAutoLogin(bool /*allow*/)
 void MainWindow::slotLoginLogaut()
 {
 	if (m_logined) {
+		m_pAudioModel->clear();
+		m_pVkService->logout();
+
 		ui->selectButton->setDisabled(true);
 		ui->syncButton->setDisabled(true);
-		m_pAudioModel->clear();
-		m_logined = false;
 		ui->loginButton->setText(tr("Login"));
-		m_pVkService->logout();
+		ui->username->clear();
+		QPixmap map(ui->userpic->width(), ui->userpic->height());
+		QImage defaultImg(":/application/share/icons/hicolor/64x64/apps/vkaudiosync.png");
+		map.convertFromImage(defaultImg);
+		ui->userpic->setPixmap(map);
+
+		m_logined = false;
 	} else {
 		m_pVkService->login();
 	}
@@ -182,10 +194,30 @@ void MainWindow::slotAudioListLoaded(const QByteArray &xml)
 void MainWindow::slotProfileLoaded(const QByteArray &xml)
 {
 	m_pProfileModel->parseXml(xml);
+	if (!m_pProfileModel->firsrtName().isEmpty()) {
+		QString name = QString("%1 %2")
+						.arg(m_pProfileModel->firsrtName())
+						.arg(m_pProfileModel->lastName());
+		ui->username->setText(name);
+	}
 }
 
 void MainWindow::slotLoginUnsuccess()
 {
 	ui->loginButton->setText(tr("Login"));
 	m_logined = false;
+}
+
+void MainWindow::slotPhotoLoaded()
+{
+	//
+}
+
+void MainWindow::slotPhotoMediumLoaded()
+{
+	qDebug() << "slotPhotoMediumLoaded()";
+	QPixmap pixmap(ui->userpic->width(),ui->userpic->height());
+	if (pixmap.convertFromImage(m_pProfileModel->photoMedium()) ) {
+		ui->userpic->setPixmap(pixmap);
+	}
 }
