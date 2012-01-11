@@ -80,6 +80,7 @@ void VKService::slotUrlChanged(const QUrl &url )
 	if (m_lastError.isEmpty()) {
 		m_token = chnagedUrl.queryItemValue("access_token");
 		m_expire = chnagedUrl.queryItemValue("expires_in");
+		m_uid = chnagedUrl.queryItemValue("user_id");
 		loadProfile();
 		loadAudioList();
 	} else {
@@ -103,10 +104,10 @@ void VKService::loadAudioList()
 
 void VKService::loadProfile()
 {
-	if (m_lastError.isEmpty() && !m_token.isEmpty() && !m_expire.isEmpty())
-	{
-		QUrl url("https://api.vkontakte.ru/method/getVariable.xml");
-		url.addQueryItem("key","1281");
+	if (m_lastError.isEmpty() && !m_token.isEmpty() && !m_expire.isEmpty() && !m_uid.isEmpty()) {
+		QUrl url("https://api.vkontakte.ru/method/getProfiles.xml");
+		url.addQueryItem("uids",m_uid);
+		url.addQueryItem("fields","uid, first_name, last_name, photo, photo_medium");
 		url.addQueryItem("access_token",m_token);
 		QNetworkRequest request(url);
 		m_networkManager->get(request);
@@ -115,12 +116,11 @@ void VKService::loadProfile()
 
 void VKService::slotReplyFinished(QNetworkReply *reply)
 {
-qDebug() << "repl()";
 	const QByteArray response = reply->readAll();
 
 	if ("/method/audio.get.xml" == reply->url().path()) {
 		emit audioListLoaded(response);
-	} else if ("/method/getVariable.xml" == reply->url().path()) {
+	} else if ("/method/getProfiles.xml" == reply->url().path()) {
 		if (isLogined()) {
 			emit loginSuccess(response);
 			emit profileLoaded(response);
@@ -130,7 +130,6 @@ qDebug() << "repl()";
 
 void VKService::slotLoadFinished(bool ok)
 {
-	qDebug() << "LoadFinished()";
 	if (!ok && ! m_errorHandled) {
 		m_webView->close();
 		m_lastError.append("connection failure");
@@ -141,10 +140,7 @@ void VKService::slotLoadFinished(bool ok)
 
 bool VKService::isLogined() const
 {
-	if (!m_expire.isEmpty() && m_lastError.isEmpty()) {
-		return true;
-	}
-	return false;
+	return !m_expire.isEmpty() && m_lastError.isEmpty();
 }
 
 void VKService::logout()

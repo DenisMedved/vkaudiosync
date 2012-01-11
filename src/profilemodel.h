@@ -19,19 +19,42 @@
 #ifndef PROFILEMODEL_H
 #define PROFILEMODEL_H
 
+#include <QObject>
 #include <QString>
+#include <QUrl>
+#include <QByteArray>
+#include <QtXml>
 
-class ProfileModel
+class ProfileModel : public QObject
 {
+	Q_OBJECT
+
 private:
-	QString m_name;
+	QString m_uid;
+	QString m_firstName;
+	QString m_lastName;
+	QUrl m_photoUrl;
+	QUrl m_photoMediumUrl;
 
 public:
-	explicit ProfileModel();
-	~ProfileModel();
+	explicit ProfileModel(QObject* parent = 0);
 
-	void setName(QString name);
-	QString name() const;
+	void  setUid(const QString &uid);
+	QString uid() const;
+
+	void setFirstName(const QString &firstName);
+	QString firsrtName() const;
+
+	void setLastName(const QString &lastName);
+	QString lastName() const;
+
+	void setPhotoUrl(const QUrl &url);
+	QUrl photoUrl() const;
+
+	void setPhotoMediumUrl(const QUrl &url);
+	QUrl photoMediumUrl() const;
+
+	void parseXml(const QByteArray &xml);
 };
 
 #endif // PROFILEMODEL_H

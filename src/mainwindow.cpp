@@ -71,9 +71,11 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	connect(ui->syncButton, SIGNAL(clicked()),
 			this,SLOT(slotStartSynch())
 	);
+	/*
 	connect(ui->settingsButton, SIGNAL(clicked()),
 			this,SLOT(slotSettings())
 	);
+	*/
 	connect(ui->aboutButton,SIGNAL(clicked()),
 			this,SLOT(slotAbout())
 	);
@@ -112,12 +114,12 @@ void MainWindow::runSynch()
 	m_pSynchService->synchronize();
 }
 
-void MainWindow::slotAllowUpload(bool allow)
+void MainWindow::slotAllowUpload(bool /*allow*/)
 {
 	QMessageBox::information(this,"Not work","temporary not work");
 }
 
-void MainWindow::slotAutoLogin(bool allow)
+void MainWindow::slotAutoLogin(bool /*allow*/)
 {
 	QMessageBox::information(this,"Not work","temporary not work");
 }
@@ -165,20 +167,21 @@ void MainWindow::slotExit()
 	QApplication::exit();
 }
 
-void MainWindow::slotLoginSuccess(const QByteArray xml)
+void MainWindow::slotLoginSuccess(const QByteArray &/*xml*/)
 {
 	ui->loginButton->setText(tr("Logout"));
 	ui->selectButton->setDisabled(false);
 	m_logined = true;
 }
 
-void MainWindow::slotAudioListLoaded(const QByteArray xml)
+void MainWindow::slotAudioListLoaded(const QByteArray &xml)
 {
 	m_pAudioModel->parseXml(xml);
 }
 
-void MainWindow::slotProfileLoaded(const QByteArray xml)
+void MainWindow::slotProfileLoaded(const QByteArray &xml)
 {
+	m_pProfileModel->parseXml(xml);
 }
 
 void MainWindow::slotLoginUnsuccess()

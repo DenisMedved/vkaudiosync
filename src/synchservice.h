@@ -28,7 +28,7 @@
 #include "audiolistmodel.h"
 
 #ifndef THREADS
-#define THREADS 5
+#define THREADS 6
 #endif
 
 class SynchService : public QObject
@@ -38,7 +38,7 @@ class SynchService : public QObject
 private:
 	QDir *m_dir;
 	unsigned short m_theadsCount;
-	AudioListModel *m_pAudioListModel; //weak ptr
+	AudioListModel *m_pAudioListModel;
 	DownloadThread *m_pDownloadThreads[THREADS];
 
 public:

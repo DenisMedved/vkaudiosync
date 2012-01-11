@@ -18,7 +18,7 @@ void DownloadThread::setAudioListModel(AudioListModel *model)
 void DownloadThread::run()
 {
 	if (m_queue.isEmpty())
-		exit();
+		quit();
 
 	m_needWait = false;
 	QNetworkAccessManager *networkManager = new QNetworkAccessManager;

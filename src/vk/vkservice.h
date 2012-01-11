@@ -77,9 +77,9 @@ public:
 public slots:
 
 signals:
-	void loginSuccess(const QByteArray);
-	void audioListLoaded(const QByteArray);
-	void profileLoaded(const QByteArray);
+	void loginSuccess(const QByteArray &);
+	void audioListLoaded(const QByteArray &);
+	void profileLoaded(const QByteArray &);
 	void loginUnsuccess();
 };
 }

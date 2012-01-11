@@ -44,11 +44,11 @@ HEADERS += \
 	audioitem.cpp \
 	vk/vkservice.h \
 	profilemodel.h \
-    about.h
+	about.h
 
 FORMS += \
 	ui/mainwindow.ui \
-    ui/about.ui
+	ui/about.ui
 
 SOURCES += \
 	audioitemdelegate.cpp \
@@ -61,7 +61,7 @@ SOURCES += \
 	audioitem.cpp \
 	vk/vkservice.cpp \
 	profilemodel.cpp \
-    about.cpp
+	about.cpp
 
 
 OTHER_FILES += \

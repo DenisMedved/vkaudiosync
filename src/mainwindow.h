@@ -81,9 +81,9 @@ public:
 	void slotAbout();
 	void slotExit();
 
-	void slotLoginSuccess(const QByteArray xml);
-	void slotAudioListLoaded(const QByteArray xml);
-	void slotProfileLoaded(const QByteArray xml);
+	void slotLoginSuccess(const QByteArray &xml);
+	void slotAudioListLoaded(const QByteArray &xml);
+	void slotProfileLoaded(const QByteArray &xml);
 	void slotLoginUnsuccess();
 };
 
