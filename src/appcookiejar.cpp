@@ -5,6 +5,13 @@ AppCookieJar::AppCookieJar(QObject *parent) :
 {
 	m_useFile = false;
 	m_needSave = false;
+
+	m_authUrl.setUrl("http://api.vkontakte.ru/oauth/authorize");
+	m_authUrl.addQueryItem("client_id", QString::number(VK_APPLICATION_ID).toAscii());
+	m_authUrl.addQueryItem("scope","audio");
+	m_authUrl.addQueryItem("redirect_uri","http://api.vkontakte.ru/blank.html");
+	m_authUrl.addQueryItem("display","popup");
+	m_authUrl.addQueryItem("response_type","token");
 }
 
 AppCookieJar::~AppCookieJar()
@@ -29,7 +36,10 @@ QList<QNetworkCookie> AppCookieJar::cookiesForUrl ( const QUrl & url ) const
 
 bool AppCookieJar::setCookiesFromUrl ( const QList<QNetworkCookie> & cookieList, const QUrl & url )
 {
-	return QNetworkCookieJar::setCookiesFromUrl(cookieList, url);
+	m_cookieList = cookieList;
+	bool result = QNetworkCookieJar::setCookiesFromUrl(cookieList, url);
+	save();
+	return result;
 }
 
 void AppCookieJar::clear()
@@ -45,11 +55,10 @@ void AppCookieJar::save()
 		dom.setContent(m_pFile);
 		QDomElement root;
 		root.setTagName("cookies");
-		QList<QNetworkCookie> cookies = cookiesForUrl(QString("http://api.vkontakte.ru/oauth/authorize"));
-		for (int index = 0; index < cookies.count() ; ++index ) {
+		for (int index = 0; index < m_cookieList.size() ; ++index ) {
 			QDomElement cookie;
 			cookie.setTagName("cookie");
-			cookie.setNodeValue(QString(cookies.at(index).toRawForm()));
+			cookie.setNodeValue(QString(m_cookieList.at(index).toRawForm()));
 			root.appendChild(cookie);
 		}
 		dom.appendChild(root);
@@ -74,7 +83,7 @@ void AppCookieJar::restore()
 			}
 		}
 		m_pFile->close();
-		setCookiesFromUrl(list,QUrl("http://api.vkontakte.ru/oauth/authorize"));
+		setCookiesFromUrl(list,m_authUrl);
 	}
 }
 

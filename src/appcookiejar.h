@@ -14,6 +14,7 @@ class AppCookieJar : public QNetworkCookieJar
 protected:
 	QFile *m_pFile;
 	QList<QNetworkCookie> m_cookieList;
+	QUrl m_authUrl;
 
 	bool m_useFile;
 	bool m_needSave;
