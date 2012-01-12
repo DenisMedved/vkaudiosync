@@ -5,13 +5,6 @@ AppCookieJar::AppCookieJar(QObject *parent) :
 {
 	m_useFile = false;
 	m_needSave = false;
-
-	m_authUrl.setUrl("http://api.vkontakte.ru/oauth/authorize");
-	m_authUrl.addQueryItem("client_id", QString::number(VK_APPLICATION_ID).toAscii());
-	m_authUrl.addQueryItem("scope","audio");
-	m_authUrl.addQueryItem("redirect_uri","http://api.vkontakte.ru/blank.html");
-	m_authUrl.addQueryItem("display","popup");
-	m_authUrl.addQueryItem("response_type","token");
 }
 
 AppCookieJar::~AppCookieJar()
@@ -36,10 +29,7 @@ QList<QNetworkCookie> AppCookieJar::cookiesForUrl ( const QUrl & url ) const
 
 bool AppCookieJar::setCookiesFromUrl ( const QList<QNetworkCookie> & cookieList, const QUrl & url )
 {
-	m_cookieList = cookieList;
-	bool result = QNetworkCookieJar::setCookiesFromUrl(cookieList, url);
-	save();
-	return result;
+	return QNetworkCookieJar::setCookiesFromUrl(cookieList, url);
 }
 
 void AppCookieJar::clear()
@@ -49,7 +39,7 @@ void AppCookieJar::clear()
 
 void AppCookieJar::save()
 {
-	if (m_useFile && m_pFile->open(QIODevice::WriteOnly)) {
+	/*if (m_useFile && m_pFile->open(QIODevice::WriteOnly)) {
 		QTextStream stream(m_pFile);
 		QDomDocument dom;
 		dom.setContent(m_pFile);
@@ -64,12 +54,12 @@ void AppCookieJar::save()
 		dom.appendChild(root);
 		dom.save(stream,0);
 		m_pFile->close();
-	}
+	}*/
 }
 
 void AppCookieJar::restore()
 {
-	if (m_useFile && m_pFile->open(QIODevice::ReadOnly)) {
+	/*if (m_useFile && m_pFile->open(QIODevice::ReadOnly)) {
 		QList<QNetworkCookie> list;
 		QDomDocument dom;
 		dom.setContent(m_pFile);
@@ -84,6 +74,6 @@ void AppCookieJar::restore()
 		}
 		m_pFile->close();
 		setCookiesFromUrl(list,m_authUrl);
-	}
+	}*/
 }
 
