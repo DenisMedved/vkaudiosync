@@ -73,6 +73,7 @@ public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
 
+	void restore();
  public slots:
 	void slotAllowUpload(bool allow);
 	void slotAutoLogin(bool allow);

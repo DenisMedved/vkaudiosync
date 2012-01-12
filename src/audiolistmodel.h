@@ -24,7 +24,6 @@
 #include <QList>
 #include <QByteArray>
 #include <QtXml>
-#include <QDebug>
 
 #include "audioitem.h"
 

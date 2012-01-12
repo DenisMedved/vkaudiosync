@@ -19,8 +19,6 @@
 #ifndef AUDIOITEMDELEGATE_H
 #define AUDIOITEMDELEGATE_H
 
-
-#include <QDebug>
 #include <QPainter>
 #include <QTextLayout>
 #include <QTextLine>

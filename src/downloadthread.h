@@ -25,7 +25,6 @@
 #include <QDir>
 #include <QtNetwork>
 #include <QFile>
-#include <QDebug>
 #include <QEventLoop>
 
 #include "audiolistmodel.h"

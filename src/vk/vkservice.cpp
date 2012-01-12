@@ -39,9 +39,6 @@ VKService::VKService (QWidget *parent /*=0*/) : QObject(parent)
 
 	m_errorHandled = false;
 
-	m_pCookieJar = new QNetworkCookieJar(this);
-	m_webView->page()->networkAccessManager()->setCookieJar(m_pCookieJar);
-
 	connect(m_webView, SIGNAL(urlChanged(QUrl)),
 		this, SLOT(slotUrlChanged(QUrl)));
 	connect(m_networkManager, SIGNAL(finished(QNetworkReply*)),
@@ -52,7 +49,6 @@ VKService::VKService (QWidget *parent /*=0*/) : QObject(parent)
 
 VKService::~VKService()
 {
-	delete m_pCookieJar;
 	delete m_webView;
 	delete m_networkManager;
 }
@@ -65,7 +61,6 @@ void VKService::setApplicationId(QString appId)
 void VKService::login()
 {
 	m_webView->load(m_authUrl);
-	m_webView->show();
 }
 
 void VKService::slotUrlChanged(const QUrl &url )
@@ -135,6 +130,8 @@ void VKService::slotLoadFinished(bool ok)
 		m_lastError.append("connection failure");
 		QMessageBox::critical(m_webView,"Connection error",tr("Connect to vk com failed"));
 		emit loginUnsuccess();
+	} else if (!isLogined()){
+		m_webView->show();
 	}
 }
 
@@ -145,8 +142,13 @@ bool VKService::isLogined() const
 
 void VKService::logout()
 {
-	delete m_pCookieJar;
-	m_pCookieJar = new QNetworkCookieJar(this);
+	//m_webView->page()->networkAccessManager()->setCookieJar(m_pCookieJar);
+}
+
+void VKService::setCookieJar(QNetworkCookieJar *cookieJar)
+{
+	m_pCookieJar = cookieJar;
 	m_webView->page()->networkAccessManager()->setCookieJar(m_pCookieJar);
 }
+
 }

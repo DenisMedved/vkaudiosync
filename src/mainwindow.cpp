@@ -35,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	m_pSynchService = new SynchService(this);
 	m_pProfileModel = new ProfileModel;
 
+	//m_pVkService->setCookieJar(m_pAppSettings->cookieJar());
 	m_pSynchService->setAudioModel(m_pAudioModel);
 
 	//setup model and delerator for audio list view
@@ -100,12 +101,13 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 			this, SLOT(slotPhotoMediumLoaded())
 	);
 
+	restore();
 }
 
 MainWindow::~MainWindow()
 {
-	delete m_pDir;
 	delete ui;
+	delete m_pDir;
 	delete m_pAppSettings;
 	delete m_pVkService;
 	delete m_pAudioModel;
@@ -114,19 +116,38 @@ MainWindow::~MainWindow()
 	delete m_pProfileModel;
 }
 
+void MainWindow::restore()
+{
+	ui->allowUpload->setChecked(m_pAppSettings->value("/general/upload").toBool());
+	ui->autoLogin->setChecked(m_pAppSettings->value("/general/autologin").toBool());
+
+	if (ui->autoLogin->isChecked()) {
+		m_pVkService->login();
+	} else {
+		m_pAppSettings->cookieJar()->clear();
+	}
+
+	QString dir = m_pAppSettings->value("/general/dir").toString();
+	if (!dir.isEmpty() && QFile::exists(dir)) {
+		m_pDir->setPath(dir);
+		ui->syncButton->setDisabled(false);
+		m_pSynchService->setStatuses();
+	}
+}
+
 void MainWindow::runSynch()
 {
 	m_pSynchService->synchronize();
 }
 
-void MainWindow::slotAllowUpload(bool /*allow*/)
+void MainWindow::slotAllowUpload(bool allow)
 {
-	QMessageBox::information(this,"Not work","temporary not work");
+	m_pAppSettings->setValue("/general/upload", allow);
 }
 
-void MainWindow::slotAutoLogin(bool /*allow*/)
+void MainWindow::slotAutoLogin(bool allow)
 {
-	QMessageBox::information(this,"Not work","temporary not work");
+	m_pAppSettings->setValue("/general/autologin", allow);
 }
 
 void MainWindow::slotLoginLogaut()
@@ -144,6 +165,8 @@ void MainWindow::slotLoginLogaut()
 		map.convertFromImage(defaultImg);
 		ui->userpic->setPixmap(map);
 
+		m_pAppSettings->cookieJar()->clear();
+
 		m_logined = false;
 	} else {
 		m_pVkService->login();
@@ -156,6 +179,8 @@ void MainWindow::slotChooseDir()
 	if (!dir.isEmpty()) {
 		m_pDir->setPath(dir);
 		ui->syncButton->setDisabled(false);
+		m_pSynchService->setStatuses();
+		m_pAppSettings->setValue("/general/dir",dir);
 	}
 }
 
@@ -215,7 +240,6 @@ void MainWindow::slotPhotoLoaded()
 
 void MainWindow::slotPhotoMediumLoaded()
 {
-	qDebug() << "slotPhotoMediumLoaded()";
 	QPixmap pixmap(ui->userpic->width(),ui->userpic->height());
 	if (pixmap.convertFromImage(m_pProfileModel->photoMedium()) ) {
 		ui->userpic->setPixmap(pixmap);

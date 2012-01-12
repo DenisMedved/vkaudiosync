@@ -83,12 +83,11 @@ void SynchService::setStatuses()
 
 void SynchService::synchronize()
 {
+	setStatuses();
+
 	unsigned short threadIndex = 0;
 
 	int modelsCount = m_pAudioListModel->rowCount();
-
-	qDebug() << "models" << modelsCount;
-
 	QModelIndex modelIndex;
 	unsigned short status ;
 	for (int m=0; m < modelsCount; ++m) {

@@ -68,7 +68,6 @@ QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 bool AudioListModel::setData ( const QModelIndex &index, const QVariant &value, int role /*= Qt::EditRole*/)
 {
 	QList<AudioItem>::iterator iterator = m_pItems->begin();
-	AudioItem* pitem;
 	iterator += index.row();
 
 	switch(role) {
@@ -91,7 +90,6 @@ bool AudioListModel::setData ( const QModelIndex &index, const QVariant &value, 
 void AudioListModel::resetStatuses()
 {
 	QList<AudioItem>::iterator iterator;
-	AudioItem* pitem;
 
 	for (iterator = m_pItems->begin(); iterator != m_pItems->end(); ++iterator) {
 		iterator->setStatus(AudioItem::STATUS_UNDEFINED);

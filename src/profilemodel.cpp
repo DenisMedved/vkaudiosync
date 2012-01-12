@@ -159,9 +159,7 @@ void ProfileModel::parseXml(const QByteArray &xml)
 
 void ProfileModel::slotFinished(QNetworkReply* reply)
 {
-	qDebug() << "slotFinished(QNetworkReply* reply)";
 	QByteArray imgData = reply->readAll();
-	qDebug();
 	if (reply->url().toString() == m_photoUrl.toString()) {
 		m_photo.loadFromData(imgData);
 		emit photoLoaded();

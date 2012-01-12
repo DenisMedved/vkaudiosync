@@ -10,6 +10,9 @@
 #include <QDesktopServices>
 #include <QFile>
 #include <QtXml>
+#include <QVariant>
+
+#include "appcookiejar.h"
 
 class AppSettings : QObject
 {
@@ -21,11 +24,18 @@ private:
 	QDir *m_pUserDir;
 	QSettings *m_pSettings;
 	QCoreApplication *m_pApp;
+	AppCookieJar *m_pCookieJar;
+
 public:
 	AppSettings(QObject *parent = 0);
 	~AppSettings();
 
 	void load();
+	void setValue(const QString & key, const QVariant & value );
+	QVariant value ( const QString & key, const QVariant & defaultValue = QVariant() ) const;
+
+	AppCookieJar* cookieJar() const;
+	void clear();
 };
 
 #endif // MYSETTINGS_H

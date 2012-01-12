@@ -13,7 +13,12 @@
 #   You should have received a copy of the GNU General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-QT += qt webkit network xml thread debug
+QT += \
+	qt \
+	webkit \
+	network \
+	xml \
+	thread
 
 TEMPLATE = app
 
@@ -44,7 +49,8 @@ HEADERS += \
 	audioitem.cpp \
 	vk/vkservice.h \
 	profilemodel.h \
-	about.h
+	about.h \
+    appcookiejar.h
 
 FORMS += \
 	ui/mainwindow.ui \
@@ -61,7 +67,8 @@ SOURCES += \
 	audioitem.cpp \
 	vk/vkservice.cpp \
 	profilemodel.cpp \
-	about.cpp
+	about.cpp \
+    appcookiejar.cpp
 
 
 OTHER_FILES += \
@@ -84,6 +91,8 @@ unix {
 
 	INSTALLS += target applications icons data
 }
+
+
 
 
 

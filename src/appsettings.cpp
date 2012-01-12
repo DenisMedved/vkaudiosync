@@ -1,6 +1,5 @@
 
 #include "appsettings.h"
-#include <QDebug>
 
 AppSettings::AppSettings(QObject *parent /*=0*/) : QObject(parent)
 {
@@ -9,8 +8,8 @@ AppSettings::AppSettings(QObject *parent /*=0*/) : QObject(parent)
 	m_pUserDir = new QDir;
 	m_pAppDir = new QDir;
 	m_pSettings = new QSettings;
-
 	m_pApp = QCoreApplication::instance();
+	m_pCookieJar = new AppCookieJar(this);
 
 	#ifdef Q_WS_X11
 		m_pAppDir->setPath("/usr/share/vkaudiosync/");
@@ -23,7 +22,6 @@ AppSettings::AppSettings(QObject *parent /*=0*/) : QObject(parent)
 		} else {
 			m_pUserDir->cd(".vkaudiosync");
 		}
-
 	#else
 		m_pAppDir->setPath(m_pApp->applicationDirPath());
 		m_pUserDir->setPath(m_pApp->applicationDirPath());
@@ -36,6 +34,7 @@ AppSettings::~AppSettings()
 	delete m_pSettings;
 	delete m_pAppDir;
 	delete m_pUserDir;
+	delete m_pCookieJar;
 }
 
 void AppSettings::load()
@@ -43,7 +42,7 @@ void AppSettings::load()
 	QFile file;
 	QString path;
 
-	if ( m_pUserDir->exists() && m_pUserDir->isReadable()) {
+	if (m_pUserDir->exists() && m_pUserDir->isReadable()) {
 		path = m_pUserDir->absolutePath() + QDir::separator() + "settings.ini";
 		file.setFileName(path);
 		if (file.exists() && file.isWritable()) {
@@ -62,3 +61,28 @@ void AppSettings::load()
 	}
 }
 
+void AppSettings::setValue(const QString & key, const QVariant & value )
+{
+	if (m_useConfig) {
+		m_pSettings->setValue(key, value);
+	}
+}
+
+QVariant AppSettings::value ( const QString & key, const QVariant & defaultValue/* = QVariant() */) const
+{
+	if (m_useConfig) {
+		return m_pSettings->value(key, defaultValue);
+	} else {
+		return QVariant();
+	}
+}
+
+AppCookieJar* AppSettings::cookieJar() const
+{
+	return m_pCookieJar;
+}
+
+void AppSettings::clear()
+{
+
+}

@@ -73,6 +73,7 @@ public:
 	bool isLogined() const;
 
 	void logout();
+	void setCookieJar(QNetworkCookieJar *cookieJar);
 
 public slots:
 
