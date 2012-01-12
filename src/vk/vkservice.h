@@ -20,7 +20,7 @@
 #define VKMODEL_H
 
 #ifndef VK_APPLICATION_ID
-#define VK_APPLICATION_ID 0 //mast defined by compiler. Read README file
+#define VK_APPLICATION_ID 2169954
 #endif
 
 #include <QApplication>

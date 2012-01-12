@@ -23,12 +23,6 @@ Issues:
 	https://bitbucket.org/denis_medved/vkaudiosync/issues
 
 Build:
-	Create application ( http://vkontakte.ru/apps.php?act=add ) get "application id"
-	(also you can write to me and i give you my application id).
-	Create file with application id in src:
-		$ echo "xxxxxx" > src/VK_APPLICATION_ID.txt
-	where xxxxxx - is application id of your app.
-
 	Change current directory to dir with source code:
 		$ cd src
 

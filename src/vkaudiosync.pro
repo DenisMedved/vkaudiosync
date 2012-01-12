@@ -37,8 +37,6 @@ TRANSLATIONS += \
 RESOURCES += \
 	icons.qrc
 
-DEFINES += "VK_APPLICATION_ID=$(shell cat VK_APPLICATION_ID.txt)" # application id mast put to VK_APPLICATION_ID file
-
 HEADERS += \
 	audioitemdelegate.h \
 	audiolistmodel.h \
@@ -50,7 +48,7 @@ HEADERS += \
 	vk/vkservice.h \
 	profilemodel.h \
 	about.h \
-    appcookiejar.h
+	appcookiejar.h
 
 FORMS += \
 	ui/mainwindow.ui \
@@ -68,7 +66,7 @@ SOURCES += \
 	vk/vkservice.cpp \
 	profilemodel.cpp \
 	about.cpp \
-    appcookiejar.cpp
+	appcookiejar.cpp
 
 
 OTHER_FILES += \
