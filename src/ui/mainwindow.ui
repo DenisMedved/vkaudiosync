@@ -107,6 +107,9 @@
          </item>
          <item>
           <widget class="QCheckBox" name="allowUpload">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Allow upload</string>
            </property>
@@ -114,6 +117,9 @@
          </item>
          <item>
           <widget class="QCheckBox" name="autoLogin">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Auto login</string>
            </property>
