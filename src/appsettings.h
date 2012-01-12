@@ -25,7 +25,9 @@ private:
 	QSettings *m_pSettings;
 	QCoreApplication *m_pApp;
 	AppCookieJar *m_pCookieJar;
+	QFile *m_pCookieFile;
 
+	void setCookieFile(QString path);
 public:
 	AppSettings(QObject *parent = 0);
 	~AppSettings();
@@ -36,6 +38,10 @@ public:
 
 	AppCookieJar* cookieJar() const;
 	void clear();
+
+	void save();
+	void restore();
+
 };
 
 #endif // MYSETTINGS_H

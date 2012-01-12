@@ -10,7 +10,7 @@ AppSettings::AppSettings(QObject *parent /*=0*/) : QObject(parent)
 	m_pSettings = new QSettings;
 	m_pApp = QCoreApplication::instance();
 	m_pCookieJar = new AppCookieJar(this);
-
+	m_pCookieFile = new QFile(this);
 	#ifdef Q_WS_X11
 		m_pAppDir->setPath("/usr/share/vkaudiosync/");
 		m_pUserDir->setPath(QDesktopServices::storageLocation(QDesktopServices::HomeLocation));
@@ -31,6 +31,9 @@ AppSettings::AppSettings(QObject *parent /*=0*/) : QObject(parent)
 
 AppSettings::~AppSettings()
 {
+	save();
+
+	delete m_pCookieFile;
 	delete m_pSettings;
 	delete m_pAppDir;
 	delete m_pUserDir;
@@ -56,9 +59,20 @@ void AppSettings::load()
 			m_useConfig = false;
 			throw QString(tr("Permision denied: Can't write ") + path);
 		}
+
+		path = m_pUserDir->absolutePath() + QDir::separator() + "cookie.xml";
+		file.setFileName(path);
+		if (file.exists() && file.isWritable()) {
+			setCookieFile(path);
+		} else if (file.open(QIODevice::ReadWrite)) {
+			file.close();
+			setCookieFile(path);
+		}
 	} else {
 		throw QString(tr("Permision denied: Can't read ") + m_pUserDir->path());
 	}
+
+	restore();
 }
 
 void AppSettings::setValue(const QString & key, const QVariant & value )
@@ -85,4 +99,24 @@ AppCookieJar* AppSettings::cookieJar() const
 void AppSettings::clear()
 {
 
+}
+
+void AppSettings::save()
+{
+	if (value("/general/autologin").toBool()) {
+		m_pCookieJar->save();
+	}
+}
+
+void AppSettings::restore()
+{
+	if (value("/general/autologin").toBool()) {
+		m_pCookieJar->restore();
+	}
+}
+
+void AppSettings::setCookieFile(QString path)
+{
+	m_pCookieFile->setFileName(path);
+	m_pCookieJar->setFile(m_pCookieFile);
 }

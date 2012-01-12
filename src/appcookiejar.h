@@ -13,8 +13,10 @@ class AppCookieJar : public QNetworkCookieJar
 
 protected:
 	QFile *m_pFile;
-	bool m_useFile;
 	QList<QNetworkCookie> m_cookieList;
+
+	bool m_useFile;
+	bool m_needSave;
 
 public:
 	explicit AppCookieJar(QObject *parent = 0);

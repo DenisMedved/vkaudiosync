@@ -63,30 +63,6 @@ void VKService::login()
 	m_webView->load(m_authUrl);
 }
 
-void VKService::slotUrlChanged(const QUrl &url )
-{
-	QString urlAsString = url.toString();
-	if (urlAsString.isEmpty() || url.path() == "/oauth/authorize")
-		return;
-
-	urlAsString.replace('#','?');
-	QUrl chnagedUrl(urlAsString);
-	m_lastError = chnagedUrl.queryItemValue("error");
-	if (m_lastError.isEmpty()) {
-		m_token = chnagedUrl.queryItemValue("access_token");
-		m_expire = chnagedUrl.queryItemValue("expires_in");
-		m_uid = chnagedUrl.queryItemValue("user_id");
-		loadProfile();
-		loadAudioList();
-	} else {
-		m_token.clear();
-		m_expire.clear();
-		emit loginUnsuccess();
-		m_errorHandled = true;
-	}
-	m_webView->hide();
-}
-
 void VKService::loadAudioList()
 {
 	if (m_lastError.isEmpty() && !m_token.isEmpty() && !m_expire.isEmpty()) {
@@ -123,6 +99,30 @@ void VKService::slotReplyFinished(QNetworkReply *reply)
 	}
 }
 
+void VKService::slotUrlChanged(const QUrl &url )
+{
+	QString urlAsString = url.toString();
+	if (urlAsString.isEmpty() || url.path() == "/oauth/authorize")
+		return;
+
+	urlAsString.replace('#','?');
+	QUrl chnagedUrl(urlAsString);
+	m_lastError = chnagedUrl.queryItemValue("error");
+	if (m_lastError.isEmpty()) {
+		m_token = chnagedUrl.queryItemValue("access_token");
+		m_expire = chnagedUrl.queryItemValue("expires_in");
+		m_uid = chnagedUrl.queryItemValue("user_id");
+		loadProfile();
+		loadAudioList();
+	} else {
+		m_token.clear();
+		m_expire.clear();
+		emit loginUnsuccess();
+		m_errorHandled = true;
+	}
+	m_webView->close();
+}
+
 void VKService::slotLoadFinished(bool ok)
 {
 	if (!ok && ! m_errorHandled) {
@@ -130,8 +130,10 @@ void VKService::slotLoadFinished(bool ok)
 		m_lastError.append("connection failure");
 		QMessageBox::critical(m_webView,"Connection error",tr("Connect to vk com failed"));
 		emit loginUnsuccess();
-	} else if (!isLogined()){
+	} else if (m_webView->url().path() == m_authUrl.path()) {
 		m_webView->show();
+	} else {
+		m_webView->close();
 	}
 }
 
