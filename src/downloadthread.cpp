@@ -69,7 +69,7 @@ void DownloadThread::setDir(QDir *dir)
 
 void DownloadThread::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
 {
-	unsigned short percent = qRound(bytesReceived * 100 / bytesTotal);
+	unsigned short percent = qCeil(bytesReceived * 100 / bytesTotal);
 	unsigned short progress = m_pAudioListModel->data(m_target, AudioListModel::ROLE_PROGRESS).toInt();
 	if (progress != percent) {
 		m_pAudioListModel->setData(m_target, QVariant(percent), AudioListModel::ROLE_PROGRESS);
@@ -89,4 +89,11 @@ QModelIndex DownloadThread::dequeue()
 const QQueue<QModelIndex>* DownloadThread::queue() const
 {
 	return &m_queue;
+}
+
+void DownloadThread::slotFinished()
+{
+	m_pAudioListModel->setData(m_target, QVariant(100), AudioListModel::ROLE_PROGRESS);
+	m_pAudioListModel->setData(m_target, QVariant(AudioItem::STATUS_SYNCHRONIZED), AudioListModel::ROLE_STATUS);
+	quit();
 }

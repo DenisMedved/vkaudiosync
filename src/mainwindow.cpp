@@ -119,6 +119,7 @@ MainWindow::~MainWindow()
 void MainWindow::restore()
 {
 	ui->allowUpload->setChecked(m_pAppSettings->value("/general/upload").toBool());
+	qDebug() << m_pAppSettings->value("/general/autologin").toString();
 	ui->autoLogin->setChecked(m_pAppSettings->value("/general/autologin").toBool());
 
 	if (ui->autoLogin->isChecked()) {
@@ -186,6 +187,7 @@ void MainWindow::slotChooseDir()
 
 void MainWindow::slotStartSynch()
 {
+	ui->syncButton->setDisabled(true);
 	runSynch();
 }
 

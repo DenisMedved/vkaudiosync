@@ -66,5 +66,6 @@ signals:
 
 protected slots:
 	void downloadProgress( qint64 bytesReceived, qint64 bytesTotal);
+	void slotFinished();
 };
 #endif // DOWNLOADTHREAD_H
