@@ -78,6 +78,26 @@ bool AudioListModel::setData ( const QModelIndex &index, const QVariant &value, 
 		}
 		break;
 
+	case AudioListModel::ROLE_ARTIST:
+		iterator->setArtist(value.toString());
+		break;
+
+	case AudioListModel::ROLE_TITLE:
+		iterator->setTitle(value.toString());
+		break;
+
+	case AudioListModel::ROLE_DURATION:
+		iterator->setDuration((unsigned short) value.toInt());
+		break;
+
+	case AudioListModel::ROLE_STATUS:
+		iterator->setStatus((unsigned short) value.toInt());
+		break;
+
+	case AudioListModel::ROLE_URL:
+		iterator->setUrl(value.toUrl());
+		break;
+
 	default:
 		break;
 	}

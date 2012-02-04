@@ -60,6 +60,7 @@ void SynchService::setStatuses()
 	for (int i = 0; i < files.size(); ++i) {
 		modelFinded = false;
 		QFileInfo fileInfo = files.at(i);
+		qDebug() <<  "model count frst" << modelsCount;
 		for (int m=0; m < modelsCount; ++m) {
 			modelIndex = m_pAudioListModel->index(m);
 			if (AudioItem::STATUS_UNDEFINED == m_pAudioListModel->data(modelIndex, AudioListModel::ROLE_STATUS).toInt()) {
@@ -79,6 +80,24 @@ void SynchService::setStatuses()
 			//upload to VK
 		}
 	}
+	unsigned short status ;
+	qDebug() << "cont " << modelsCount;
+	for (int m=0; m < modelsCount; ++m) {
+		modelIndex = m_pAudioListModel->index(m);
+		status = m_pAudioListModel->data(modelIndex, AudioListModel::ROLE_STATUS).toInt();
+
+		if (AudioItem::STATUS_UNDEFINED == status
+				|| AudioItem::STATUS_NEEDDOWNLOAD == status) {
+
+				qDebug() << "status setet";
+
+			m_pAudioListModel->setData(
+				modelIndex,
+				QVariant(AudioItem::STATUS_NEEDDOWNLOAD),
+				AudioListModel::ROLE_STATUS);
+		}
+	}
+	qDebug() << "setStatuses";
 }
 
 void SynchService::synchronize()
