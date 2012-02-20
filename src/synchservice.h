@@ -23,10 +23,11 @@
 #include <QSettings>
 #include <QDir>
 #include <QVector>
+#include <QWaitCondition>
+#include <QMutex>
 
 #include "downloadthread.h"
 #include "audiolistmodel.h"
-
 #ifndef THREADS
 #define THREADS 6
 #endif
@@ -55,6 +56,8 @@ public:
 
 	void synchronize();
 	void setStatuses();
+	void removeTmpFiles();
+	void stopSync();
 
 public slots:
 	void synchFinished();

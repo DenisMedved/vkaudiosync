@@ -39,6 +39,7 @@ private:
 	QFile* m_file;
 	QQueue<QModelIndex> m_queue;
 	QModelIndex m_target;
+	bool m_needQuit;
 
 	AudioListModel *m_pAudioListModel;
 	bool m_needWait;
@@ -67,5 +68,7 @@ signals:
 protected slots:
 	void downloadProgress( qint64 bytesReceived, qint64 bytesTotal);
 	void slotFinished();
+public slots:
+	void stopSync();
 };
 #endif // DOWNLOADTHREAD_H

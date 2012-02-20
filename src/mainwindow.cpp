@@ -119,7 +119,6 @@ MainWindow::~MainWindow()
 void MainWindow::restore()
 {
 	ui->allowUpload->setChecked(m_pAppSettings->value("/general/upload").toBool());
-	qDebug() << m_pAppSettings->value("/general/autologin").toString();
 	ui->autoLogin->setChecked(m_pAppSettings->value("/general/autologin").toBool());
 
 	if (ui->autoLogin->isChecked()) {
@@ -203,6 +202,8 @@ void MainWindow::slotAbout()
 
 void MainWindow::slotExit()
 {
+	ui->exitButton->setDisabled(true);
+	m_pSynchService->stopSync();
 	QApplication::exit();
 }
 

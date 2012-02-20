@@ -18,7 +18,6 @@
 
 #include "synchservice.h"
 
-
 SynchService::SynchService(QObject *parent) :
 	QObject(parent)
 {
@@ -60,7 +59,6 @@ void SynchService::setStatuses()
 	for (int i = 0; i < files.size(); ++i) {
 		modelFinded = false;
 		QFileInfo fileInfo = files.at(i);
-		qDebug() <<  "model count frst" << modelsCount;
 		for (int m=0; m < modelsCount; ++m) {
 			modelIndex = m_pAudioListModel->index(m);
 			if (AudioItem::STATUS_UNDEFINED == m_pAudioListModel->data(modelIndex, AudioListModel::ROLE_STATUS).toInt()) {
@@ -81,7 +79,6 @@ void SynchService::setStatuses()
 		}
 	}
 	unsigned short status ;
-	qDebug() << "cont " << modelsCount;
 	for (int m=0; m < modelsCount; ++m) {
 		modelIndex = m_pAudioListModel->index(m);
 		status = m_pAudioListModel->data(modelIndex, AudioListModel::ROLE_STATUS).toInt();
@@ -89,19 +86,17 @@ void SynchService::setStatuses()
 		if (AudioItem::STATUS_UNDEFINED == status
 				|| AudioItem::STATUS_NEEDDOWNLOAD == status) {
 
-				qDebug() << "status setet";
-
 			m_pAudioListModel->setData(
 				modelIndex,
 				QVariant(AudioItem::STATUS_NEEDDOWNLOAD),
 				AudioListModel::ROLE_STATUS);
 		}
 	}
-	qDebug() << "setStatuses";
 }
 
 void SynchService::synchronize()
 {
+	removeTmpFiles();
 	setStatuses();
 
 	unsigned short threadIndex = 0;
@@ -151,4 +146,40 @@ void SynchService::setAudioModel(AudioListModel *pAudioListModel)
 void SynchService::synchFinished()
 {
 
+}
+
+void SynchService::removeTmpFiles()
+{
+	m_dir->setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot );
+	QFileInfoList files = m_dir->entryInfoList();
+	QFileInfo fileInfo;
+	QFile file;
+	for (int i = 0; i < files.size(); ++i) {
+		fileInfo = files.at(i);
+		if ("tmp" == fileInfo.suffix()) {
+			file.setFileName(fileInfo.filePath());
+			file.remove();
+		}
+	}
+}
+
+void SynchService::stopSync()
+{
+	unsigned short entry = 100;
+	QWaitCondition waitCondition;
+	QMutex mutex;
+
+	for (unsigned short i=0; i < THREADS; ++i)
+		if (m_pDownloadThreads[i]->isRunning())
+			m_pDownloadThreads[i]->stopSync();
+
+
+	for (unsigned short i=0; i < THREADS; ++i) {
+		while (m_pDownloadThreads[i]->isRunning() && entry > 0) {
+			entry--;
+			waitCondition.wait(&mutex, 100);
+		}
+	}
+
+	removeTmpFiles();
 }
