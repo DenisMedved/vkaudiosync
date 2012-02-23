@@ -53,9 +53,6 @@ public:
 	void parseXml(const QByteArray &xml);
 	void clear();
 
-public slots:
-	//
-signals:
 };
 
 #endif // AUDIOLISTMODEL_H

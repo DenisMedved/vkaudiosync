@@ -32,10 +32,6 @@ public:
 	void save();
 	void restore();
 
-signals:
-
-public slots:
-
 };
 
 #endif // APPCOOKIEJAR_H

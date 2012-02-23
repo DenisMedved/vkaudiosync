@@ -48,7 +48,8 @@ HEADERS += \
 	vk/vkservice.h \
 	profilemodel.h \
 	about.h \
-	appcookiejar.h
+	appcookiejar.h \
+    audiolistview.h
 
 FORMS += \
 	ui/mainwindow.ui \
@@ -66,7 +67,8 @@ SOURCES += \
 	vk/vkservice.cpp \
 	profilemodel.cpp \
 	about.cpp \
-	appcookiejar.cpp
+	appcookiejar.cpp \
+    audiolistview.cpp
 
 
 OTHER_FILES += \
@@ -89,6 +91,10 @@ unix {
 
 	INSTALLS += target applications icons data
 }
+
+
+
+
 
 
 

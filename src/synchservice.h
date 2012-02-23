@@ -45,15 +45,11 @@ private:
 public:
 	explicit SynchService(QObject *parent = 0);
 	~SynchService();
-
 	void setDir(QDir *pdir);
 	const QDir* dir() const;
-
 	void setThreadsCount(unsigned short count);
 	unsigned short threadsCount() const;
-
 	void setAudioModel(AudioListModel *pAudioListModel);
-
 	void synchronize();
 	void setStatuses();
 	void removeTmpFiles();

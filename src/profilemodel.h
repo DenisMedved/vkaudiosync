@@ -48,22 +48,16 @@ public:
 	~ProfileModel();
 	void  setUid(const QString &uid);
 	QString uid() const;
-
 	void setFirstName(const QString &firstName);
 	QString firsrtName() const;
-
 	void setLastName(const QString &lastName);
 	QString lastName() const;
-
 	void setPhotoUrl(const QUrl &url);
 	QUrl photoUrl() const;
-
 	void setPhotoMediumUrl(const QUrl &url);
 	QUrl photoMediumUrl() const;
-
 	QImage photo() const;
 	QImage photoMedium() const;
-
 	void parseXml(const QByteArray &xml);
 
 protected slots:

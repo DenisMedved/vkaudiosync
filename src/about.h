@@ -20,10 +20,6 @@ public:
 	explicit About(QWidget *parent = 0);
 	~About();
 
-signals:
-
-public slots:
-
 };
 
 #endif // ABOUT_H

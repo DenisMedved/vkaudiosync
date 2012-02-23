@@ -19,12 +19,15 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-
 #include <QMainWindow>
-
-#include <appsettings.h>
-#include <vk/vkservice.h>
-#include <synchservice.h>
+#include "appsettings.h"
+#include "vk/vkservice.h"
+#include "synchservice.h"
+#include "ui_mainwindow.h"
+#include "audiolistmodel.h"
+#include "audioitemdelegate.h"
+#include "profilemodel.h"
+#include "about.h"
 
 //use in impl.
 #include <QApplication>
@@ -32,12 +35,6 @@
 #include <QFileDialog>
 #include <QPixmap>
 #include <QImage>
-
-#include "ui_mainwindow.h"
-#include "audiolistmodel.h"
-#include "audioitemdelegate.h"
-#include "profilemodel.h"
-#include "about.h"
 
 namespace Ui
 {
@@ -63,17 +60,16 @@ private:
 	AppSettings *m_pAppSettings;
 	SynchService *m_pSynchService;
 	ProfileModel *m_pProfileModel;
-
 	QDir *m_pDir;
-
 	bool m_logined;
 
 	void runSynch();
+
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
-
 	void restore();
+
  public slots:
 	void slotAllowUpload(bool allow);
 	void slotAutoLogin(bool allow);
@@ -83,12 +79,10 @@ public:
 	void slotSettings();
 	void slotAbout();
 	void slotExit();
-
 	void slotLoginSuccess(const QByteArray &xml);
 	void slotAudioListLoaded(const QByteArray &xml);
 	void slotProfileLoaded(const QByteArray &xml);
 	void slotLoginUnsuccess();
-
 	void slotPhotoLoaded();
 	void slotPhotoMediumLoaded();
 };

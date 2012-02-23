@@ -54,8 +54,8 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 	QString durationStr(QString(" (%1:%2)").arg(minsStr).arg(secsStr));
 
 	QRect selectedRect(x,y,w,h);
-	if (option.state & (QStyle::State_Selected | QStyle::State_MouseOver) )
-	{
+
+	if (option.state & QStyle::State_MouseOver) {
 		painter->fillRect(selectedRect,QColor("#E1E7ED"));
 	} else {
 		painter->fillRect(selectedRect, QColor("#ffffff"));
@@ -68,6 +68,19 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 	QPen pen(Qt::SolidLine);
 
 	qreal height = 0;
+
+	Qt::CheckState checkState;
+
+	if (status == AudioItem::STATUS_NOTSYNCHNIZE) {
+		checkState = Qt::Unchecked;
+	} else {
+		checkState = Qt::Checked;
+	}
+
+	drawCheck (painter, option,QRect(x+5,y + h/4,20, 20) ,  checkState );
+
+	int drawTextFromX = 30;
+
 	int artistLineWidth = 30 * w / 100;
 
 	//draw artist
@@ -88,7 +101,7 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 		line.setPosition(QPointF(0, y+height));
 	artist.endLayout();
 
-	artist.draw(painter,QPoint(15,h/3));
+	artist.draw(painter,QPoint(drawTextFromX,h/3));
 	//draw title
 	pen.setColor(Qt::black);
 	painter->setPen(pen);
@@ -104,7 +117,7 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 		height += leading;
 		line.setPosition(QPointF(0, y+height));
 	title.endLayout();
-	title.draw(painter,QPoint(artistLineWidth ,h/3));
+	title.draw(painter,QPoint(drawTextFromX + artistLineWidth ,h/3));
 	int durationLineWidth = 5 * w / 100;
 
 	QTextLayout durationText;
@@ -116,7 +129,7 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 		height += leading;
 		line.setPosition(QPointF(0, y+height));
 	durationText.endLayout();
-	durationText.draw(painter,QPoint(artistLineWidth + titleLineWidth ,h/3));
+	durationText.draw(painter,QPoint(drawTextFromX + artistLineWidth + titleLineWidth ,h/3));
 
 	int statusLineWidth = 20 * w / 100;
 
@@ -182,7 +195,7 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 			height += leading;
 			line.setPosition(QPointF(0, y+height));
 		statusText.endLayout();
-		statusText.draw(painter, QPoint(artistLineWidth + titleLineWidth + statusLineWidth, h/3));
+		statusText.draw(painter, QPoint( artistLineWidth + titleLineWidth + statusLineWidth, h/3));
 
 	}
 

@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	//setup model and delerator for audio list view
 	ui->listView->setItemDelegate(m_pAudioItemDelegate);
 	ui->listView->setModel(m_pAudioModel);
+	ui->listView->setSelectionBehavior(QListView::SelectRows);
 
 	//move vindow to center top
 	int desktopWidth = QApplication::desktop()->width();

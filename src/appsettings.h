@@ -26,8 +26,8 @@ private:
 	QCoreApplication *m_pApp;
 	AppCookieJar *m_pCookieJar;
 	QFile *m_pCookieFile;
-
 	void setCookieFile(QString path);
+
 public:
 	AppSettings(QObject *parent = 0);
 	~AppSettings();
@@ -35,13 +35,10 @@ public:
 	void load();
 	void setValue(const QString & key, const QVariant & value );
 	QVariant value ( const QString & key, const QVariant & defaultValue = QVariant() ) const;
-
 	AppCookieJar* cookieJar() const;
 	void clear();
-
 	void save();
 	void restore();
-
 };
 
 #endif // MYSETTINGS_H

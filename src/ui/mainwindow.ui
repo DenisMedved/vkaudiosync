@@ -192,7 +192,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QListView" name="listView">
+       <widget class="AudioListView" name="listView">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
           <horstretch>1</horstretch>
@@ -213,6 +213,13 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>AudioListView</class>
+   <extends>QListView</extends>
+   <header>audiolistview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../icons.qrc"/>
  </resources>

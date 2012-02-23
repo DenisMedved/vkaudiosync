@@ -41,7 +41,6 @@ namespace VK {
 class VKService : public QObject
 {
 	Q_OBJECT
-
 private:
 	QString m_appId;
 	QString m_uid;
@@ -75,8 +74,6 @@ public:
 	void logout();
 	void setCookieJar(QNetworkCookieJar *cookieJar);
 
-public slots:
-
 signals:
 	void loginSuccess(const QByteArray &);
 	void audioListLoaded(const QByteArray &);
@@ -84,4 +81,5 @@ signals:
 	void loginUnsuccess();
 };
 }
+
 #endif // VKMODEL_H
