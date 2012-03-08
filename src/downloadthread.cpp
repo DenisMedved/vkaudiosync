@@ -59,7 +59,8 @@ void DownloadThread::run()
 
 			if (reply->error() == QNetworkReply::NoError && !m_needQuit) {
 				m_file->write(reply->readAll());
-				m_file->rename(QString(m_dir->path() + QDir::separator() +m_name));
+				if (!m_file->rename(QString(m_dir->path() + QDir::separator() + m_name)))
+					qDebug() << "rename error ";
 				m_file->close();
 				m_pAudioListModel->setData(m_target,QVariant(AudioItem::STATUS_SYNCHRONIZED),AudioListModel::ROLE_STATUS);
 			} else {
@@ -71,6 +72,7 @@ void DownloadThread::run()
 	delete networkManager;
 
 	exec();
+	quit();
 }
 
 void DownloadThread::setDir(QDir *dir)
@@ -116,4 +118,6 @@ void DownloadThread::slotFinished()
 void DownloadThread::stopSync()
 {
 	m_needQuit = true;
+	if (m_queue.isEmpty())
+		quit();
 }
