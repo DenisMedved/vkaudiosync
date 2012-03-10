@@ -14,11 +14,9 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 QT += \
-	qt \
 	webkit \
 	network \
-	xml \
-	thread
+        xml
 
 TEMPLATE = app
 
@@ -91,18 +89,4 @@ unix {
 
 	INSTALLS += target applications icons data
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

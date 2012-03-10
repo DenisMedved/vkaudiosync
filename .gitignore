@@ -6,8 +6,6 @@ ui_*.h
 build/
 bin/
 *.log
-*.exe
-*.dll
 PROJECT
 Thumbs.db
 desktop.ini
