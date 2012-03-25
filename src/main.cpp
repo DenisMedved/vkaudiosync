@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 
 	QApplication::setApplicationName("VKAudioSync");
-	QApplication::setOrganizationName("Denis Medved"); //no organization
-	QApplication::setApplicationVersion("0.06a");
+	QApplication::setOrganizationName("Denis Medved");
+	QApplication::setApplicationVersion("0.07b");
 	QApplication::setOrganizationDomain("https://bitbucket.org/denis_medved/vkaudiosync");
 
 	MainWindow w;

@@ -69,15 +69,15 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 
 	qreal height = 0;
 
-	Qt::CheckState checkState;
-
+	QString imageSrc;
 	if (status == AudioItem::STATUS_NOTSYNCHNIZE) {
-		checkState = Qt::Unchecked;
+		imageSrc = ":/famfam/icons/cross.png";
+	} else if (status == AudioItem::STATUS_SYNCHRONIZED) {
+		imageSrc = ":/famfam/icons/tick.png";
 	} else {
-		checkState = Qt::Checked;
+		imageSrc = ":/famfam/icons/arrow_refresh.png";
 	}
-
-	drawCheck (painter, option,QRect(x+5,y + h/4,20, 20) ,  checkState );
+	painter->drawImage(x+5, y+h/3, QImage(imageSrc));
 
 	int drawTextFromX = 30;
 
