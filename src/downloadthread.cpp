@@ -71,7 +71,6 @@ void DownloadThread::run()
 	delete m_file;
 	delete networkManager;
 
-	exec();
 	quit();
 }
 

@@ -8,10 +8,7 @@ AudioListView::AudioListView(QWidget *parent /*= 0*/) :
 
 void AudioListView::mouseReleaseEvent ( QMouseEvent * e )
 {
-	QListView::mouseReleaseEvent(e);
-
 	QModelIndex index = indexAt(e->pos());
-
 	if (index.isValid()) {
 		unsigned short status = model()->data(index,AudioListModel::ROLE_STATUS).toInt();
 		if (status != AudioItem::STATUS_SYNCHRONIZED) {
@@ -23,4 +20,5 @@ void AudioListView::mouseReleaseEvent ( QMouseEvent * e )
 		}
 		model()->setData(index,QVariant(status),AudioListModel::ROLE_STATUS);
 	}
+	QListView::mouseReleaseEvent(e);
 }
