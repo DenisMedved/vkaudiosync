@@ -1,3 +1,4 @@
+
 #include "downloadthread.h"
 
 
@@ -31,7 +32,6 @@ void DownloadThread::run()
 
 		if (m_needQuit)
 			exit();
-
 
 		m_target = dequeue();
 		m_name = QString("%1 - %2.mp3")

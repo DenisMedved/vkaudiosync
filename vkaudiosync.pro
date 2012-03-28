@@ -16,11 +16,11 @@
 QT += \
 	webkit \
 	network \
-		xml
+	xml
 
 TEMPLATE = app
 
-TARGET = vkaudiosync.bin
+TARGET = vkaudiosync
 
 DESTDIR = bin
 
