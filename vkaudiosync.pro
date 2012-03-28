@@ -90,3 +90,5 @@ unix {
 	INSTALLS += target applications icons data
 }
 
+
+

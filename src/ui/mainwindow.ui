@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>631</width>
-    <height>375</height>
+    <height>424</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -116,29 +116,56 @@
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="allowUpload">
-           <property name="enabled">
-            <bool>false</bool>
+          <widget class="QComboBox" name="comboBox">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
            </property>
-           <property name="text">
-            <string>Allow upload</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="autoLogin">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>Auto login</string>
-           </property>
+           <item>
+            <property name="text">
+             <string notr="true">English</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../icons.qrc">
+              <normaloff>:/famfam/icons/us.png</normaloff>:/famfam/icons/us.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">Русский</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../icons.qrc">
+              <normaloff>:/famfam/icons/ru.png</normaloff>:/famfam/icons/ru.png</iconset>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Украинский</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../icons.qrc">
+              <normaloff>:/famfam/icons/ua.png</normaloff>:/famfam/icons/ua.png</iconset>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="loginButton">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Login</string>
+            <string>Login...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../icons.qrc">
+             <normaloff>:/famfam/icons/key_go.png</normaloff>:/famfam/icons/key_go.png</iconset>
            </property>
           </widget>
          </item>
@@ -147,8 +174,18 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Choose dir</string>
+            <string>Choose dir...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../icons.qrc">
+             <normaloff>:/famfam/icons/folder_go.png</normaloff>:/famfam/icons/folder_go.png</iconset>
            </property>
           </widget>
          </item>
@@ -156,6 +193,12 @@
           <widget class="QPushButton" name="syncButton">
            <property name="enabled">
             <bool>false</bool>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
            </property>
            <property name="text">
             <string>Synchronize</string>
@@ -168,13 +211,47 @@
          </item>
          <item>
           <widget class="QPushButton" name="aboutButton">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
            <property name="text">
-            <string>About</string>
+            <string>About...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../icons.qrc">
+             <normaloff>:/famfam/icons/book.png</normaloff>:/famfam/icons/book.png</iconset>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="exitButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="baseSize">
+            <size>
+             <width>0</width>
+             <height>7</height>
+            </size>
+           </property>
            <property name="text">
             <string>Exit</string>
            </property>

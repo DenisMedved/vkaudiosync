@@ -57,13 +57,6 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	m_pSynchService->setDir(m_pDir);
 
 	// connects
-	// UI
-	connect(ui->allowUpload, SIGNAL(clicked(bool)),
-			this,SLOT(slotAllowUpload(bool))
-	);
-	connect(ui->autoLogin, SIGNAL(clicked(bool)),
-			this,SLOT(slotAutoLogin(bool))
-	);
 	connect(ui->loginButton, SIGNAL(clicked()),
 				this,SLOT(slotLoginLogaut())
 	);
@@ -119,9 +112,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::restore()
 {
-	ui->allowUpload->setChecked(m_pAppSettings->value("/general/upload").toBool());
-	ui->autoLogin->setChecked(m_pAppSettings->value("/general/autologin").toBool());
-
 	if (ui->autoLogin->isChecked()) {
 		m_pVkService->login();
 	} else {
@@ -139,16 +129,6 @@ void MainWindow::restore()
 void MainWindow::runSynch()
 {
 	m_pSynchService->synchronize();
-}
-
-void MainWindow::slotAllowUpload(bool allow)
-{
-	m_pAppSettings->setValue("/general/upload", allow);
-}
-
-void MainWindow::slotAutoLogin(bool allow)
-{
-	m_pAppSettings->setValue("/general/autologin", allow);
 }
 
 void MainWindow::slotLoginLogaut()

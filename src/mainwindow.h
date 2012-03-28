@@ -71,8 +71,6 @@ public:
 	void restore();
 
  public slots:
-	void slotAllowUpload(bool allow);
-	void slotAutoLogin(bool allow);
 	void slotLoginLogaut();
 	void slotChooseDir();
 	void slotStartSynch();
