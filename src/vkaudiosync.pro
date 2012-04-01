@@ -29,63 +29,63 @@ MOC_DIR = build
 OBJECTS_DIR = build
 
 TRANSLATIONS += \
-	src/translations/main_en.ts \
-	src/translations/main_ru.ts
+        translations/main_en.ts \
+        translations/main_ru.ts
 
 RESOURCES += \
-	src/icons.qrc
+        icons.qrc
 
 HEADERS += \
-	src/audioitemdelegate.h \
-	src/audiolistmodel.h \
-	src/mainwindow.h \
-	src/appsettings.h \
-	src/synchservice.h \
-	src/downloadthread.h \
-	src/audioitem.cpp \
-	src/vk/vkservice.h \
-	src/profilemodel.h \
-	src/about.h \
-	src/appcookiejar.h \
-	src/audiolistview.h
+        audioitemdelegate.h \
+        audiolistmodel.h \
+        mainwindow.h \
+        appsettings.h \
+        synchservice.h \
+        downloadthread.h \
+        audioitem.cpp \
+        vk/vkservice.h \
+        profilemodel.h \
+        about.h \
+        appcookiejar.h \
+        audiolistview.h
 
 FORMS += \
-	src/ui/mainwindow.ui \
-	src/ui/about.ui
+        ui/mainwindow.ui \
+        ui/about.ui
 
 SOURCES += \
-	src/audioitemdelegate.cpp \
-	src/audiolistmodel.cpp \
-	src/main.cpp \
-	src/mainwindow.cpp \
-	src/appsettings.cpp \
-	src/synchservice.cpp \
-	src/downloadthread.cpp \
-	src/audioitem.cpp \
-	src/vk/vkservice.cpp \
-	src/profilemodel.cpp \
-	src/about.cpp \
-	src/appcookiejar.cpp \
-	src/audiolistview.cpp
+        audioitemdelegate.cpp \
+        audiolistmodel.cpp \
+        main.cpp \
+        mainwindow.cpp \
+        appsettings.cpp \
+        synchservice.cpp \
+        downloadthread.cpp \
+        audioitem.cpp \
+        vk/vkservice.cpp \
+        profilemodel.cpp \
+        about.cpp \
+        appcookiejar.cpp \
+        audiolistview.cpp
 
 
 OTHER_FILES += \
-	src/share/applications/vkaudiosync.desktop \
-	README \
-	AUTHORS \
-	.gitignore
+        share/applications/vkaudiosync.desktop \
+        ../README \
+        ../AUTHORS \
+        ../.gitignore
 
 unix {
 	target.path = /usr/bin
 
 	applications.path = /usr/share/applications
-	applications.files = src/share/applications/vkaudiosync.desktop
+        applications.files = share/applications/vkaudiosync.desktop
 
 	icons.path = /usr/share/icons/hicolor/64x64/apps
-	icons.files = src/share/icons/hicolor/64x64/apps/*
+        icons.files = share/icons/hicolor/64x64/apps/*
 
 	data.path = /usr/share/vkaudiosync
-	data.files = src/share/vkaudiosync/*
+        data.files = share/vkaudiosync/*
 
 	INSTALLS += target applications icons data
 }

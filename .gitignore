@@ -11,5 +11,6 @@ Thumbs.db
 desktop.ini
 .DS_Store
 *~
+Makefile*
 Makefile
-#VK_APPLICATION_ID.txt
+object_script*

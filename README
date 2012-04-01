@@ -22,7 +22,12 @@ Contact:
 Issues:
 	https://bitbucket.org/denis_medved/vkaudiosync/issues
 
+Depend:
+        qt qt-webmit openssl
+
 Build:
+        Change directory:
+                $ cd src
 	Build Makefile:
 		$ qmake
 
