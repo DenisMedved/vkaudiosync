@@ -112,12 +112,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::restore()
 {
+/*
 	if (ui->autoLogin->isChecked()) {
 		m_pVkService->login();
 	} else {
 		m_pAppSettings->cookieJar()->clear();
 	}
-
+*/
 	QString dir = m_pAppSettings->value("/general/dir").toString();
 	if (!dir.isEmpty() && QFile::exists(dir)) {
 		m_pDir->setPath(dir);
