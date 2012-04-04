@@ -20,6 +20,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTranslator>
+
 #include "appsettings.h"
 #include "vk/vkservice.h"
 #include "synchservice.h"
@@ -35,6 +37,7 @@
 #include <QFileDialog>
 #include <QPixmap>
 #include <QImage>
+#include <QLocale>
 
 namespace Ui
 {
@@ -61,6 +64,7 @@ private:
 	SynchService *m_pSynchService;
 	ProfileModel *m_pProfileModel;
 	QDir *m_pDir;
+	QTranslator *m_pTranslator;
 	bool m_logined;
 
 	void runSynch();
@@ -83,6 +87,7 @@ public:
 	void slotLoginUnsuccess();
 	void slotPhotoLoaded();
 	void slotPhotoMediumLoaded();
+	void slotLanguageChanged(QString text);
 };
 
 

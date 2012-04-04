@@ -39,6 +39,10 @@ public:
 	void clear();
 	void save();
 	void restore();
+
+	QDir* applicationPath();
+	QDir* userPath();
+	QString translationPath();
 };
 
 #endif // MYSETTINGS_H

@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	m_pAudioItemDelegate = new AudioItemDelegate(this);
 	m_pSynchService = new SynchService(this);
 	m_pProfileModel = new ProfileModel;
+	m_pTranslator = new QTranslator(this);
 
 	//m_pVkService->setCookieJar(m_pAppSettings->cookieJar());
 	m_pSynchService->setAudioModel(m_pAudioModel);
@@ -66,16 +67,14 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	connect(ui->syncButton, SIGNAL(clicked()),
 			this,SLOT(slotStartSynch())
 	);
-	/*
-	connect(ui->settingsButton, SIGNAL(clicked()),
-			this,SLOT(slotSettings())
-	);
-	*/
 	connect(ui->aboutButton,SIGNAL(clicked()),
 			this,SLOT(slotAbout())
 	);
 	connect(ui->exitButton,SIGNAL(clicked()),
 			this,SLOT(slotExit())
+	);
+	connect(ui->langList,SIGNAL(currentIndexChanged(QString)),
+			this, SLOT(slotLanguageChanged(QString))
 	);
 	//VK SERVICE
 	connect(m_pVkService,SIGNAL(loginSuccess(const QByteArray)),
@@ -108,17 +107,16 @@ MainWindow::~MainWindow()
 	delete m_pAudioItemDelegate;
 	delete m_pSynchService;
 	delete m_pProfileModel;
+	delete m_pTranslator;
 }
 
 void MainWindow::restore()
 {
-/*
-	if (ui->autoLogin->isChecked()) {
-		m_pVkService->login();
-	} else {
-		m_pAppSettings->cookieJar()->clear();
-	}
-*/
+	QString language = m_pAppSettings->value("/general/language",QVariant("Русский")).toString();
+	int languageIndex = ui->langList->findText(language);
+	if (languageIndex != -1)
+		ui->langList->setCurrentIndex(languageIndex);
+
 	QString dir = m_pAppSettings->value("/general/dir").toString();
 	if (!dir.isEmpty() && QFile::exists(dir)) {
 		m_pDir->setPath(dir);
@@ -228,5 +226,28 @@ void MainWindow::slotPhotoMediumLoaded()
 	QPixmap pixmap(ui->userpic->width(),ui->userpic->height());
 	if (pixmap.convertFromImage(m_pProfileModel->photoMedium()) ) {
 		ui->userpic->setPixmap(pixmap);
+	}
+}
+
+void MainWindow::slotLanguageChanged(QString /*text*/)
+{
+	m_pAppSettings->setValue("/general/language",ui->langList->currentText());
+	QString translationPath = m_pAppSettings->translationPath();
+	if (QFile::exists(translationPath)) {
+		QString language = ui->langList->currentText();
+		QString filename;
+		if (language == "Русский") {
+			filename = "main_ru.qm";
+		} else if (language == "English") {
+			filename = "main_en.qm";
+		} else {
+			//TODO: Украинский
+			filename = "main_ru.qm";
+		}
+		QString filePath = translationPath + QDir::separator() + filename;
+		if (QFile::exists(filePath)) {
+			m_pTranslator->load(filename,translationPath);
+			QApplication::installTranslator(m_pTranslator);
+		}
 	}
 }

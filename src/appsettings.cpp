@@ -43,7 +43,7 @@ AppSettings::~AppSettings()
 void AppSettings::load()
 {
 #ifdef Q_WS_WIN
-    m_useConfig = false;
+	m_useConfig = false;
 #else
 	QFile file;
 	QString path;
@@ -107,20 +107,31 @@ void AppSettings::clear()
 
 void AppSettings::save()
 {
-	if (value("/general/autologin").toBool()) {
-		m_pCookieJar->save();
-	}
+
 }
 
 void AppSettings::restore()
 {
-	if (value("/general/autologin").toBool()) {
-		m_pCookieJar->restore();
-	}
+
 }
 
 void AppSettings::setCookieFile(QString path)
 {
 	m_pCookieFile->setFileName(path);
 	m_pCookieJar->setFile(m_pCookieFile);
+}
+
+QDir* AppSettings::applicationPath()
+{
+	return m_pAppDir;
+}
+
+QDir* AppSettings::userPath()
+{
+	return m_pUserDir;
+}
+
+QString AppSettings::translationPath()
+{
+	return m_pAppDir->path() + QDir::separator() + "translations";
 }
