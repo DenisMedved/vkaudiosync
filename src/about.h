@@ -20,6 +20,7 @@ public:
 	explicit About(QWidget *parent = 0);
 	~About();
 
+	void retranslateUi();
 };
 
 #endif // ABOUT_H

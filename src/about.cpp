@@ -10,3 +10,8 @@ About::~About()
 {
 	delete ui;
 }
+
+void About::retranslateUi()
+{
+	ui->retranslateUi(this);
+}

@@ -21,41 +21,22 @@
 MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	QMainWindow(parent)
 {
-	//setup ui
-	ui = new Ui::MainWindow;
-	ui->setupUi(this);
+	m_pTranslator = new QTranslator(this);
+	QApplication::instance()->installTranslator(m_pTranslator);
 
 	m_pAbout = new About(this);
 
-	//setup model delegate serice and settings
 	m_pAppSettings = new AppSettings(this);
 	m_pVkService = new VK::VKService(this);
 	m_pAudioModel = new AudioListModel(this);
 	m_pAudioItemDelegate = new AudioItemDelegate(this);
 	m_pSynchService = new SynchService(this);
 	m_pProfileModel = new ProfileModel;
-	m_pTranslator = new QTranslator(this);
 
-	//m_pVkService->setCookieJar(m_pAppSettings->cookieJar());
 	m_pSynchService->setAudioModel(m_pAudioModel);
 
-	//setup model and delerator for audio list view
-	ui->listView->setItemDelegate(m_pAudioItemDelegate);
-	ui->listView->setModel(m_pAudioModel);
-	ui->listView->setSelectionBehavior(QListView::SelectRows);
-
-	//move vindow to center top
-	int desktopWidth = QApplication::desktop()->width();
-	int desktoHeight = QApplication::desktop()->height();
-	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
-
-	//load configuration file and create if not exist
-	m_pAppSettings->load();
-
-	m_logined = false;
-
-	m_pDir = new QDir;
-	m_pSynchService->setDir(m_pDir);
+	ui = new Ui::MainWindow;
+	ui->setupUi(this);
 
 	// connects
 	connect(ui->loginButton, SIGNAL(clicked()),
@@ -94,7 +75,23 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 			this, SLOT(slotPhotoMediumLoaded())
 	);
 
+	ui->listView->setItemDelegate(m_pAudioItemDelegate);
+	ui->listView->setModel(m_pAudioModel);
+	ui->listView->setSelectionBehavior(QListView::SelectRows);
+
+	int desktopWidth = QApplication::desktop()->width();
+	int desktoHeight = QApplication::desktop()->height();
+	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
+
+	m_pAppSettings->load();
+
+	m_logined = false;
+
+	m_pDir = new QDir;
+	m_pSynchService->setDir(m_pDir);
+
 	restore();
+
 }
 
 MainWindow::~MainWindow()
@@ -184,7 +181,7 @@ void MainWindow::slotExit()
 {
 	ui->exitButton->setDisabled(true);
 	m_pSynchService->stopSync();
-	QApplication::exit();
+	QApplication::instance()->exit();
 }
 
 void MainWindow::slotLoginSuccess(const QByteArray &/*xml*/)
@@ -236,18 +233,26 @@ void MainWindow::slotLanguageChanged(QString /*text*/)
 	if (QFile::exists(translationPath)) {
 		QString language = ui->langList->currentText();
 		QString filename;
+
 		if (language == "Русский") {
 			filename = "main_ru.qm";
 		} else if (language == "English") {
 			filename = "main_en.qm";
 		} else {
-			//TODO: Украинский
 			filename = "main_ru.qm";
 		}
+
 		QString filePath = translationPath + QDir::separator() + filename;
+
 		if (QFile::exists(filePath)) {
 			m_pTranslator->load(filename,translationPath);
-			QApplication::installTranslator(m_pTranslator);
+			retranslateUi();
 		}
 	}
+}
+
+void MainWindow::retranslateUi()
+{
+	ui->retranslateUi(this);
+	m_pAbout->retranslateUi();
 }
