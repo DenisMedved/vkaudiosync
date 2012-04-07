@@ -18,7 +18,6 @@
 
 #include "audioitem.h"
 
-
 AudioItem::AudioItem()
 {
 	m_status = STATUS_UNDEFINED;
