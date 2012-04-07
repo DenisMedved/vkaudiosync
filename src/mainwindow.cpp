@@ -226,8 +226,10 @@ void MainWindow::slotPhotoMediumLoaded()
 	}
 }
 
-void MainWindow::slotLanguageChanged(QString /*text*/)
+void MainWindow::slotLanguageChanged(QString text)
 {
+	Q_UNUSED(text);
+
 	m_pAppSettings->setValue("/general/language",ui->langList->currentText());
 	QString translationPath = m_pAppSettings->translationPath();
 	if (QFile::exists(translationPath)) {

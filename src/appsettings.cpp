@@ -85,7 +85,6 @@ void AppSettings::setValue(const QString & key, const QVariant & value )
 		m_pSettings->setValue(key, value);
 	}
 }
-
 QVariant AppSettings::value ( const QString & key, const QVariant & defaultValue/* = QVariant() */) const
 {
 	if (m_useConfig) {
@@ -133,5 +132,10 @@ QDir* AppSettings::userPath()
 
 QString AppSettings::translationPath()
 {
+#ifdef Q_WS_X11
+	if (QCoreApplication::instance()->applicationDirPath() != "/usr/bin")
+		return "../share/vkaudiosync/translations";
+#endif
+
 	return m_pAppDir->path() + QDir::separator() + "translations";
 }
