@@ -133,7 +133,7 @@ void AudioItemDelegate::paint ( QPainter * painter, const QStyleOptionViewItem &
 
 	int statusLineWidth = 20 * w / 100;
 
-	if (progress > 0 && progress < 100) {
+	if (progress > 0 && progress < 100 && status != AudioItem::STATUS_SYNCHRONIZED) {
 		unsigned int progerssWidth = 20 * w / 100;
 		unsigned int progressHeight = h/2;
 		QRect progressBarRect(w - progerssWidth - 15 ,
