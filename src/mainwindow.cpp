@@ -67,6 +67,12 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	connect(m_pVkService,SIGNAL(profileLoaded(const QByteArray)),
 			this,SLOT(slotProfileLoaded(QByteArray))
 	);
+	connect(m_pVkService,SIGNAL(opened()),
+			this,SLOT(slotAuthWindowOpened())
+	);
+	connect(m_pVkService,SIGNAL(closed()),
+			this,SLOT(slotAuthWindowClosed())
+	);
 	connect(m_pVkService,SIGNAL(loginUnsuccess()),
 			this,SLOT(slotLoginUnsuccess())
 	);
@@ -257,4 +263,14 @@ void MainWindow::retranslateUi()
 {
 	ui->retranslateUi(this);
 	m_pAbout->retranslateUi();
+}
+
+void MainWindow::slotAuthWindowOpened()
+{
+	ui->loginButton->setDisabled(true);
+}
+
+void MainWindow::slotAuthWindowClosed()
+{
+	ui->loginButton->setDisabled(false);
 }

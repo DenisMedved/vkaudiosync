@@ -793,8 +793,8 @@ Public License instead of this License.  But first, please read
        <widget class="QPushButton" name="close">
         <property name="minimumSize">
          <size>
-          <width>105</width>
-          <height>36</height>
+          <width>93</width>
+          <height>30</height>
          </size>
         </property>
         <property name="baseSize">

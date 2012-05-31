@@ -75,6 +75,8 @@ public:
 	void setCookieJar(QNetworkCookieJar *cookieJar);
 
 signals:
+	void opened();
+	void closed();
 	void loginSuccess(const QByteArray &);
 	void audioListLoaded(const QByteArray &);
 	void profileLoaded(const QByteArray &);

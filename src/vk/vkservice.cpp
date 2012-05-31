@@ -61,6 +61,7 @@ void VKService::setApplicationId(QString appId)
 void VKService::login()
 {
 	m_webView->load(m_authUrl);
+	emit opened();
 }
 
 void VKService::loadAudioList()
@@ -121,6 +122,7 @@ void VKService::slotUrlChanged(const QUrl &url )
 		m_errorHandled = true;
 	}
 	m_webView->close();
+	emit closed();
 }
 
 void VKService::slotLoadFinished(bool ok)
@@ -135,6 +137,8 @@ void VKService::slotLoadFinished(bool ok)
 	} else {
 		m_webView->close();
 	}
+
+	emit closed(); //TODO: not realy closed
 }
 
 bool VKService::isLogined() const
@@ -144,7 +148,7 @@ bool VKService::isLogined() const
 
 void VKService::logout()
 {
-	//m_webView->page()->networkAccessManager()->setCookieJar(m_pCookieJar);
+	//TODO: clear cookies
 }
 
 void VKService::setCookieJar(QNetworkCookieJar *cookieJar)

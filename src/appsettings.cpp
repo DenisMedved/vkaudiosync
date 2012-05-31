@@ -59,9 +59,6 @@ AppSettings::~AppSettings()
 
 void AppSettings::load()
 {
-#ifdef Q_WS_WIN
-	m_useConfig = false;
-#else
 	QFile file;
 	QString path;
 
@@ -93,7 +90,6 @@ void AppSettings::load()
 	}
 
 	restore();
-#endif
 }
 
 void AppSettings::setValue(const QString & key, const QVariant & value )
@@ -153,6 +149,6 @@ QString AppSettings::translationPath()
 	if (QCoreApplication::instance()->applicationDirPath() != "/usr/bin")
 		return "../share/vkaudiosync/translations";
 #endif
-
 	return m_pAppDir->path() + QDir::separator() + "translations";
+
 }
