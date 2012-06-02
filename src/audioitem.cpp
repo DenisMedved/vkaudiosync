@@ -46,6 +46,7 @@ QString AudioItem::owner() const
 void AudioItem::setOwner(QString newOwner)
 {
 	m_owner = newOwner;
+    filterStr(&m_owner);
 }
 
 QString AudioItem::artist() const
@@ -56,6 +57,7 @@ QString AudioItem::artist() const
 void AudioItem::setArtist(QString newArtist)
 {
 	m_artist = newArtist;
+    filterStr(&m_artist);
 }
 
 QString AudioItem::title() const
@@ -66,6 +68,7 @@ QString AudioItem::title() const
 void AudioItem::setTitle(QString newTitle)
 {
 	m_title = newTitle;
+    filterStr(&m_title);
 }
 
 unsigned short AudioItem::duration() const
@@ -117,3 +120,11 @@ void AudioItem::setProgress(unsigned short progress)
 {
 	m_progress = progress;
 }
+
+void AudioItem::filterStr(QString *pName)
+{
+    QString str = ":.\\/";
+    for (QString::Iterator i = str.begin(); i != str.end(); i++)
+        pName->replace(*i,QString());
+}
+

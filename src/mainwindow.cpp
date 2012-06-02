@@ -38,6 +38,8 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	ui = new Ui::MainWindow;
 	ui->setupUi(this);
 
+    ui->syncButton->setDisabled(true);
+
 	// connects
 	connect(ui->loginButton, SIGNAL(clicked()),
 				this,SLOT(slotLoginLogaut())
@@ -115,17 +117,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::restore()
 {
-	QString language = m_pAppSettings->value("/general/language",QVariant("Русский")).toString();
+	QString language = m_pAppSettings->value("/general/language",QVariant("� усский")).toString();
 	int languageIndex = ui->langList->findText(language);
 	if (languageIndex != -1)
 		ui->langList->setCurrentIndex(languageIndex);
 
 	QString dir = m_pAppSettings->value("/general/dir").toString();
-	if (!dir.isEmpty() && QFile::exists(dir)) {
+    /*if (!dir.isEmpty() && QFile::exists(dir)) {
 		m_pDir->setPath(dir);
-		ui->syncButton->setDisabled(false);
+        ui->syncButton->setDisabled(false);
 		m_pSynchService->setStatuses();
-	}
+    }*/
 }
 
 void MainWindow::runSynch()
@@ -242,7 +244,7 @@ void MainWindow::slotLanguageChanged(QString text)
 		QString language = ui->langList->currentText();
 		QString filename;
 
-		if (language == "Русский") {
+		if (language == "� усский") {
 			filename = "main_ru.qm";
 		} else if (language == "English") {
 			filename = "main_en.qm";

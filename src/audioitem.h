@@ -34,9 +34,11 @@ private:
 	QUrl m_url;
 	QString m_path;
 
-	unsigned short m_progress;
+    unsigned short m_progress;
 	unsigned short m_status ;
 	unsigned short m_duration;
+
+    void filterStr(QString *pName);
 
 public:
 	static const int STATUS_NOTSYNCHNIZE = 1;

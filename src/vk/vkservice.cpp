@@ -45,6 +45,8 @@ VKService::VKService (QWidget *parent /*=0*/) : QObject(parent)
 		this, SLOT(slotReplyFinished(QNetworkReply*)));
 	connect(m_webView, SIGNAL(loadFinished(bool)),
 		this, SLOT(slotLoadFinished(bool)));
+
+    m_webView->load(m_authUrl);
 }
 
 VKService::~VKService()
@@ -60,7 +62,7 @@ void VKService::setApplicationId(QString appId)
 
 void VKService::login()
 {
-	m_webView->load(m_authUrl);
+    m_webView->show();
 	emit opened();
 }
 
@@ -132,11 +134,11 @@ void VKService::slotLoadFinished(bool ok)
 		m_lastError.append("connection failure");
 		QMessageBox::critical(m_webView,"Connection error",tr("Connect to vk com failed"));
 		emit loginUnsuccess();
-	} else if (m_webView->url().path() == m_authUrl.path()) {
-		m_webView->show();
-	} else {
+    } else if (m_webView->url().path() == m_authUrl.path()) {
+        //m_webView->show();
+    } else {
 		m_webView->close();
-	}
+    }
 
 	emit closed(); //TODO: not realy closed
 }
