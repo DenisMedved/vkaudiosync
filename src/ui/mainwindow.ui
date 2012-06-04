@@ -116,6 +116,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QCheckBox" name="remember">
+           <property name="text">
+            <string>Remember</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QComboBox" name="langList">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">

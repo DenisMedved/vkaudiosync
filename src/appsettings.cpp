@@ -24,7 +24,7 @@ AppSettings::AppSettings(QObject *parent /*=0*/) : QObject(parent)
 
 	m_pUserDir = new QDir;
 	m_pAppDir = new QDir;
-	m_pSettings = new QSettings;
+    m_pSettings = new QSettings(QSettings::IniFormat, QSettings::UserScope, QCoreApplication::organizationName(), QCoreApplication::applicationName(), this);
 	m_pApp = QCoreApplication::instance();
 	m_pCookieJar = new AppCookieJar(this);
 	m_pCookieFile = new QFile(this);
@@ -65,12 +65,14 @@ void AppSettings::load()
 	if (m_pUserDir->exists() && m_pUserDir->isReadable()) {
 		path = m_pUserDir->absolutePath() + QDir::separator() + "settings.ini";
 		file.setFileName(path);
+
 		if (file.exists() && file.isWritable()) {
 			m_pSettings->setPath(QSettings::IniFormat,QSettings::UserScope, path);
 			m_useConfig = true;
 		} else if (file.open(QIODevice::ReadWrite)) {
 			file.close();
 			m_pSettings->setPath(QSettings::IniFormat,QSettings::UserScope, path);
+            m_pSettings->setUserIniPath(path);
 			m_useConfig = true;
 		} else {
 			m_useConfig = false;
@@ -112,19 +114,27 @@ AppCookieJar* AppSettings::cookieJar() const
 	return m_pCookieJar;
 }
 
+void AppSettings::clearCookies()
+{
+    m_pCookieJar->clear();
+}
+
 void AppSettings::clear()
 {
-
+    //--
 }
 
 void AppSettings::save()
 {
-
+    m_pCookieJar->save();
+    if (m_useConfig) {
+        m_pSettings->sync();
+    }
 }
 
 void AppSettings::restore()
 {
-
+    m_pCookieJar->restore();
 }
 
 void AppSettings::setCookieFile(QString path)

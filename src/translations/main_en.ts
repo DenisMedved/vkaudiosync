@@ -6,15 +6,21 @@
     <message>
         <location filename="../ui/about.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>About</translatorcomment>
+        <translation>About</translation>
     </message>
     <message>
-        <location filename="../ui/about.ui" line="24"/>
+        <location filename="../ui/about.ui" line="40"/>
+        <source>Version:</source>
+        <translation>Version:</translation>
+    </message>
+    <message>
+        <location filename="../ui/about.ui" line="60"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>About</translation>
     </message>
     <message>
-        <location filename="../ui/about.ui" line="30"/>
+        <location filename="../ui/about.ui" line="66"/>
         <source>VKAudioSync
 License:
 	GNU General Public License, version 3 or later
@@ -29,15 +35,15 @@ Issues:
 	https://bitbucket.org/denis_medved/vkaudiosync/issues
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../ui/about.ui" line="51"/>
+        <location filename="../ui/about.ui" line="87"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation>License</translation>
     </message>
     <message>
-        <location filename="../ui/about.ui" line="57"/>
+        <location filename="../ui/about.ui" line="93"/>
         <source> 
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
@@ -714,25 +720,25 @@ the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 &lt;http://www.gnu.org/philosophy/why-not-lgpl.html&gt;.
 </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../ui/about.ui" line="776"/>
+        <location filename="../ui/about.ui" line="812"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Close</translation>
     </message>
 </context>
 <context>
     <name>AppSettings</name>
     <message>
-        <location filename="../appsettings.cpp" line="63"/>
+        <location filename="../appsettings.cpp" line="79"/>
         <source>Permision denied: Can&apos;t write </source>
-        <translation type="unfinished"></translation>
+        <translation>Permision denied: Can&apos;t write</translation>
     </message>
     <message>
-        <location filename="../appsettings.cpp" line="75"/>
+        <location filename="../appsettings.cpp" line="91"/>
         <source>Permision denied: Can&apos;t read </source>
-        <translation type="unfinished"></translation>
+        <translation>Permision denied: Can&apos;t read</translation>
     </message>
 </context>
 <context>
@@ -740,107 +746,94 @@ Public License instead of this License.  But first, please read
     <message>
         <location filename="../audioitemdelegate.cpp" line="169"/>
         <source>Need Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Need download</translation>
     </message>
     <message>
         <location filename="../audioitemdelegate.cpp" line="173"/>
         <source>Need Upload</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../audioitemdelegate.cpp" line="177"/>
         <source>Not Synchronized</source>
-        <translation type="unfinished"></translation>
+        <translation>Don&apos;t synchronize</translation>
     </message>
     <message>
         <location filename="../audioitemdelegate.cpp" line="181"/>
         <source>Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Complete</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <source>VKAudioSynch</source>
-        <translation type="obsolete">VKAudioSynch</translation>
-    </message>
-    <message>
-        <source>SELECT</source>
-        <translatorcomment>Select directory for synchronization</translatorcomment>
-        <translation type="obsolete">Select</translation>
-    </message>
-    <message>
-        <source>RUN</source>
-        <translatorcomment>Run synchronization proccess </translatorcomment>
-        <translation type="obsolete">Run</translation>
-    </message>
-    <message>
-        <source>ABOUT</source>
-        <translation type="obsolete">About</translation>
-    </message>
-    <message>
-        <source>EXIT</source>
-        <translatorcomment>Close application</translatorcomment>
-        <translation type="obsolete">Exit</translation>
-    </message>
-    <message>
         <location filename="../ui/mainwindow.ui" line="14"/>
         <source>VKAudioSync</source>
-        <translation type="unfinished"></translation>
+        <translation>VKAudioSync</translation>
+    </message>
+    <message>
+        <location filename="../ui/mainwindow.ui" line="121"/>
+        <source>Remember</source>
+        <translation>Remember me</translation>
     </message>
     <message utf8="true">
-        <location filename="../ui/mainwindow.ui" line="146"/>
+        <location filename="../ui/mainwindow.ui" line="165"/>
         <source>Украинский</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukranian</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="164"/>
+        <location filename="../ui/mainwindow.ui" line="183"/>
         <source>Login...</source>
-        <translation type="unfinished"></translation>
+        <translation>Login...</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="184"/>
+        <location filename="../ui/mainwindow.ui" line="203"/>
         <source>Choose dir...</source>
-        <translation type="unfinished"></translation>
+        <translation>Choose dir...</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="204"/>
+        <location filename="../ui/mainwindow.ui" line="223"/>
         <source>Synchronize</source>
-        <translation type="unfinished"></translation>
+        <translation>Download</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="221"/>
+        <location filename="../ui/mainwindow.ui" line="240"/>
         <source>About...</source>
-        <translation type="unfinished"></translation>
+        <translation>About...</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="256"/>
+        <location filename="../ui/mainwindow.ui" line="275"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Exit</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="141"/>
-        <location filename="../mainwindow.cpp" line="215"/>
+        <location filename="../mainwindow.cpp" line="156"/>
+        <location filename="../mainwindow.cpp" line="232"/>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Login</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="158"/>
+        <location filename="../mainwindow.cpp" line="173"/>
         <source>Select directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Select directory</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="192"/>
+        <location filename="../mainwindow.cpp" line="208"/>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Logout</translation>
     </message>
 </context>
 <context>
     <name>VK::VKService</name>
+    <message id="true">
+        <location filename="../vk/vkservice.cpp" line="64"/>
+        <source>Wait...</source>
+        <translation>Wait...</translation>
+    </message>
     <message>
-        <location filename="../vk/vkservice.cpp" line="131"/>
+        <location filename="../vk/vkservice.cpp" line="137"/>
         <source>Connect to vk com failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Connect to vk com failed</translation>
     </message>
 </context>
 </TS>

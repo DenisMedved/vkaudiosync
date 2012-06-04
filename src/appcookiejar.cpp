@@ -19,7 +19,7 @@
 #include "appcookiejar.h"
 
 AppCookieJar::AppCookieJar(QObject *parent) :
-	QNetworkCookieJar(parent)
+    QNetworkCookieJar(parent)
 {
 	m_useFile = false;
 	m_needSave = false;
@@ -42,56 +42,199 @@ QFile* AppCookieJar::file() const
 
 QList<QNetworkCookie> AppCookieJar::cookiesForUrl ( const QUrl & url ) const
 {
-	return QNetworkCookieJar::cookiesForUrl(url);
+    if (!m_useFile)
+        return QNetworkCookieJar::cookiesForUrl(url);
+
+    bool isEncrypted = url.scheme().toLower() == "https";
+
+    QList<QNetworkCookie> list;
+    QDomElement root = m_document.firstChildElement();
+    QDateTime now = QDateTime::currentDateTime();
+    if (!root.isNull()) {
+        QDomElement element = root.firstChildElement();
+        while(!element.isNull()) {
+            QNetworkCookie cookie;
+            QDomElement xmlCookie = element.firstChildElement();
+            bool needAdd = true;
+            while (!xmlCookie.isNull()) {
+                /*
+                      <secure>0</secure>
+                      <session>0</session>
+                      <httpOnly>0</httpOnly>
+                      <domain>.vkontakte.ru</domain>
+                      <path>/</path>
+                      <name>remixchk</name>
+                      <value>5</value>
+                      <expire>2013-05-28T03:20:49Z</expire>
+                */
+
+                if ("secure" == xmlCookie.tagName()) {
+                    cookie.setSecure("1" == xmlCookie.text());
+                } else if ("httpOnly" == xmlCookie.tagName()) {
+                    cookie.setHttpOnly("1" == xmlCookie.text());
+                } else if ("domain" == xmlCookie.tagName()) {
+                    cookie.setDomain(xmlCookie.text());
+                } else if ("path" == xmlCookie.tagName()) {
+                    cookie.setPath(xmlCookie.text());
+                } else if ("name" == xmlCookie.tagName()) {
+                    cookie.setName(xmlCookie.text().toUtf8());
+                } else if ("value" == xmlCookie.tagName()) {
+                    cookie.setValue(xmlCookie.text().toUtf8());
+                } else if ("expire" == xmlCookie.tagName()) {
+                    QDateTime datetime;
+                    datetime.fromString(xmlCookie.text(),Qt::ISODate);
+                    cookie.setExpirationDate(datetime);
+                }
+                xmlCookie = xmlCookie.nextSiblingElement();
+            }
+
+            if (!isParentDomain(url.host(), cookie.domain()))
+                needAdd = false;
+            if (!isParentPath(url.path(), cookie.path()))
+                needAdd = false;
+            if (!cookie.isSessionCookie() && cookie.expirationDate() < now)
+                needAdd = false;
+            if (cookie.isSecure() && !isEncrypted)
+                needAdd = false;
+            if (needAdd)
+                list << cookie;
+
+            element = element.nextSiblingElement();
+        }
+    }
+
+    return list;
+}
+
+inline bool AppCookieJar::isParentPath(QString path, QString reference) const
+{
+    if (!path.endsWith(QLatin1Char('/')))
+        path += QLatin1Char('/');
+    if (!reference.endsWith(QLatin1Char('/')))
+        reference += QLatin1Char('/');
+    return path.startsWith(reference);
+}
+
+inline bool AppCookieJar::isParentDomain(QString domain, QString reference) const
+{
+    if (!reference.startsWith(QLatin1Char('.')))
+        return domain == reference;
+
+    return domain.endsWith(reference) || domain == reference.mid(1);
+}
+
+inline QDomText AppCookieJar::elementByText(QDomDocument &document, const QString &str)
+{
+    return document.createTextNode(str);
+}
+
+void AppCookieJar::createXmlNodeByCookie(QDomElement *parent, const QNetworkCookie *cookie, const QUrl *url)
+{
+    QDomElement child = parent->firstChildElement();
+    while (!child.isNull()) {
+        parent->removeChild(child);
+        child = parent->firstChildElement();
+    }
+
+    QDomElement secure = m_document.createElement("secure");
+    secure.appendChild(elementByText(m_document, QString(cookie->isSecure() ? "1" : "0")));
+    parent->appendChild(secure);
+
+    QDomElement session = m_document.createElement("session");
+    session.appendChild(elementByText(m_document, QString(cookie->isSessionCookie() ? "1" : "0")));
+    parent->appendChild(session);
+
+    QDomElement httpOnly = m_document.createElement("httpOnly");
+    httpOnly.appendChild(elementByText(m_document, QString(cookie->isHttpOnly() ? "1" : "0")));
+    parent->appendChild(httpOnly);
+
+    QDomElement domain = m_document.createElement("domain");
+    domain.appendChild(elementByText(m_document, cookie->domain()));
+    parent->appendChild(domain);
+
+    QDomElement path = m_document.createElement("path");
+    path.appendChild(elementByText(m_document, cookie->path()));
+    parent->appendChild(path);
+
+    QDomElement name = m_document.createElement("name");
+    name.appendChild(elementByText(m_document, cookie->name()));
+    parent->appendChild(name);
+
+    QDomElement value = m_document.createElement("value");
+    value.appendChild(elementByText(m_document, cookie->value()));
+    parent->appendChild(value);
+
+    QDomElement expire = m_document.createElement("expire");
+    expire.appendChild(elementByText(m_document,cookie->expirationDate().toString(Qt::ISODate)));
+    parent->appendChild(expire);
+
+    QDomElement urlElement = m_document.createElement("url");
+    urlElement.appendChild(elementByText(m_document, url->toString()));
+    parent->appendChild(urlElement);
 }
 
 bool AppCookieJar::setCookiesFromUrl ( const QList<QNetworkCookie> & cookieList, const QUrl & url )
 {
-	return QNetworkCookieJar::setCookiesFromUrl(cookieList, url);
+    if (!m_useFile)
+        return QNetworkCookieJar::setCookiesFromUrl(cookieList,url);
+
+    QDomElement root;
+    if (m_document.firstChild().isNull() || m_document.firstChildElement().tagName() != "cookies") {
+        root = m_document.createElement("cookies");
+        m_document.appendChild(root);
+    } else {
+        root = m_document.firstChildElement();
+    }
+
+    QNetworkCookie cookie;
+    for (int i = 0; i < cookieList.size(); i++) {
+        bool exist = false;
+        cookie = cookieList.at(i);
+
+        QDomElement element = root.firstChildElement();
+        while (!element.isNull()) {
+            QDomNodeList list = element.elementsByTagName("name");
+            if (!list.isEmpty()) {
+                QDomElement el = list.at(0).toElement();
+                if (el.text() == cookie.name()) {
+                    createXmlNodeByCookie(&element,&cookie,&url);
+                    exist = true;
+                    break;
+                }
+            }
+            element = element.nextSiblingElement();
+        }
+
+        if (!exist) {
+            QDomElement cookieElement = m_document.createElement("cookie");
+            createXmlNodeByCookie(&cookieElement, &cookie, &url);
+            root.appendChild(cookieElement);
+        }
+    }
+
+    return true;
 }
 
 void AppCookieJar::clear()
 {
-
+    m_document.clear();
 }
 
 void AppCookieJar::save()
 {
-	/*if (m_useFile && m_pFile->open(QIODevice::WriteOnly)) {
-		QTextStream stream(m_pFile);
-		QDomDocument dom;
-		dom.setContent(m_pFile);
-		QDomElement root;
-		root.setTagName("cookies");
-		for (int index = 0; index < m_cookieList.size() ; ++index ) {
-			QDomElement cookie;
-			cookie.setTagName("cookie");
-			cookie.setNodeValue(QString(m_cookieList.at(index).toRawForm()));
-			root.appendChild(cookie);
-		}
-		dom.appendChild(root);
-		dom.save(stream,0);
-		m_pFile->close();
-	}*/
+    if (!m_pFile->open(QIODevice::WriteOnly))
+        return ;
+
+    m_pFile->write(m_document.toString().toUtf8());
+    m_pFile->close();
 }
 
 void AppCookieJar::restore()
 {
-	/*if (m_useFile && m_pFile->open(QIODevice::ReadOnly)) {
-		QList<QNetworkCookie> list;
-		QDomDocument dom;
-		dom.setContent(m_pFile);
-		QDomElement root = dom.firstChild().toElement();
-		QDomElement cookie = root.firstChildElement();
-		if (root.tagName() == "cookies") {
-			while (!cookie.isNull()) {
-				QNetworkCookie c (cookie.nodeValue().toUtf8());
-				list.append(c);
-				cookie.nextSibling();
-			}
-		}
-		m_pFile->close();
-		setCookiesFromUrl(list,m_authUrl);
-	}*/
-}
+    if (!m_pFile->open(QIODevice::ReadOnly))
+        return ;
 
+    QByteArray data = m_pFile->readAll();
+    m_document.setContent(data);
+    m_pFile->close();
+}

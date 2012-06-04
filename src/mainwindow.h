@@ -89,9 +89,9 @@ public:
 	void slotPhotoLoaded();
 	void slotPhotoMediumLoaded();
 	void slotLanguageChanged(QString text);
-
 	void slotAuthWindowOpened();
 	void slotAuthWindowClosed();
+    void slotRememberCheckboxChanged(bool checked);
 };
 
 

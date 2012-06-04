@@ -55,8 +55,9 @@ public:
 	QVariant value ( const QString & key, const QVariant & defaultValue = QVariant() ) const;
 	AppCookieJar* cookieJar() const;
 	void clear();
+    void clearCookies();
 	void save();
-	void restore();
+    void restore();
 
 	QDir* applicationPath();
 	QDir* userPath();

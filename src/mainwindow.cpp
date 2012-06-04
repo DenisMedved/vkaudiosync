@@ -59,6 +59,9 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	connect(ui->langList,SIGNAL(currentIndexChanged(QString)),
 			this, SLOT(slotLanguageChanged(QString))
 	);
+    connect(ui->remember,SIGNAL(clicked(bool)),
+            this, SLOT(slotRememberCheckboxChanged(bool))
+    );
 	//VK SERVICE
 	connect(m_pVkService,SIGNAL(loginSuccess(const QByteArray)),
 			this,SLOT(slotLoginSuccess(QByteArray))
@@ -92,14 +95,14 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
 
 	m_pAppSettings->load();
+    m_pVkService->setCookieJar(m_pAppSettings->cookieJar());
 
 	m_logined = false;
 
 	m_pDir = new QDir;
-	m_pSynchService->setDir(m_pDir);
+    m_pSynchService->setDir(m_pDir);
 
 	restore();
-
 }
 
 MainWindow::~MainWindow()
@@ -122,12 +125,19 @@ void MainWindow::restore()
 	if (languageIndex != -1)
 		ui->langList->setCurrentIndex(languageIndex);
 
-	QString dir = m_pAppSettings->value("/general/dir").toString();
-    /*if (!dir.isEmpty() && QFile::exists(dir)) {
-		m_pDir->setPath(dir);
-        ui->syncButton->setDisabled(false);
-		m_pSynchService->setStatuses();
-    }*/
+    bool remember = m_pAppSettings->value("/general/remember",QVariant(false)).toBool();
+    ui->remember->setChecked(remember);
+    if (remember) {
+        QString dir = m_pAppSettings->value("/general/dir").toString();
+        m_pAppSettings->restore();
+        m_pVkService->login(false);
+        if (!dir.isEmpty() && QFile::exists(dir)) {
+            m_pDir->setPath(dir);
+            ui->syncButton->setDisabled(false);
+        }
+    } else {
+        m_pAppSettings->clearCookies();
+    }
 }
 
 void MainWindow::runSynch()
@@ -163,6 +173,7 @@ void MainWindow::slotChooseDir()
 	QString dir = QFileDialog::getExistingDirectory(this, tr("Select directory"),"", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 	if (!dir.isEmpty()) {
 		m_pDir->setPath(dir);
+        m_pSynchService->setDir(m_pDir);
 		ui->syncButton->setDisabled(false);
 		m_pSynchService->setStatuses();
 		m_pAppSettings->setValue("/general/dir",dir);
@@ -202,6 +213,7 @@ void MainWindow::slotLoginSuccess(const QByteArray &/*xml*/)
 void MainWindow::slotAudioListLoaded(const QByteArray &xml)
 {
 	m_pAudioModel->parseXml(xml);
+    m_pSynchService->setStatuses();
 }
 
 void MainWindow::slotProfileLoaded(const QByteArray &xml)
@@ -275,4 +287,9 @@ void MainWindow::slotAuthWindowOpened()
 void MainWindow::slotAuthWindowClosed()
 {
 	ui->loginButton->setDisabled(false);
+}
+
+void MainWindow::slotRememberCheckboxChanged(bool checked)
+{
+    m_pAppSettings->setValue("/general/remember",QVariant(checked));
 }

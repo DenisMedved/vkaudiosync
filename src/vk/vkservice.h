@@ -68,7 +68,7 @@ public:
 	~VKService();
 
 	void setApplicationId(QString appId);
-	void login() ;
+    void login(bool show = true) ;
 	bool isLogined() const;
 
 	void logout();
