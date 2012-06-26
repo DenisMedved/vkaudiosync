@@ -52,7 +52,7 @@ QList<QNetworkCookie> AppCookieJar::cookiesForUrl ( const QUrl & url ) const
     QDateTime now = QDateTime::currentDateTime();
     if (!root.isNull()) {
         QDomElement element = root.firstChildElement();
-        while(!element.isNull()) {
+        while (!element.isNull()) {
             QNetworkCookie cookie;
             QDomElement xmlCookie = element.firstChildElement();
             bool needAdd = true;
@@ -85,6 +85,7 @@ QList<QNetworkCookie> AppCookieJar::cookiesForUrl ( const QUrl & url ) const
                     datetime.fromString(xmlCookie.text(),Qt::ISODate);
                     cookie.setExpirationDate(datetime);
                 }
+
                 xmlCookie = xmlCookie.nextSiblingElement();
             }
 

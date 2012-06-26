@@ -123,7 +123,7 @@ void AudioItem::setProgress(unsigned short progress)
 
 void AudioItem::filterStr(QString *pName)
 {
-    QString str = ":.\\/";
+    QString str = ":.\\/'\"";
     for (QString::Iterator i = str.begin(); i != str.end(); i++)
         pName->replace(*i,QString());
 }
