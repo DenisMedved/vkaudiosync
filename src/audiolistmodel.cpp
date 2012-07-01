@@ -225,7 +225,7 @@ const QString AudioListModel::statusRow() const
     if (needDownload == 0)
         status  = tr("Complete.");
     else
-        status = QString(tr("Downloaded: %1 of %2."))
+        status = QString(tr("Downloaded: %1. Left: %2."))
                     .arg(downloaded)
                     .arg(needDownload);
 
