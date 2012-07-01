@@ -24,15 +24,16 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	m_pTranslator = new QTranslator(this);
 	QApplication::instance()->installTranslator(m_pTranslator);
 
-	m_pAbout = new About(this);
-
+    m_pAbout = new About(this);
 	m_pAppSettings = new AppSettings(this);
 	m_pVkService = new VK::VKService(this);
 	m_pAudioModel = new AudioListModel(this);
 	m_pAudioItemDelegate = new AudioItemDelegate(this);
 	m_pSynchService = new SynchService(this);
 	m_pProfileModel = new ProfileModel;
+    m_pStatusBar = new QStatusBar(this);
 
+    setStatusBar(m_pStatusBar);
 	m_pSynchService->setAudioModel(m_pAudioModel);
 
 	ui = new Ui::MainWindow;
@@ -61,6 +62,9 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 	);
     connect(ui->remember,SIGNAL(clicked(bool)),
             this, SLOT(slotRememberCheckboxChanged(bool))
+    );
+    connect(m_pSynchService, SIGNAL(updateStatusBar(const QString)),
+            this, SLOT(slotUpdateStatusBar(const QString))
     );
 	//VK SERVICE
 	connect(m_pVkService,SIGNAL(loginSuccess(const QByteArray)),
@@ -103,6 +107,9 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
     m_pSynchService->setDir(m_pDir);
 
 	restore();
+
+
+    m_pSynchService->slotModelItemChanged();
 }
 
 MainWindow::~MainWindow()
@@ -116,6 +123,7 @@ MainWindow::~MainWindow()
 	delete m_pSynchService;
 	delete m_pProfileModel;
 	delete m_pTranslator;
+    delete m_pStatusBar;
 }
 
 void MainWindow::restore()
@@ -292,4 +300,9 @@ void MainWindow::slotAuthWindowClosed()
 void MainWindow::slotRememberCheckboxChanged(bool checked)
 {
     m_pAppSettings->setValue("/general/remember",QVariant(checked));
+}
+
+void MainWindow::slotUpdateStatusBar(const QString status)
+{
+    statusBar()->showMessage(status);
 }

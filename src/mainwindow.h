@@ -38,6 +38,7 @@
 #include <QPixmap>
 #include <QImage>
 #include <QLocale>
+#include <QStatusBar>
 
 namespace Ui
 {
@@ -65,6 +66,7 @@ private:
 	ProfileModel *m_pProfileModel;
 	QDir *m_pDir;
 	QTranslator *m_pTranslator;
+    QStatusBar *m_pStatusBar;
 	bool m_logined;
 
 	void runSynch();
@@ -92,6 +94,7 @@ public:
 	void slotAuthWindowOpened();
 	void slotAuthWindowClosed();
     void slotRememberCheckboxChanged(bool checked);
+    void slotUpdateStatusBar(const QString status);
 };
 
 

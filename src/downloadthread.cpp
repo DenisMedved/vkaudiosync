@@ -46,7 +46,6 @@ void DownloadThread::run()
 	m_file = new QFile;
 	QString tmpName;
 	while (!m_queue.isEmpty()) {
-
 		if (m_needQuit)
 			exit();
 
@@ -79,16 +78,19 @@ void DownloadThread::run()
 				if (!m_file->rename(QString(m_dir->path() + QDir::separator() + m_name)))
 					qDebug() << "rename error ";
 				m_file->close();
-				m_pAudioListModel->setData(m_target,QVariant(AudioItem::STATUS_SYNCHRONIZED),AudioListModel::ROLE_STATUS);
+                m_pAudioListModel->setData(
+                            m_target,
+                            QVariant(AudioItem::STATUS_SYNCHRONIZED),
+                            AudioListModel::ROLE_STATUS
+                );
 			} else {
 				m_file->remove();
 			}
+            syncService()->slotModelItemChanged();
 		}
 	}
 	delete m_file;
 	delete networkManager;
-
-	quit();
 }
 
 void DownloadThread::setDir(QDir *dir)
@@ -100,7 +102,6 @@ void DownloadThread::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
 {
 	if (m_needQuit)
 		exit();
-
 
 	unsigned short percent = qCeil(bytesReceived * 100 / bytesTotal);
 	unsigned short progress = m_pAudioListModel->data(m_target, AudioListModel::ROLE_PROGRESS).toInt();
@@ -136,4 +137,14 @@ void DownloadThread::stopSync()
 	m_needQuit = true;
 	if (m_queue.isEmpty())
 		quit();
+}
+
+void DownloadThread::setSyncService(SynchService* pSyncService)
+{
+    m_pSyncService = pSyncService;
+}
+
+SynchService* DownloadThread::syncService() const
+{
+    return m_pSyncService;
 }

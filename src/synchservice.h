@@ -32,6 +32,7 @@
 #define THREADS 6
 #endif
 
+class DownloadThread;
 class SynchService : public QObject
 {
 	Q_OBJECT
@@ -57,9 +58,11 @@ public:
 
 public slots:
 	void synchFinished();
+    void slotModelItemChanged();
 
 signals:
 	void synchronizeFinished(bool);
+    void updateStatusBar(const QString);
 };
 
 #endif // SYNCHRONIZER_H

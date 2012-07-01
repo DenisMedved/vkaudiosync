@@ -49,6 +49,7 @@ public:
 	virtual QVariant data(const QModelIndex &index, int role) const;
 	virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 	virtual void resetStatuses();
+    virtual const QString statusRow() const;
 
 	void parseXml(const QByteArray &xml);
 	void clear();

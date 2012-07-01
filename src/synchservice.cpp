@@ -128,9 +128,11 @@ void SynchService::synchronize()
 		if (!m_pDownloadThreads[i]->queue()->isEmpty()) {
 			m_pDownloadThreads[i]->setDir(m_dir);
 			m_pDownloadThreads[i]->setAudioListModel(m_pAudioListModel);
+            m_pDownloadThreads[i]->setSyncService(this);
 			m_pDownloadThreads[i]->start();
 		}
 	}
+    slotModelItemChanged();
 }
 
 void SynchService::setThreadsCount(unsigned short count)
@@ -182,4 +184,9 @@ void SynchService::stopSync()
 	}
 
 	removeTmpFiles();
+}
+
+void SynchService::slotModelItemChanged()
+{
+    emit updateStatusBar(m_pAudioListModel->statusRow());
 }

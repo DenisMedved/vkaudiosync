@@ -210,3 +210,24 @@ void AudioListModel::clear()
 		emit dataChanged(index(0), index(0));
 	}
 }
+
+const QString AudioListModel::statusRow() const
+{
+    QList<AudioItem>::iterator iterator;
+    unsigned short needDownload = 0, downloaded = 0;
+
+    for (iterator = m_pItems->begin(); iterator != m_pItems->end(); ++iterator)
+        if (AudioItem::STATUS_NEEDDOWNLOAD == iterator->status())
+            ++needDownload;
+        else if (AudioItem::STATUS_SYNCHRONIZED == iterator->status())
+            ++downloaded;
+    QString status;
+    if (needDownload == 0)
+        status  = tr("Complete.");
+    else
+        status = QString(tr("Downloaded: %1 of %2."))
+                    .arg(downloaded)
+                    .arg(needDownload);
+
+    return status;
+}
