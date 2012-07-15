@@ -23,6 +23,7 @@
 #include <QFile>
 #include <QUrl>
 #include <QObject>
+#include <QRegExp>
 
 class AudioItem
 {

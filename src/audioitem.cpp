@@ -123,8 +123,7 @@ void AudioItem::setProgress(unsigned short progress)
 
 void AudioItem::filterStr(QString *pName)
 {
-    QString str = ":.\\/'\"";
-    for (QString::Iterator i = str.begin(); i != str.end(); i++)
-        pName->replace(*i,QString());
+    QRegExp regexp("[^\\d,\\w,\\-,\\s,\\(,\\),\\,]+");
+    pName->replace(regexp,"");
 }
 

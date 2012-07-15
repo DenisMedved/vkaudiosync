@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "VkAudioSync"
-#define MyAppVersion "0.12b"
+#define MyAppVersion "0.13b"
 #define MyAppPublisher "Denis Medved"
 #define MyAppURL "http://src.mdenis.org/vkaudiosync"
 #define MyAppExeName "vkaudiosync.exe"
