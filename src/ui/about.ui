@@ -83,6 +83,9 @@
      <property name="wordWrap">
       <bool>true</bool>
      </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
      <property name="buddy">
       <cstring>http://www.gnu.org/copyleft/gpl.html</cstring>
      </property>
@@ -93,12 +96,18 @@
      <property name="text">
       <string>Issues: &lt;a href=&quot;https://bitbucket.org/denis_medved/vkaudiosync/issues&quot;&gt;https://bitbucket.org/denis_medved/vkaudiosync/issues&lt;/a&gt;</string>
      </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item>
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>Source: &lt;a href=&quot;https://bitbucket.org/denis_medved/vkaudiosync/src&quot;&gt;https://bitbucket.org/denis_medved/vkaudiosync/src&lt;/a&gt;</string>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -107,12 +116,18 @@
      <property name="text">
       <string>Author: Denis Medved (&lt;a href=&quot;http://mdenis.org&quot;&gt;mdenis.org&lt;/a&gt;)</string>
      </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item>
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Contact: &lt;a href=&quot;mailto:contact@mdenis.org&quot;&gt;contact@mdenis.org&lt;/a&gt;</string>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
