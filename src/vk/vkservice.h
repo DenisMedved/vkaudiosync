@@ -48,20 +48,21 @@ private:
 	QString m_expire;
 	QString m_lastError;
 	QUrl m_authUrl;
-
+    QUrl m_absUrl;
+    bool m_isNeedLoadAbs;
 	QNetworkCookieJar *m_pCookieJar;
 	QWebView *m_webView;
 	QNetworkAccessManager *m_networkManager;
-
 	bool m_errorHandled;
-
 	void loadAudioList();
 	void loadProfile();
+    void loadAbs();
 
 private slots:
 	void slotUrlChanged(const QUrl &url);
 	void slotReplyFinished(QNetworkReply *reply );
 	void slotLoadFinished(bool ok);
+    void slotLoadAbsFinished(QNetworkReply *reply);
 
 public:
 	explicit VKService(QWidget *parent = 0 );
@@ -70,9 +71,9 @@ public:
 	void setApplicationId(QString appId);
     void login(bool show = true) ;
 	bool isLogined() const;
-
 	void logout();
 	void setCookieJar(QNetworkCookieJar *cookieJar);
+    void setLoadAbs(bool load = false);
 
 signals:
 	void opened();

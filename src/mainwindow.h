@@ -95,6 +95,7 @@ public:
 	void slotAuthWindowClosed();
     void slotRememberCheckboxChanged(bool checked);
     void slotUpdateStatusBar(const QString status);
+    void slotShowAbs();
 };
 
 

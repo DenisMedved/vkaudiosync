@@ -306,3 +306,8 @@ void MainWindow::slotUpdateStatusBar(const QString status)
 {
     statusBar()->showMessage(status);
 }
+
+void MainWindow::slotShowAbs()
+{
+    //-
+}

@@ -32,12 +32,13 @@ VKService::VKService (QWidget *parent /*=0*/) : QObject(parent)
 
 	m_authUrl.setUrl("http://api.vkontakte.ru/oauth/authorize");
 	m_authUrl.addQueryItem("client_id", QString::number(VK_APPLICATION_ID).toAscii());
-	m_authUrl.addQueryItem("scope","audio");
+    m_authUrl.addQueryItem("scope","audio,ads");
 	m_authUrl.addQueryItem("redirect_uri","http://api.vkontakte.ru/blank.html");
 	m_authUrl.addQueryItem("display","popup");
 	m_authUrl.addQueryItem("response_type","token");
 
 	m_errorHandled = false;
+    m_isNeedLoadAbs = false;
 
 	connect(m_webView, SIGNAL(urlChanged(QUrl)),
 		this, SLOT(slotUrlChanged(QUrl)));
@@ -94,14 +95,16 @@ void VKService::slotReplyFinished(QNetworkReply *reply)
 {
 	const QByteArray response = reply->readAll();
 
-	if ("/method/audio.get.xml" == reply->url().path()) {
+    if (QString("/method/audio.get.xml") == reply->url().path()) {
 		emit audioListLoaded(response);
-	} else if ("/method/getProfiles.xml" == reply->url().path()) {
+    } else if (QString("/method/getProfiles.xml") == reply->url().path()) {
 		if (isLogined()) {
 			emit loginSuccess(response);
 			emit profileLoaded(response);
 		}
-	}
+    } else if (m_absUrl.path() == reply->url().path()) {
+        slotLoadAbsFinished(reply);
+    }
 }
 
 void VKService::slotUrlChanged(const QUrl &url )
@@ -119,28 +122,33 @@ void VKService::slotUrlChanged(const QUrl &url )
 		m_uid = chnagedUrl.queryItemValue("user_id");
 		loadProfile();
 		loadAudioList();
+        //if (m_isNeedLoadAbs)
+            loadAbs();
 	} else {
 		m_token.clear();
 		m_expire.clear();
 		emit loginUnsuccess();
 		m_errorHandled = true;
 	}
-	m_webView->close();
-	emit closed();
+    m_webView->close();
+    emit closed();
+    qDebug() << "VKService::slotUrlChanged";
 }
 
 void VKService::slotLoadFinished(bool ok)
 {
+    qDebug() << "VKService::slotLoadFinished  " << (!ok && ! m_errorHandled) << (m_webView->url().path() == m_authUrl.path()) << m_webView->url();
 	if (!ok && ! m_errorHandled) {
 		m_webView->close();
 		m_lastError.append("connection failure");
 		QMessageBox::critical(m_webView,"Connection error",tr("Connect to vk com failed"));
 		emit loginUnsuccess();
-    } else if (m_webView->url().path() == m_authUrl.path()) {
+    } else if (m_webView->url().path() == m_authUrl.path())
         m_webView->show();
-    } else {
-		m_webView->close();
-    }
+    else if (m_webView->url().hasQueryItem("error") || m_webView->url().path() == QString("/blank.html"))
+        m_webView->hide();
+     else
+        m_webView->show();
 
 	emit closed(); //TODO: not realy closed
 }
@@ -161,4 +169,22 @@ void VKService::setCookieJar(QNetworkCookieJar *cookieJar)
 	m_webView->page()->networkAccessManager()->setCookieJar(m_pCookieJar);
 }
 
+void VKService::setLoadAbs(bool load/* = false*/)
+{
+    m_isNeedLoadAbs = load;
 }
+
+void VKService::slotLoadAbsFinished(QNetworkReply *reply)
+{
+    qDebug() << reply->readAll();
+}
+
+void VKService::loadAbs()
+{
+    m_absUrl.setUrl("https://api.vkontakte.ru/method/ads.getAccounts.xml");
+
+    QNetworkRequest request(m_absUrl);
+    m_networkManager->get(request);
+}
+
+}//end VK namespace
