@@ -122,7 +122,7 @@ void VKService::slotUrlChanged(const QUrl &url )
 		m_uid = chnagedUrl.queryItemValue("user_id");
 		loadProfile();
 		loadAudioList();
-        //if (m_isNeedLoadAbs)
+        if (m_isNeedLoadAbs)
             loadAbs();
 	} else {
 		m_token.clear();
@@ -132,12 +132,10 @@ void VKService::slotUrlChanged(const QUrl &url )
 	}
     m_webView->close();
     emit closed();
-    qDebug() << "VKService::slotUrlChanged";
 }
 
 void VKService::slotLoadFinished(bool ok)
 {
-    qDebug() << "VKService::slotLoadFinished  " << (!ok && ! m_errorHandled) << (m_webView->url().path() == m_authUrl.path()) << m_webView->url();
 	if (!ok && ! m_errorHandled) {
 		m_webView->close();
 		m_lastError.append("connection failure");
