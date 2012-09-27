@@ -249,6 +249,7 @@ void MainWindow::slotPhotoLoaded()
 void MainWindow::slotPhotoMediumLoaded()
 {
     QPixmap pixmap(ui->userpic->width(),ui->userpic->height());
+
     if (pixmap.convertFromImage(m_pProfileModel->photoMedium()) ) {
         ui->userpic->setPixmap(pixmap);
     }
@@ -264,9 +265,7 @@ void MainWindow::slotLanguageChanged(QString text)
         QString language = ui->langList->currentText();
         QString filename;
 
-        if (language == "� усский") {
-            filename = "main_ru.qm";
-        } else if (language == "English") {
+        if (language == "English") {
             filename = "main_en.qm";
         } else {
             filename = "main_ru.qm";
