@@ -31,41 +31,41 @@
 
 class ProfileModel : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 private:
-	QString m_uid;
-	QString m_firstName;
-	QString m_lastName;
-	QUrl m_photoUrl;
-	QUrl m_photoMediumUrl;
-	QImage m_photo;
-	QImage m_photoMedium;
-	QNetworkAccessManager *m_pNetworkAccessManager;
+    QString m_uid;
+    QString m_firstName;
+    QString m_lastName;
+    QUrl m_photoUrl;
+    QUrl m_photoMediumUrl;
+    QImage m_photo;
+    QImage m_photoMedium;
+    QNetworkAccessManager *m_pNetworkAccessManager;
 
 public:
-	explicit ProfileModel(QObject* parent = 0);
-	~ProfileModel();
-	void  setUid(const QString &uid);
-	QString uid() const;
-	void setFirstName(const QString &firstName);
-	QString firsrtName() const;
-	void setLastName(const QString &lastName);
-	QString lastName() const;
-	void setPhotoUrl(const QUrl &url);
-	QUrl photoUrl() const;
-	void setPhotoMediumUrl(const QUrl &url);
-	QUrl photoMediumUrl() const;
-	QImage photo() const;
-	QImage photoMedium() const;
-	void parseXml(const QByteArray &xml);
+    explicit ProfileModel(QObject* parent = 0);
+    ~ProfileModel();
+    void  setUid(const QString &uid);
+    QString uid() const;
+    void setFirstName(const QString &firstName);
+    QString firsrtName() const;
+    void setLastName(const QString &lastName);
+    QString lastName() const;
+    void setPhotoUrl(const QUrl &url);
+    QUrl photoUrl() const;
+    void setPhotoMediumUrl(const QUrl &url);
+    QUrl photoMediumUrl() const;
+    QImage photo() const;
+    QImage photoMedium() const;
+    void parseXml(const QByteArray &xml);
 
 protected slots:
-	void slotFinished(QNetworkReply* reply);
+    void slotFinished(QNetworkReply* reply);
 
 signals:
-	void photoLoaded();
-	void photoMediumLoaded();
+    void photoLoaded();
+    void photoMediumLoaded();
 };
 
 #endif // PROFILEMODEL_H

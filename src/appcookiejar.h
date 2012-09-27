@@ -28,15 +28,15 @@
 
 class AppCookieJar : public QNetworkCookieJar
 {
-	Q_OBJECT
+    Q_OBJECT
 
 protected:
-	QFile *m_pFile;
-	QList<QNetworkCookie> m_cookieList;
+    QFile *m_pFile;
+    QList<QNetworkCookie> m_cookieList;
     QDomDocument m_document;
 
     bool m_useFile;
-	bool m_needSave;
+    bool m_needSave;
 
     inline QDomText elementByText(QDomDocument &document ,const QString &str);
     inline bool isParentPath(QString path, QString reference) const;
@@ -44,18 +44,18 @@ protected:
     void createXmlNodeByCookie(QDomElement *parent, const QNetworkCookie *cookie, const QUrl *url);
 
 public:
-	explicit AppCookieJar(QObject *parent = 0);
-	virtual ~AppCookieJar();
+    explicit AppCookieJar(QObject *parent = 0);
+    virtual ~AppCookieJar();
 
-	void setFile(QFile *pFile);
-	QFile* file() const;
+    void setFile(QFile *pFile);
+    QFile* file() const;
 
     virtual QList<QNetworkCookie> cookiesForUrl ( const QUrl & url ) const;
-	virtual bool setCookiesFromUrl ( const QList<QNetworkCookie> & cookieList, const QUrl & url );
+    virtual bool setCookiesFromUrl ( const QList<QNetworkCookie> & cookieList, const QUrl & url );
 
-	void clear();
-	void save();
-	void restore();
+    void clear();
+    void save();
+    void restore();
 };
 
 #endif // APPCOOKIEJAR_H

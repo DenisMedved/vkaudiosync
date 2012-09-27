@@ -29,16 +29,16 @@ class About;
 
 class About : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 private:
-	Ui::About *ui;
+    Ui::About *ui;
 
 public:
-	explicit About(QWidget *parent = 0);
-	~About();
+    explicit About(QWidget *parent = 0);
+    ~About();
 
-	void retranslateUi();
+    void retranslateUi();
 };
 
 #endif // ABOUT_H

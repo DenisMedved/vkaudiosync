@@ -31,11 +31,11 @@
 
 class AudioItemDelegate : public QItemDelegate
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	explicit AudioItemDelegate(QObject *parent = 0);
-	virtual void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
-	QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    explicit AudioItemDelegate(QObject *parent = 0);
+    virtual void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+    QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
 };
 

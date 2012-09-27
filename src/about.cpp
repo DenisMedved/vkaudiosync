@@ -19,18 +19,18 @@
 #include "about.h"
 #include <QDebug>
 About::About(QWidget *parent) :
-	QDialog(parent)
+    QDialog(parent)
 {
-	ui = new Ui::About;
-	ui->setupUi(this);
-	ui->version->setText(QApplication::instance()->applicationVersion());
+    ui = new Ui::About;
+    ui->setupUi(this);
+    ui->version->setText(QApplication::instance()->applicationVersion());
 }
 About::~About()
 {
-	delete ui;
+    delete ui;
 }
 
 void About::retranslateUi()
 {
-	ui->retranslateUi(this);
+    ui->retranslateUi(this);
 }

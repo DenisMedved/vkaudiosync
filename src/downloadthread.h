@@ -32,46 +32,46 @@
 class SynchService;
 class DownloadThread : public QThread
 {
-	Q_OBJECT
+    Q_OBJECT
 
 private:
     QDir* m_dir;
-	QString m_name;
-	QFile* m_file;
-	QQueue<QModelIndex> m_queue;
-	QModelIndex m_target;
+    QString m_name;
+    QFile* m_file;
+    QQueue<QModelIndex> m_queue;
+    QModelIndex m_target;
     SynchService* m_pSyncService;
-	bool m_needQuit;
+    bool m_needQuit;
     AudioListModel* m_pAudioListModel;
-	bool m_needWait;
+    bool m_needWait;
 
-	bool ready();
+    bool ready();
 
 protected:
-	virtual void run();
+    virtual void run();
 
 public:
-	explicit DownloadThread(QObject *parent = 0);
-	virtual ~DownloadThread();
+    explicit DownloadThread(QObject *parent = 0);
+    virtual ~DownloadThread();
 
-	void setDir(QDir *dir);
+    void setDir(QDir *dir);
 
-	void enqueue(const QModelIndex &index);
-	QModelIndex dequeue();
-	const QQueue<QModelIndex>* queue() const;
+    void enqueue(const QModelIndex &index);
+    QModelIndex dequeue();
+    const QQueue<QModelIndex>* queue() const;
 
-	void clearQueue();
-	void setAudioListModel(AudioListModel *model);
+    void clearQueue();
+    void setAudioListModel(AudioListModel *model);
     void setSyncService(SynchService* pSyncService);
     SynchService* syncService() const;
 
 
 protected slots:
-	void downloadProgress( qint64 bytesReceived, qint64 bytesTotal);
-	void slotFinished();
+    void downloadProgress( qint64 bytesReceived, qint64 bytesTotal);
+    void slotFinished();
 
 public slots:
-	void stopSync();
+    void stopSync();
 };
 
 #endif // DOWNLOADTHREAD_H

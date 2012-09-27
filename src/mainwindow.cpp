@@ -19,94 +19,94 @@
 #include "mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent /*=0*/) :
-	QMainWindow(parent)
+    QMainWindow(parent)
 {
-	m_pTranslator = new QTranslator(this);
-	QApplication::instance()->installTranslator(m_pTranslator);
+    m_pTranslator = new QTranslator(this);
+    QApplication::instance()->installTranslator(m_pTranslator);
 
     m_pAbout = new About(this);
-	m_pAppSettings = new AppSettings(this);
-	m_pVkService = new VK::VKService(this);
-	m_pAudioModel = new AudioListModel(this);
-	m_pAudioItemDelegate = new AudioItemDelegate(this);
-	m_pSynchService = new SynchService(this);
-	m_pProfileModel = new ProfileModel;
+    m_pAppSettings = new AppSettings(this);
+    m_pVkService = new VK::VKService(this);
+    m_pAudioModel = new AudioListModel(this);
+    m_pAudioItemDelegate = new AudioItemDelegate(this);
+    m_pSynchService = new SynchService(this);
+    m_pProfileModel = new ProfileModel;
     m_pStatusBar = new QStatusBar(this);
 
     setStatusBar(m_pStatusBar);
-	m_pSynchService->setAudioModel(m_pAudioModel);
+    m_pSynchService->setAudioModel(m_pAudioModel);
 
-	ui = new Ui::MainWindow;
-	ui->setupUi(this);
+    ui = new Ui::MainWindow;
+    ui->setupUi(this);
 
     ui->syncButton->setDisabled(true);
 
-	// connects
-	connect(ui->loginButton, SIGNAL(clicked()),
-				this,SLOT(slotLoginLogaut())
-	);
-	connect(ui->selectButton, SIGNAL(clicked()),
-			this,SLOT(slotChooseDir())
-	);
-	connect(ui->syncButton, SIGNAL(clicked()),
-			this,SLOT(slotStartSynch())
-	);
-	connect(ui->aboutButton,SIGNAL(clicked()),
-			this,SLOT(slotAbout())
-	);
-	connect(ui->exitButton,SIGNAL(clicked()),
-			this,SLOT(slotExit())
-	);
-	connect(ui->langList,SIGNAL(currentIndexChanged(QString)),
-			this, SLOT(slotLanguageChanged(QString))
-	);
+    // connects
+    connect(ui->loginButton, SIGNAL(clicked()),
+                this,SLOT(slotLoginLogaut())
+    );
+    connect(ui->selectButton, SIGNAL(clicked()),
+            this,SLOT(slotChooseDir())
+    );
+    connect(ui->syncButton, SIGNAL(clicked()),
+            this,SLOT(slotStartSynch())
+    );
+    connect(ui->aboutButton,SIGNAL(clicked()),
+            this,SLOT(slotAbout())
+    );
+    connect(ui->exitButton,SIGNAL(clicked()),
+            this,SLOT(slotExit())
+    );
+    connect(ui->langList,SIGNAL(currentIndexChanged(QString)),
+            this, SLOT(slotLanguageChanged(QString))
+    );
     connect(ui->remember,SIGNAL(clicked(bool)),
             this, SLOT(slotRememberCheckboxChanged(bool))
     );
     connect(m_pSynchService, SIGNAL(updateStatusBar(const QString)),
             this, SLOT(slotUpdateStatusBar(const QString))
     );
-	//VK SERVICE
-	connect(m_pVkService,SIGNAL(loginSuccess(const QByteArray)),
-			this,SLOT(slotLoginSuccess(QByteArray))
-	);
-	connect(m_pVkService,SIGNAL(audioListLoaded(const QByteArray)),
-			this,SLOT(slotAudioListLoaded(QByteArray))
-	);
-	connect(m_pVkService,SIGNAL(profileLoaded(const QByteArray)),
-			this,SLOT(slotProfileLoaded(QByteArray))
-	);
-	connect(m_pVkService,SIGNAL(opened()),
-			this,SLOT(slotAuthWindowOpened())
-	);
-	connect(m_pVkService,SIGNAL(closed()),
-			this,SLOT(slotAuthWindowClosed())
-	);
-	connect(m_pVkService,SIGNAL(loginUnsuccess()),
-			this,SLOT(slotLoginUnsuccess())
-	);
-	//VK PROFILE
-	connect(m_pProfileModel, SIGNAL(photoMediumLoaded()),
-			this, SLOT(slotPhotoMediumLoaded())
-	);
+    //VK SERVICE
+    connect(m_pVkService,SIGNAL(loginSuccess(const QByteArray)),
+            this,SLOT(slotLoginSuccess(QByteArray))
+    );
+    connect(m_pVkService,SIGNAL(audioListLoaded(const QByteArray)),
+            this,SLOT(slotAudioListLoaded(QByteArray))
+    );
+    connect(m_pVkService,SIGNAL(profileLoaded(const QByteArray)),
+            this,SLOT(slotProfileLoaded(QByteArray))
+    );
+    connect(m_pVkService,SIGNAL(opened()),
+            this,SLOT(slotAuthWindowOpened())
+    );
+    connect(m_pVkService,SIGNAL(closed()),
+            this,SLOT(slotAuthWindowClosed())
+    );
+    connect(m_pVkService,SIGNAL(loginUnsuccess()),
+            this,SLOT(slotLoginUnsuccess())
+    );
+    //VK PROFILE
+    connect(m_pProfileModel, SIGNAL(photoMediumLoaded()),
+            this, SLOT(slotPhotoMediumLoaded())
+    );
 
-	ui->listView->setItemDelegate(m_pAudioItemDelegate);
-	ui->listView->setModel(m_pAudioModel);
-	ui->listView->setSelectionBehavior(QListView::SelectRows);
+    ui->listView->setItemDelegate(m_pAudioItemDelegate);
+    ui->listView->setModel(m_pAudioModel);
+    ui->listView->setSelectionBehavior(QListView::SelectRows);
 
-	int desktopWidth = QApplication::desktop()->width();
-	int desktoHeight = QApplication::desktop()->height();
-	move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
+    int desktopWidth = QApplication::desktop()->width();
+    int desktoHeight = QApplication::desktop()->height();
+    move((desktopWidth-width()) / 2 , (desktoHeight - height()) / 3);
 
-	m_pAppSettings->load();
+    m_pAppSettings->load();
     m_pVkService->setCookieJar(m_pAppSettings->cookieJar());
 
-	m_logined = false;
+    m_logined = false;
 
-	m_pDir = new QDir;
+    m_pDir = new QDir;
     m_pSynchService->setDir(m_pDir);
 
-	restore();
+    restore();
 
 
     m_pSynchService->slotModelItemChanged();
@@ -114,24 +114,24 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
 
 MainWindow::~MainWindow()
 {
-	delete ui;
-	delete m_pDir;
-	delete m_pAppSettings;
-	delete m_pVkService;
-	delete m_pAudioModel;
-	delete m_pAudioItemDelegate;
-	delete m_pSynchService;
-	delete m_pProfileModel;
-	delete m_pTranslator;
+    delete ui;
+    delete m_pDir;
+    delete m_pAppSettings;
+    delete m_pVkService;
+    delete m_pAudioModel;
+    delete m_pAudioItemDelegate;
+    delete m_pSynchService;
+    delete m_pProfileModel;
+    delete m_pTranslator;
     delete m_pStatusBar;
 }
 
 void MainWindow::restore()
 {
-	QString language = m_pAppSettings->value("/general/language",QVariant("� усский")).toString();
-	int languageIndex = ui->langList->findText(language);
-	if (languageIndex != -1)
-		ui->langList->setCurrentIndex(languageIndex);
+    QString language = m_pAppSettings->value("/general/language",QVariant("� усский")).toString();
+    int languageIndex = ui->langList->findText(language);
+    if (languageIndex != -1)
+        ui->langList->setCurrentIndex(languageIndex);
 
     bool remember = m_pAppSettings->value("/general/remember",QVariant(false)).toBool();
     ui->remember->setChecked(remember);
@@ -150,151 +150,151 @@ void MainWindow::restore()
 
 void MainWindow::runSynch()
 {
-	m_pSynchService->synchronize();
+    m_pSynchService->synchronize();
 }
 
 void MainWindow::slotLoginLogaut()
 {
-	if (m_logined) {
-		m_pAudioModel->clear();
-		m_pVkService->logout();
+    if (m_logined) {
+        m_pAudioModel->clear();
+        m_pVkService->logout();
 
-		ui->selectButton->setDisabled(true);
-		ui->syncButton->setDisabled(true);
-		ui->loginButton->setText(tr("Login"));
-		ui->username->clear();
-		QPixmap map(ui->userpic->width(), ui->userpic->height());
-		QImage defaultImg(":/application/share/icons/hicolor/64x64/apps/vkaudiosync.png");
-		map.convertFromImage(defaultImg);
-		ui->userpic->setPixmap(map);
+        ui->selectButton->setDisabled(true);
+        ui->syncButton->setDisabled(true);
+        ui->loginButton->setText(tr("Login"));
+        ui->username->clear();
+        QPixmap map(ui->userpic->width(), ui->userpic->height());
+        QImage defaultImg(":/application/share/icons/hicolor/64x64/apps/vkaudiosync.png");
+        map.convertFromImage(defaultImg);
+        ui->userpic->setPixmap(map);
 
-		m_pAppSettings->cookieJar()->clear();
+        m_pAppSettings->cookieJar()->clear();
 
-		m_logined = false;
-	} else {
-		m_pVkService->login();
-	}
+        m_logined = false;
+    } else {
+        m_pVkService->login();
+    }
 }
 
 void MainWindow::slotChooseDir()
 {
-	QString dir = QFileDialog::getExistingDirectory(this, tr("Select directory"),"", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-	if (!dir.isEmpty()) {
-		m_pDir->setPath(dir);
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Select directory"),"", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    if (!dir.isEmpty()) {
+        m_pDir->setPath(dir);
         m_pSynchService->setDir(m_pDir);
-		ui->syncButton->setDisabled(false);
-		m_pSynchService->setStatuses();
-		m_pAppSettings->setValue("/general/dir",dir);
-	}
+        ui->syncButton->setDisabled(false);
+        m_pSynchService->setStatuses();
+        m_pAppSettings->setValue("/general/dir",dir);
+    }
 }
 
 void MainWindow::slotStartSynch()
 {
-	ui->syncButton->setDisabled(true);
-	runSynch();
+    ui->syncButton->setDisabled(true);
+    runSynch();
 }
 
 void MainWindow::slotSettings()
 {
-	QMessageBox::information(this,"Not work","temporary not work");
+    QMessageBox::information(this,"Not work","temporary not work");
 }
 
 void MainWindow::slotAbout()
 {
-	m_pAbout->show();
+    m_pAbout->show();
 }
 
 void MainWindow::slotExit()
 {
-	ui->exitButton->setDisabled(true);
-	m_pSynchService->stopSync();
-	QApplication::instance()->exit();
+    ui->exitButton->setDisabled(true);
+    m_pSynchService->stopSync();
+    QApplication::instance()->exit();
 }
 
 void MainWindow::slotLoginSuccess(const QByteArray &/*xml*/)
 {
-	ui->loginButton->setText(tr("Logout"));
-	ui->selectButton->setDisabled(false);
-	m_logined = true;
+    ui->loginButton->setText(tr("Logout"));
+    ui->selectButton->setDisabled(false);
+    m_logined = true;
 }
 
 void MainWindow::slotAudioListLoaded(const QByteArray &xml)
 {
-	m_pAudioModel->parseXml(xml);
+    m_pAudioModel->parseXml(xml);
     m_pSynchService->setStatuses();
 }
 
 void MainWindow::slotProfileLoaded(const QByteArray &xml)
 {
-	m_pProfileModel->parseXml(xml);
-	if (!m_pProfileModel->firsrtName().isEmpty()) {
-		QString name = QString("%1 %2")
-						.arg(m_pProfileModel->firsrtName())
-						.arg(m_pProfileModel->lastName());
-		ui->username->setText(name);
-	}
+    m_pProfileModel->parseXml(xml);
+    if (!m_pProfileModel->firsrtName().isEmpty()) {
+        QString name = QString("%1 %2")
+                        .arg(m_pProfileModel->firsrtName())
+                        .arg(m_pProfileModel->lastName());
+        ui->username->setText(name);
+    }
 }
 
 void MainWindow::slotLoginUnsuccess()
 {
-	ui->loginButton->setText(tr("Login"));
-	m_logined = false;
+    ui->loginButton->setText(tr("Login"));
+    m_logined = false;
 }
 
 void MainWindow::slotPhotoLoaded()
 {
-	//
+    //
 }
 
 void MainWindow::slotPhotoMediumLoaded()
 {
-	QPixmap pixmap(ui->userpic->width(),ui->userpic->height());
-	if (pixmap.convertFromImage(m_pProfileModel->photoMedium()) ) {
-		ui->userpic->setPixmap(pixmap);
-	}
+    QPixmap pixmap(ui->userpic->width(),ui->userpic->height());
+    if (pixmap.convertFromImage(m_pProfileModel->photoMedium()) ) {
+        ui->userpic->setPixmap(pixmap);
+    }
 }
 
 void MainWindow::slotLanguageChanged(QString text)
 {
-	Q_UNUSED(text);
+    Q_UNUSED(text);
 
-	m_pAppSettings->setValue("/general/language",ui->langList->currentText());
-	QString translationPath = m_pAppSettings->translationPath();
-	if (QFile::exists(translationPath)) {
-		QString language = ui->langList->currentText();
-		QString filename;
+    m_pAppSettings->setValue("/general/language",ui->langList->currentText());
+    QString translationPath = m_pAppSettings->translationPath();
+    if (QFile::exists(translationPath)) {
+        QString language = ui->langList->currentText();
+        QString filename;
 
-		if (language == "� усский") {
-			filename = "main_ru.qm";
-		} else if (language == "English") {
-			filename = "main_en.qm";
-		} else {
-			filename = "main_ru.qm";
-		}
+        if (language == "� усский") {
+            filename = "main_ru.qm";
+        } else if (language == "English") {
+            filename = "main_en.qm";
+        } else {
+            filename = "main_ru.qm";
+        }
 
-		QString filePath = translationPath + QDir::separator() + filename;
+        QString filePath = translationPath + QDir::separator() + filename;
 
-		if (QFile::exists(filePath)) {
-			m_pTranslator->load(filename,translationPath);
-			retranslateUi();
-		}
-	}
+        if (QFile::exists(filePath)) {
+            m_pTranslator->load(filename,translationPath);
+            retranslateUi();
+        }
+    }
 }
 
 void MainWindow::retranslateUi()
 {
-	ui->retranslateUi(this);
-	m_pAbout->retranslateUi();
+    ui->retranslateUi(this);
+    m_pAbout->retranslateUi();
 }
 
 void MainWindow::slotAuthWindowOpened()
 {
-	ui->loginButton->setDisabled(true);
+    ui->loginButton->setDisabled(true);
 }
 
 void MainWindow::slotAuthWindowClosed()
 {
-	ui->loginButton->setDisabled(false);
+    ui->loginButton->setDisabled(false);
 }
 
 void MainWindow::slotRememberCheckboxChanged(bool checked)

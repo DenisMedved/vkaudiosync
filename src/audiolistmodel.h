@@ -29,30 +29,30 @@
 
 class AudioListModel : public QAbstractListModel
 {
-	Q_OBJECT
+    Q_OBJECT
 
 private:
-	QList<AudioItem> *m_pItems;
+    QList<AudioItem> *m_pItems;
 
 public:
-	static const int ROLE_ARTIST   = 33;
-	static const int ROLE_TITLE    = 34;
-	static const int ROLE_DURATION = 35;
-	static const int ROLE_STATUS   = 36;
-	static const int ROLE_PROGRESS = 37;
-	static const int ROLE_URL	   = 38;
+    static const int ROLE_ARTIST   = 33;
+    static const int ROLE_TITLE    = 34;
+    static const int ROLE_DURATION = 35;
+    static const int ROLE_STATUS   = 36;
+    static const int ROLE_PROGRESS = 37;
+    static const int ROLE_URL	   = 38;
 
-	explicit AudioListModel(QObject *parent = 0);
-	virtual ~AudioListModel();
+    explicit AudioListModel(QObject *parent = 0);
+    virtual ~AudioListModel();
 
-	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
-	virtual QVariant data(const QModelIndex &index, int role) const;
-	virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-	virtual void resetStatuses();
+    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual QVariant data(const QModelIndex &index, int role) const;
+    virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+    virtual void resetStatuses();
     virtual const QString statusRow() const;
 
-	void parseXml(const QByteArray &xml);
-	void clear();
+    void parseXml(const QByteArray &xml);
+    void clear();
 
 };
 

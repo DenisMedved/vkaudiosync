@@ -35,33 +35,33 @@
 class DownloadThread;
 class SynchService : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 private:
-	QDir *m_dir;
-	unsigned short m_theadsCount;
-	AudioListModel *m_pAudioListModel;
-	DownloadThread *m_pDownloadThreads[THREADS];
+    QDir *m_dir;
+    unsigned short m_theadsCount;
+    AudioListModel *m_pAudioListModel;
+    DownloadThread *m_pDownloadThreads[THREADS];
 
 public:
-	explicit SynchService(QObject *parent = 0);
-	~SynchService();
-	void setDir(QDir *pdir);
-	const QDir* dir() const;
-	void setThreadsCount(unsigned short count);
-	unsigned short threadsCount() const;
-	void setAudioModel(AudioListModel *pAudioListModel);
-	void synchronize();
-	void setStatuses();
-	void removeTmpFiles();
-	void stopSync();
+    explicit SynchService(QObject *parent = 0);
+    ~SynchService();
+    void setDir(QDir *pdir);
+    const QDir* dir() const;
+    void setThreadsCount(unsigned short count);
+    unsigned short threadsCount() const;
+    void setAudioModel(AudioListModel *pAudioListModel);
+    void synchronize();
+    void setStatuses();
+    void removeTmpFiles();
+    void stopSync();
 
 public slots:
-	void synchFinished();
+    void synchFinished();
     void slotModelItemChanged();
 
 signals:
-	void synchronizeFinished(bool);
+    void synchronizeFinished(bool);
     void updateStatusBar(const QString);
 };
 

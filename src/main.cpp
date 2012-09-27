@@ -25,15 +25,15 @@
 
 int main(int argc, char *argv[])
 {
-	QApplication a(argc, argv);
+    QApplication a(argc, argv);
 
-	QApplication::setApplicationName("VKAudioSync");
-	QApplication::setOrganizationName("Denis Medved");
+    QApplication::setApplicationName("VKAudioSync");
+    QApplication::setOrganizationName("Denis Medved");
     QApplication::setApplicationVersion("0.13b");
-	QApplication::setOrganizationDomain("https://bitbucket.org/denis_medved/vkaudiosync");
+    QApplication::setOrganizationDomain("https://bitbucket.org/denis_medved/vkaudiosync");
 
-	MainWindow w;
-	w.show();
+    MainWindow w;
+    w.show();
 
-	return a.exec();
+    return a.exec();
 }

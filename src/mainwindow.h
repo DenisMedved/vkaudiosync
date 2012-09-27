@@ -42,57 +42,57 @@
 
 namespace Ui
 {
-	class MainWindow;
+    class MainWindow;
 }
 
 namespace VK
 {
-	class MainWindow;
+    class MainWindow;
 }
 
 class MainWindow : public QMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
 private:
-	Ui::MainWindow *ui;
-	About *m_pAbout;
+    Ui::MainWindow *ui;
+    About *m_pAbout;
 
-	VK::VKService *m_pVkService;
-	AudioListModel *m_pAudioModel;
-	AudioItemDelegate *m_pAudioItemDelegate;
-	AppSettings *m_pAppSettings;
-	SynchService *m_pSynchService;
-	ProfileModel *m_pProfileModel;
-	QDir *m_pDir;
-	QTranslator *m_pTranslator;
+    VK::VKService *m_pVkService;
+    AudioListModel *m_pAudioModel;
+    AudioItemDelegate *m_pAudioItemDelegate;
+    AppSettings *m_pAppSettings;
+    SynchService *m_pSynchService;
+    ProfileModel *m_pProfileModel;
+    QDir *m_pDir;
+    QTranslator *m_pTranslator;
     QStatusBar *m_pStatusBar;
-	bool m_logined;
+    bool m_logined;
 
-	void runSynch();
+    void runSynch();
 
 public:
-	explicit MainWindow(QWidget *parent = 0);
-	~MainWindow();
-	void restore();
-	void retranslateUi();
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+    void restore();
+    void retranslateUi();
 
  public slots:
-	void slotLoginLogaut();
-	void slotChooseDir();
-	void slotStartSynch();
-	void slotSettings();
-	void slotAbout();
-	void slotExit();
-	void slotLoginSuccess(const QByteArray &xml);
-	void slotAudioListLoaded(const QByteArray &xml);
-	void slotProfileLoaded(const QByteArray &xml);
-	void slotLoginUnsuccess();
-	void slotPhotoLoaded();
-	void slotPhotoMediumLoaded();
-	void slotLanguageChanged(QString text);
-	void slotAuthWindowOpened();
-	void slotAuthWindowClosed();
+    void slotLoginLogaut();
+    void slotChooseDir();
+    void slotStartSynch();
+    void slotSettings();
+    void slotAbout();
+    void slotExit();
+    void slotLoginSuccess(const QByteArray &xml);
+    void slotAudioListLoaded(const QByteArray &xml);
+    void slotProfileLoaded(const QByteArray &xml);
+    void slotLoginUnsuccess();
+    void slotPhotoLoaded();
+    void slotPhotoMediumLoaded();
+    void slotLanguageChanged(QString text);
+    void slotAuthWindowOpened();
+    void slotAuthWindowClosed();
     void slotRememberCheckboxChanged(bool checked);
     void slotUpdateStatusBar(const QString status);
     void slotShowAbs();

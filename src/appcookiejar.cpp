@@ -21,8 +21,8 @@
 AppCookieJar::AppCookieJar(QObject *parent) :
     QNetworkCookieJar(parent)
 {
-	m_useFile = false;
-	m_needSave = false;
+    m_useFile = false;
+    m_needSave = false;
 }
 
 AppCookieJar::~AppCookieJar()
@@ -31,13 +31,13 @@ AppCookieJar::~AppCookieJar()
 
 void AppCookieJar::setFile(QFile *pFile)
 {
-	m_useFile = true;
-	m_pFile = pFile;
+    m_useFile = true;
+    m_pFile = pFile;
 }
 
 QFile* AppCookieJar::file() const
 {
-	return m_pFile;
+    return m_pFile;
 }
 
 QList<QNetworkCookie> AppCookieJar::cookiesForUrl ( const QUrl & url ) const

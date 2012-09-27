@@ -26,12 +26,12 @@
 
 class AudioListView : public QListView
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	explicit AudioListView(QWidget *parent = 0);
+    explicit AudioListView(QWidget *parent = 0);
 
 protected:
-	virtual void mouseReleaseEvent ( QMouseEvent * e );
+    virtual void mouseReleaseEvent ( QMouseEvent * e );
 
 };
 

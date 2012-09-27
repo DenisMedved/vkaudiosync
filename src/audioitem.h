@@ -28,28 +28,28 @@
 class AudioItem
 {
 private:
-	QString m_aid;
-	QString m_owner;
-	QString m_artist;
-	QString m_title;
-	QUrl m_url;
-	QString m_path;
+    QString m_aid;
+    QString m_owner;
+    QString m_artist;
+    QString m_title;
+    QUrl m_url;
+    QString m_path;
 
     unsigned short m_progress;
-	unsigned short m_status ;
-	unsigned short m_duration;
+    unsigned short m_status ;
+    unsigned short m_duration;
 
     void filterStr(QString *pName);
 
 public:
-	static const int STATUS_NOTSYNCHNIZE = 1;
-	static const int STATUS_NEEDUPLOAD   = 2;
-	static const int STATUS_NEEDDOWNLOAD = 3;
-	static const int STATUS_SYNCHRONIZED = 4;
-	static const int STATUS_UNDEFINED    = 5;
+    static const int STATUS_NOTSYNCHNIZE = 1;
+    static const int STATUS_NEEDUPLOAD   = 2;
+    static const int STATUS_NEEDDOWNLOAD = 3;
+    static const int STATUS_SYNCHRONIZED = 4;
+    static const int STATUS_UNDEFINED    = 5;
 
-	AudioItem();
-	~AudioItem();
+    AudioItem();
+    ~AudioItem();
 
 QString aid() const;
 void setAid(QString newAid);

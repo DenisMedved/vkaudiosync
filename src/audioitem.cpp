@@ -20,8 +20,8 @@
 
 AudioItem::AudioItem()
 {
-	m_status = STATUS_UNDEFINED;
-	m_progress = 0;
+    m_status = STATUS_UNDEFINED;
+    m_progress = 0;
 }
 
 AudioItem::~AudioItem()
@@ -30,95 +30,95 @@ AudioItem::~AudioItem()
 
 QString AudioItem::aid() const
 {
-	return m_aid;
+    return m_aid;
 }
 
 void AudioItem::setAid(QString newAid)
 {
-	m_aid = newAid;
+    m_aid = newAid;
 }
 
 QString AudioItem::owner() const
 {
-	return m_owner;
+    return m_owner;
 }
 
 void AudioItem::setOwner(QString newOwner)
 {
-	m_owner = newOwner;
+    m_owner = newOwner;
     filterStr(&m_owner);
 }
 
 QString AudioItem::artist() const
 {
-	return m_artist;
+    return m_artist;
 }
 
 void AudioItem::setArtist(QString newArtist)
 {
-	m_artist = newArtist;
+    m_artist = newArtist;
     filterStr(&m_artist);
 }
 
 QString AudioItem::title() const
 {
-	return m_title;
+    return m_title;
 }
 
 void AudioItem::setTitle(QString newTitle)
 {
-	m_title = newTitle;
+    m_title = newTitle;
     filterStr(&m_title);
 }
 
 unsigned short AudioItem::duration() const
 {
-	return m_duration;
+    return m_duration;
 }
 
 void AudioItem::setDuration(unsigned short newDuration)
 {
-	m_duration = newDuration;
+    m_duration = newDuration;
 }
 
 QUrl AudioItem::url() const
 {
-	return m_url;
+    return m_url;
 }
 
 void AudioItem::setUrl(QUrl newUrl)
 {
-	m_url = newUrl;
+    m_url = newUrl;
 }
 
 unsigned short AudioItem::status() const
 {
-	return m_status;
+    return m_status;
 }
 
 void AudioItem::setStatus(unsigned short status)
 {
-	m_status = status;
+    m_status = status;
 }
 
 QString AudioItem::path() const
 {
-	return m_path;
+    return m_path;
 }
 
 void AudioItem::setPath(QString file)
 {
-	m_path = file;
+    m_path = file;
 }
 
 unsigned short AudioItem::progress() const
 {
-	return m_progress;
+    return m_progress;
 }
 
 void AudioItem::setProgress(unsigned short progress)
 {
-	m_progress = progress;
+    m_progress = progress;
 }
 
 void AudioItem::filterStr(QString *pName)

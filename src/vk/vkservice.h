@@ -40,48 +40,49 @@ namespace VK {
 
 class VKService : public QObject
 {
-	Q_OBJECT
-private:
-	QString m_appId;
-	QString m_uid;
-	QString m_token;
-	QString m_expire;
-	QString m_lastError;
-	QUrl m_authUrl;
+    Q_OBJECT
+private://
+    QString m_appId;
+    QString m_uid;
+    QString m_token;
+    QString m_expire;
+    QString m_lastError;
+    QUrl m_authUrl;
     QUrl m_absUrl;
+    QUrl m_redirectUri;
     bool m_isNeedLoadAbs;
-	QNetworkCookieJar *m_pCookieJar;
-	QWebView *m_webView;
-	QNetworkAccessManager *m_networkManager;
-	bool m_errorHandled;
-	void loadAudioList();
-	void loadProfile();
+    QNetworkCookieJar *m_pCookieJar;
+    QWebView *m_webView;
+    QNetworkAccessManager *m_networkManager;
+    bool m_errorHandled;
+    void loadAudioList();
+    void loadProfile();
     void loadAbs();
 
 private slots:
-	void slotUrlChanged(const QUrl &url);
-	void slotReplyFinished(QNetworkReply *reply );
-	void slotLoadFinished(bool ok);
+    void slotUrlChanged(const QUrl &url);
+    void slotReplyFinished(QNetworkReply *reply );
+    void slotLoadFinished(bool ok);
     void slotLoadAbsFinished(QNetworkReply *reply);
 
 public:
-	explicit VKService(QWidget *parent = 0 );
-	~VKService();
+    explicit VKService(QWidget *parent = 0 );
+    ~VKService();
 
-	void setApplicationId(QString appId);
+    void setApplicationId(QString appId);
     void login(bool show = true) ;
-	bool isLogined() const;
-	void logout();
-	void setCookieJar(QNetworkCookieJar *cookieJar);
+    bool isLogined() const;
+    void logout();
+    void setCookieJar(QNetworkCookieJar *cookieJar);
     void setLoadAbs(bool load = false);
 
 signals:
-	void opened();
-	void closed();
-	void loginSuccess(const QByteArray &);
-	void audioListLoaded(const QByteArray &);
-	void profileLoaded(const QByteArray &);
-	void loginUnsuccess();
+    void opened();
+    void closed();
+    void loginSuccess(const QByteArray &);
+    void audioListLoaded(const QByteArray &);
+    void profileLoaded(const QByteArray &);
+    void loginUnsuccess();
 };
 }
 
