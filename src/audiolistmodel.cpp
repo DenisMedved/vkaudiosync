@@ -40,7 +40,6 @@ int AudioListModel::rowCount(const QModelIndex &/*parent = QModelIndex()*/) cons
 QVariant AudioListModel::data(const QModelIndex &index, int role ) const
 {
     int row = index.row();
-
     switch (role)
     {
     case AudioListModel::ROLE_ARTIST:

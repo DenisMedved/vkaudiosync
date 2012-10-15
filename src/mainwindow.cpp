@@ -128,7 +128,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::restore()
 {
-    QString language = m_pAppSettings->value("/general/language",QVariant("� усский")).toString();
+    QString language = m_pAppSettings->value("/general/language",QVariant("� усский")).toString();
     int languageIndex = ui->langList->findText(language);
     if (languageIndex != -1)
         ui->langList->setCurrentIndex(languageIndex);
@@ -179,6 +179,7 @@ void MainWindow::slotLoginLogaut()
 void MainWindow::slotChooseDir()
 {
     QString dir = QFileDialog::getExistingDirectory(this, tr("Select directory"),"", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
     if (!dir.isEmpty()) {
         m_pDir->setPath(dir);
         m_pSynchService->setDir(m_pDir);
@@ -310,3 +311,4 @@ void MainWindow::slotShowAbs()
 {
     //-
 }
+
