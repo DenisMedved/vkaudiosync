@@ -49,6 +49,7 @@ void SynchService::setStatuses()
     if (m_dir->path().isEmpty() || !m_dir->isReadable())
         return;
 
+    m_pAudioListModel->resetStatuses();
     m_dir->setFilter(QDir::Files | QDir::NoSymLinks | QDir::NoDotAndDotDot );
     QFileInfoList files = m_dir->entryInfoList();
 

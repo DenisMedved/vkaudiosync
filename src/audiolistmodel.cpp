@@ -110,9 +110,9 @@ void AudioListModel::resetStatuses()
 {
     QList<AudioItem>::iterator iterator;
 
-    for (iterator = m_pItems->begin(); iterator != m_pItems->end(); ++iterator) {
+    for (iterator = m_pItems->begin(); iterator != m_pItems->end(); ++iterator)
         iterator->setStatus(AudioItem::STATUS_UNDEFINED);
-    }
+
     unsigned int count = m_pItems->size();
 
     if (count > 0)
