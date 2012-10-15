@@ -1,6 +1,6 @@
 Name: vkaudiosync
-Version: 0.14b
-Release: 14
+Version: 0.15b
+Release: 15
 Summary: audio synchronizer for vk.com
 Summary(ru): Программа для синхронизации аудио записей из ВКонтакта с директорией
 Group: Internet
@@ -9,7 +9,7 @@ URL: https://bitbucket.org/denis_medved/vkaudiosync/src
 Source: %{name}.tar.gz
 BuildRoot: /tmp/%{name}
 BuildRequires: gcc
-Requires: qt qtwebkit openssl
+Requires: qt >= 4.8.1 qtwebkit openssl
 
 %description
 
