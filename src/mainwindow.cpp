@@ -128,7 +128,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::restore()
 {
-    QString language = m_pAppSettings->value("/general/language",QVariant("� усский")).toString();
+    QString language = m_pAppSettings->value("/general/language",QVariant("English")).toString();
     int languageIndex = ui->langList->findText(language);
     if (languageIndex != -1)
         ui->langList->setCurrentIndex(languageIndex);
