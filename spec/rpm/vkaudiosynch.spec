@@ -1,6 +1,6 @@
 Name: vkaudiosync
-Version: 0.15b
-Release: 15
+Version: 0.16b
+Release: 16
 Summary: audio synchronizer for vk.com
 Summary(ru): Программа для синхронизации аудио записей из ВКонтакта с директорией
 Group: Internet
