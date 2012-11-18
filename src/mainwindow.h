@@ -96,6 +96,7 @@ public:
     void slotRememberCheckboxChanged(bool checked);
     void slotUpdateStatusBar(const QString status);
     void slotShowAbs();
+    void slotSortChanged(int option);
 };
 
 

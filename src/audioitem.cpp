@@ -125,5 +125,8 @@ void AudioItem::filterStr(QString *pName)
 {
     QRegExp regexp("[^\\d,\\w,\\-,\\s,\\(,\\),\\,]+");
     pName->replace(regexp,"");
+
+    if (pName->length() > MAX_STR_LEN)
+        *pName = pName->left(MAX_STR_LEN);
 }
 

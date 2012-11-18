@@ -42,6 +42,7 @@ private:
     void filterStr(QString *pName);
 
 public:
+    static const unsigned short MAX_STR_LEN     = 50;
     static const int STATUS_NOTSYNCHNIZE = 1;
     static const int STATUS_NEEDUPLOAD   = 2;
     static const int STATUS_NEEDDOWNLOAD = 3;

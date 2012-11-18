@@ -24,6 +24,7 @@
 #include <QList>
 #include <QByteArray>
 #include <QtXml>
+#include <QtAlgorithms>
 
 #include "audioitem.h"
 
@@ -32,9 +33,22 @@ class AudioListModel : public QAbstractListModel
     Q_OBJECT
 
 private:
+    int m_sortBy;
     QList<AudioItem> *m_pItems;
+    static inline bool sortCmpByArtist(const AudioItem &a, const AudioItem &b);
+    static inline bool sortCmpByTitle(const AudioItem &a, const AudioItem &b);
+    static inline bool sortCmpByDuration(const AudioItem &a, const AudioItem &b);
+    static inline bool sortCmpByProgress(const AudioItem &a, const AudioItem &b);
+    static inline bool sortCmpByStatus(const AudioItem &a, const AudioItem &b);
 
 public:
+    static const int SORT_UNDEFINED = 0;
+    static const int SORT_ARTIST    = 1;
+    static const int SORT_NAME      = 2;
+    static const int SORT_DURATION  = 3;
+    static const int SORT_PROGRESS  = 4;
+    static const int SORT_STATUS    = 5;
+
     static const int ROLE_ARTIST   = 33;
     static const int ROLE_TITLE    = 34;
     static const int ROLE_DURATION = 35;
@@ -50,10 +64,12 @@ public:
     virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
     virtual void resetStatuses();
     virtual const QString statusRow() const;
+    virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
     void parseXml(const QByteArray &xml);
     void clear();
-
+    void setSortBy(int sort);
+    int sortBy();
 };
 
 #endif // AUDIOLISTMODEL_H

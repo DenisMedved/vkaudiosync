@@ -19,7 +19,7 @@
 #include "audiolistmodel.h"
 
 AudioListModel::AudioListModel(QObject *parent) :
-    QAbstractListModel(parent)
+    QAbstractListModel(parent) , m_sortBy(SORT_UNDEFINED)
 {
     m_pItems = new QList<AudioItem>;
 }
@@ -72,9 +72,8 @@ bool AudioListModel::setData ( const QModelIndex &index, const QVariant &value, 
     switch(role) {
     case AudioListModel::ROLE_PROGRESS:
         iterator->setProgress(value.toInt());
-        if (iterator->progress() >= 100) {
+        if (iterator->progress() >= 100)
             iterator->setStatus(AudioItem::STATUS_SYNCHRONIZED);
-        }
         break;
 
     case AudioListModel::ROLE_ARTIST:
@@ -229,4 +228,71 @@ const QString AudioListModel::statusRow() const
                     .arg(needDownload);
 
     return status;
+}
+
+void AudioListModel::sort(int column, Qt::SortOrder order /*= Qt::AscendingOrder*/)
+{
+    switch (m_sortBy) {
+    case SORT_ARTIST:
+        qSort(m_pItems->begin(), m_pItems->end(), sortCmpByArtist);
+        break;
+
+    case SORT_NAME:
+        qSort(m_pItems->begin(), m_pItems->end(), sortCmpByTitle);
+
+        break;
+
+    case SORT_DURATION:
+        qSort(m_pItems->begin(), m_pItems->end(), sortCmpByDuration);
+        break;
+
+    case SORT_PROGRESS:
+        qSort(m_pItems->begin(), m_pItems->end(), sortCmpByProgress);
+        break;
+    case SORT_STATUS:
+        qSort(m_pItems->begin(), m_pItems->end(), sortCmpByStatus);
+        break;
+
+    case SORT_UNDEFINED:
+    default:
+        QAbstractListModel::sort(column, order);
+        break;
+    }
+}
+
+bool AudioListModel::sortCmpByArtist(const AudioItem &a, const AudioItem &b)
+{
+    return a.artist() < b.artist();
+}
+
+bool AudioListModel::sortCmpByTitle(const AudioItem &a, const AudioItem &b)
+{
+    return a.title() < b.title();
+}
+
+bool AudioListModel::sortCmpByDuration(const AudioItem &a, const AudioItem &b)
+{
+    return a.duration() < b.duration();
+}
+
+bool AudioListModel::sortCmpByProgress(const AudioItem &a, const AudioItem &b)
+{
+    return a.progress() < b.progress();
+}
+
+bool AudioListModel::sortCmpByStatus(const AudioItem &a, const AudioItem &b)
+{
+    return a.status() < b.status();
+}
+
+void AudioListModel::setSortBy(int sort)
+{
+    m_sortBy = sort;
+    this->sort(0);
+    emit dataChanged(index(0),index(m_pItems->size()));
+}
+
+int AudioListModel::sortBy()
+{
+    return m_sortBy;
 }

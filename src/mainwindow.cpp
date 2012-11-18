@@ -63,9 +63,13 @@ MainWindow::MainWindow(QWidget *parent /*=0*/) :
     connect(ui->remember,SIGNAL(clicked(bool)),
             this, SLOT(slotRememberCheckboxChanged(bool))
     );
+    connect(ui->sorter, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(slotSortChanged(int))
+    );
     connect(m_pSynchService, SIGNAL(updateStatusBar(const QString)),
             this, SLOT(slotUpdateStatusBar(const QString))
     );
+
     //VK SERVICE
     connect(m_pVkService,SIGNAL(loginSuccess(const QByteArray)),
             this,SLOT(slotLoginSuccess(QByteArray))
@@ -143,9 +147,11 @@ void MainWindow::restore()
             m_pDir->setPath(dir);
             ui->syncButton->setDisabled(false);
         }
-    } else {
+    } else
         m_pAppSettings->clearCookies();
-    }
+
+    int sort = m_pAppSettings->value("sort", QVariant(0)).toInt();
+    m_pAudioModel->setSortBy(sort);
 }
 
 void MainWindow::runSynch()
@@ -310,5 +316,11 @@ void MainWindow::slotUpdateStatusBar(const QString status)
 void MainWindow::slotShowAbs()
 {
     //-
+}
+
+void MainWindow::slotSortChanged(int option)
+{
+    m_pAppSettings->setValue("sort", QVariant(option));
+    m_pAudioModel->setSortBy(option);
 }
 
