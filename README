@@ -26,8 +26,8 @@ Depend:
 		qt qt-webkit openssl
 
 Build:
-		Change directory:
-				$ cd src
+	Change directory:
+		$ cd src
 
 	Build Makefile:
 		$ qmake
