@@ -74,21 +74,24 @@ OTHER_FILES += \
         ../README \
         ../AUTHORS \
         ../.gitignore
-win64 {
+
+win {
     INCLUDEPATH += . bin
     LIBS += crypto ssl
+   QMAKE_CXXFLAGS += -fexceptions
 }
+
 unix {
     target.path = /usr/bin
 
     applications.path = /usr/share/applications
-        applications.files = share/applications/vkaudiosync.desktop
+    applications.files = share/applications/vkaudiosync.desktop
 
     icons.path = /usr/share/icons/hicolor/64x64/apps
-        icons.files = share/icons/hicolor/64x64/apps/*
+    icons.files = share/icons/hicolor/64x64/apps/*
 
     data.path = /usr/share/vkaudiosync
-        data.files = share/vkaudiosync/*
+    data.files = share/vkaudiosync/*
 
     INSTALLS += target applications icons data
 }

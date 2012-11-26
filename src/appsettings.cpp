@@ -76,7 +76,9 @@ void AppSettings::load()
             m_useConfig = true;
         } else {
             m_useConfig = false;
+#ifndef Q_WS_WIN
             throw QString(tr("Permision denied: Can't write ") + path);
+#endif
         }
 
         path = m_pUserDir->absolutePath() + QDir::separator() + "cookie.xml";
@@ -88,7 +90,9 @@ void AppSettings::load()
             setCookieFile(path);
         }
     } else {
+#ifndef Q_WS_WIN
         throw QString(tr("Permision denied: Can't read ") + m_pUserDir->path());
+#endif
     }
 
     restore();
