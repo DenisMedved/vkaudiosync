@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "VkAudioSync"
-#define MyAppVersion "0.15b"
+#define MyAppVersion "0.161b"
 #define MyAppPublisher "Denis Medved"
 #define MyAppURL "http://src.mdenis.org/vkaudiosync"
 #define MyAppExeName "vkaudiosync.exe"
@@ -40,19 +40,18 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "{#BuildPath}\kernel32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildPath}\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildPath}\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildPath}\libssl32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildPath}\LICENSE.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildPath}\msvcr100d.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildPath}\QtCored4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildPath}\QtGuid4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildPath}\QtNetworkd4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildPath}\QtWebKitd4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildPath}\QtXmld4.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#BuildPath}\vkaudiosync.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildPath}\QtCore4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildPath}\QtGui4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildPath}\QtNetwork4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildPath}\QtWebKit4.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildPath}\QtXml4.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BuildPath}\translations\main_en.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
 Source: "{#BuildPath}\translations\main_ru.qm"; DestDir: "{app}\translations"; Flags: ignoreversion
-
-
+Source: "{#BuildPath}\mingwm10.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#BuildPath}\vkaudiosync.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
