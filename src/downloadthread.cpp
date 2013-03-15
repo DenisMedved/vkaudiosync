@@ -43,6 +43,7 @@ void DownloadThread::run()
 
     QNetworkAccessManager *networkManager = new QNetworkAccessManager;
     QNetworkReply *reply;
+    QString newFileName;
 
     m_file = new QFile;
     QString tmpName;
@@ -76,17 +77,18 @@ void DownloadThread::run()
 
             if (reply->error() == QNetworkReply::NoError && !m_needQuit) {
                 m_file->write(reply->readAll());
-                if (!m_file->rename(QString(m_dir->path() + QDir::separator() + m_name)))
-                    qDebug() << "rename error ";
+                newFileName = m_dir->path() + QDir::separator() + m_name;
+                if (!m_file->rename(newFileName))
+                    qDebug() << "rename error " << newFileName;
                 m_file->close();
                 m_pAudioListModel->setData(
                             m_target,
                             QVariant(AudioItem::STATUS_SYNCHRONIZED),
                             AudioListModel::ROLE_STATUS
                 );
-            } else {
+            } else
                 m_file->remove();
-            }
+
             syncService()->slotModelItemChanged();
         }
     }
@@ -106,9 +108,9 @@ void DownloadThread::downloadProgress( qint64 bytesReceived, qint64 bytesTotal)
 
     unsigned short percent = qCeil(bytesReceived * 100 / bytesTotal);
     unsigned short progress = m_pAudioListModel->data(m_target, AudioListModel::ROLE_PROGRESS).toInt();
-    if (progress != percent) {
+    if (progress != percent)
         m_pAudioListModel->setData(m_target, QVariant(percent), AudioListModel::ROLE_PROGRESS);
-    }
+
 }
 
 void DownloadThread::enqueue(const QModelIndex &index)
