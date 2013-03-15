@@ -29,6 +29,8 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 
+namespace VkAudioSync
+{
 class ProfileModel : public QObject
 {
     Q_OBJECT
@@ -67,5 +69,5 @@ signals:
     void photoLoaded();
     void photoMediumLoaded();
 };
-
+}
 #endif // PROFILEMODEL_H

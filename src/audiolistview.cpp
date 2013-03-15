@@ -18,6 +18,8 @@
 
 #include "audiolistview.h"
 
+namespace VkAudioSync
+{
 AudioListView::AudioListView(QWidget *parent /*= 0*/) :
     QListView(parent)
 {
@@ -38,4 +40,5 @@ void AudioListView::mouseReleaseEvent ( QMouseEvent * e )
         model()->setData(index,QVariant(status),AudioListModel::ROLE_STATUS);
     }
     QListView::mouseReleaseEvent(e);
+}
 }

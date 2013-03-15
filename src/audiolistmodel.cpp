@@ -18,6 +18,8 @@
 
 #include "audiolistmodel.h"
 
+namespace VkAudioSync
+{
 AudioListModel::AudioListModel(QObject *parent) :
     QAbstractListModel(parent) , m_sortBy(SORT_UNDEFINED)
 {
@@ -295,4 +297,5 @@ void AudioListModel::setSortBy(int sort)
 int AudioListModel::sortBy()
 {
     return m_sortBy;
+}
 }

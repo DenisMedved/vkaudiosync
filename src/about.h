@@ -27,6 +27,8 @@ namespace Ui
 class About;
 }
 
+namespace VkAudioSync
+{
 class About : public QDialog
 {
     Q_OBJECT
@@ -40,5 +42,5 @@ public:
 
     void retranslateUi();
 };
-
+}
 #endif // ABOUT_H

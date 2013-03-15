@@ -26,6 +26,8 @@
 #include <QtXml>
 #include <QDebug>
 
+namespace VkAudioSync
+{
 class AppCookieJar : public QNetworkCookieJar
 {
     Q_OBJECT
@@ -57,5 +59,5 @@ public:
     void save();
     void restore();
 };
-
+}
 #endif // APPCOOKIEJAR_H

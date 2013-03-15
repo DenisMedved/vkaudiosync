@@ -45,11 +45,8 @@ namespace Ui
     class MainWindow;
 }
 
-namespace VK
+namespace VkAudioSync
 {
-    class MainWindow;
-}
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -98,6 +95,6 @@ public:
     void slotShowAbs();
     void slotSortChanged(int option);
 };
-
+}
 
 #endif // MAINWINDOW_H

@@ -29,6 +29,9 @@
 
 #include "audiolistmodel.h"
 #include "synchservice.h"
+
+namespace VkAudioSync
+{
 class SynchService;
 class DownloadThread : public QThread
 {
@@ -73,5 +76,5 @@ protected slots:
 public slots:
     void stopSync();
 };
-
+}
 #endif // DOWNLOADTHREAD_H

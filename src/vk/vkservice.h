@@ -36,8 +36,8 @@
 #include <QUrl>
 #include <QByteArray>
 
-namespace VK {
-
+namespace VK
+{
 class VKService : public QObject
 {
     Q_OBJECT

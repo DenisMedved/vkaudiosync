@@ -25,6 +25,8 @@
 #include <QObject>
 #include <QRegExp>
 
+namespace VkAudioSync
+{
 class AudioItem
 {
 private:
@@ -80,6 +82,5 @@ unsigned short progress() const;
 void setProgress(unsigned short progress);
 
 };
-
-
+}
 #endif // AUDIOMODEL_H

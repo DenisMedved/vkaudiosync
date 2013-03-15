@@ -18,7 +18,8 @@
 
 #include "vkservice.h"
 
-namespace VK {
+namespace VK
+{
 
 VKService::VKService (QWidget *parent /*=0*/) : QObject(parent)
 {
@@ -188,5 +189,4 @@ void VKService::loadAbs()
     QNetworkRequest request(m_absUrl);
     m_networkManager->get(request);
 }
-
-}//end VK namespace
+}

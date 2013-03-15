@@ -29,6 +29,8 @@
 
 #include "audiolistmodel.h"
 
+namespace VkAudioSync
+{
 class AudioItemDelegate : public QItemDelegate
 {
     Q_OBJECT
@@ -38,5 +40,5 @@ public:
     QSize sizeHint ( const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
 };
-
+}
 #endif // AUDIOITEMDELEGATE_H

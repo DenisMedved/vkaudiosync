@@ -18,7 +18,8 @@
 
 #include "downloadthread.h"
 
-
+namespace VkAudioSync
+{
 DownloadThread::DownloadThread(QObject *parent) :
     QThread(parent)
 {
@@ -147,4 +148,5 @@ void DownloadThread::setSyncService(SynchService* pSyncService)
 SynchService* DownloadThread::syncService() const
 {
     return m_pSyncService;
+}
 }

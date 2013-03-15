@@ -18,6 +18,8 @@
 
 #include "mainwindow.h"
 
+namespace VkAudioSync
+{
 MainWindow::MainWindow(QWidget *parent /*=0*/) :
     QMainWindow(parent)
 {
@@ -323,4 +325,4 @@ void MainWindow::slotSortChanged(int option)
     m_pAppSettings->setValue("sort", QVariant(option));
     m_pAudioModel->setSortBy(option);
 }
-
+}

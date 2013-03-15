@@ -28,10 +28,13 @@
 
 #include "downloadthread.h"
 #include "audiolistmodel.h"
+
 #ifndef THREADS
 #define THREADS 6
 #endif
 
+namespace VkAudioSync
+{
 class DownloadThread;
 class SynchService : public QObject
 {
@@ -64,5 +67,5 @@ signals:
     void synchronizeFinished(bool);
     void updateStatusBar(const QString);
 };
-
+}
 #endif // SYNCHRONIZER_H

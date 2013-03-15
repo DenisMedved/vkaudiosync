@@ -18,7 +18,8 @@
 
 #include "audioitemdelegate.h"
 
-
+namespace VkAudioSync
+{
 AudioItemDelegate::AudioItemDelegate(QObject *parent) :
     QItemDelegate(parent)
 {
@@ -210,4 +211,5 @@ QSize AudioItemDelegate::sizeHint ( const QStyleOptionViewItem & option, const Q
         return QSize();
 
     return QSize(option.rect.width(),40);
+}
 }

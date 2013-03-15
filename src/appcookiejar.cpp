@@ -18,6 +18,8 @@
 
 #include "appcookiejar.h"
 
+namespace VkAudioSync
+{
 AppCookieJar::AppCookieJar(QObject *parent) :
     QNetworkCookieJar(parent)
 {
@@ -238,4 +240,5 @@ void AppCookieJar::restore()
     QByteArray data = m_pFile->readAll();
     m_document.setContent(data);
     m_pFile->close();
+}
 }

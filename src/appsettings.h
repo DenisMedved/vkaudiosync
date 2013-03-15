@@ -32,6 +32,8 @@
 
 #include "appcookiejar.h"
 
+namespace VkAudioSync
+{
 class AppSettings : QObject
 {
 Q_OBJECT
@@ -63,5 +65,5 @@ public:
     QDir* userPath();
     QString translationPath();
 };
-
+}
 #endif // MYSETTINGS_H

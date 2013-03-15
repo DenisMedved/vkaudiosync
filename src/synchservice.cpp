@@ -18,6 +18,8 @@
 
 #include "synchservice.h"
 
+namespace VkAudioSync
+{
 SynchService::SynchService(QObject *parent) :
     QObject(parent)
 {
@@ -190,4 +192,5 @@ void SynchService::stopSync()
 void SynchService::slotModelItemChanged()
 {
     emit updateStatusBar(m_pAudioListModel->statusRow());
+}
 }

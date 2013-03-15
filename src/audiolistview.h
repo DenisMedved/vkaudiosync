@@ -24,6 +24,8 @@
 
 #include "audiolistmodel.h"
 
+namespace VkAudioSync
+{
 class AudioListView : public QListView
 {
     Q_OBJECT
@@ -34,5 +36,5 @@ protected:
     virtual void mouseReleaseEvent ( QMouseEvent * e );
 
 };
-
+}
 #endif // AUDIOLISTVIEW_H

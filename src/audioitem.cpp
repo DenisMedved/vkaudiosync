@@ -18,6 +18,8 @@
 
 #include "audioitem.h"
 
+namespace VkAudioSync
+{
 AudioItem::AudioItem()
 {
     m_status = STATUS_UNDEFINED;
@@ -129,4 +131,4 @@ void AudioItem::filterStr(QString *pName)
     if (pName->length() > MAX_STR_LEN)
         *pName = pName->left(MAX_STR_LEN);
 }
-
+}

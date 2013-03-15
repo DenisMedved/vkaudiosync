@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>About</class>
- <widget class="QDialog" name="About">
+ <class>VkAudioSync::About</class>
+ <widget class="QDialog" name="VkAudioSync::About">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>345</width>
+    <width>408</width>
     <height>319</height>
    </rect>
   </property>
@@ -199,7 +199,7 @@ p, li { white-space: pre-wrap; }
   <connection>
    <sender>close</sender>
    <signal>clicked()</signal>
-   <receiver>About</receiver>
+   <receiver>VkAudioSync::About</receiver>
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">

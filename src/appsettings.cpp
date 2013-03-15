@@ -18,6 +18,8 @@
 
 #include "appsettings.h"
 
+namespace VkAudioSync
+{
 AppSettings::AppSettings(QObject *parent /*=0*/) : QObject(parent)
 {
     m_useConfig = false;
@@ -165,4 +167,5 @@ QString AppSettings::translationPath()
 #endif
     return m_pAppDir->path() + QDir::separator() + "translations";
 
+}
 }

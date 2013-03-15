@@ -17,7 +17,9 @@
 */
 
 #include "about.h"
-#include <QDebug>
+
+namespace VkAudioSync
+{
 About::About(QWidget *parent) :
     QDialog(parent)
 {
@@ -33,4 +35,5 @@ About::~About()
 void About::retranslateUi()
 {
     ui->retranslateUi(this);
+}
 }

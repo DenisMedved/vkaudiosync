@@ -28,6 +28,8 @@
 
 #include "audioitem.h"
 
+namespace VkAudioSync
+{
 class AudioListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -71,5 +73,5 @@ public:
     void setSortBy(int sort);
     int sortBy();
 };
-
+}
 #endif // AUDIOLISTMODEL_H

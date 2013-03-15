@@ -18,6 +18,8 @@
 
 #include "profilemodel.h"
 
+namespace VkAudioSync
+{
 ProfileModel::ProfileModel(QObject* parent /*= 0*/) : QObject(parent)
 {
     m_pNetworkAccessManager = new QNetworkAccessManager(this);
@@ -177,4 +179,5 @@ QImage ProfileModel::photo() const
 QImage ProfileModel::photoMedium() const
 {
     return m_photoMedium;
+}
 }
