@@ -19,6 +19,7 @@ QT += \
     xml \
     core \
     gui \
+    widgets \
     webkitwidgets
 
 TEMPLATE = app
