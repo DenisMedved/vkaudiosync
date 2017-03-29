@@ -5,11 +5,11 @@ Summary: audio synchronizer for vk.com
 Summary(ru): Программа для синхронизации аудио записей из ВКонтакта с директорией
 Group: Internet
 License: GNU GPLv3
-URL: https://bitbucket.org/denis_medved/vkaudiosync/src
+URL: https://github.com/DenisMedved/vkaudiosync
 Source: %{name}.tar.gz
 BuildRoot: /tmp/%{name}
 BuildRequires: gcc
-Requires: qt >= 4.8.1 qtwebkit openssl
+Requires: qt >= 5 qtwebkit openssl
 
 %description
 

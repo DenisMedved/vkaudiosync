@@ -12,27 +12,15 @@ Description:
 
 Source:
 
-	https://bitbucket.org/denis_medved/vkaudiosync/src
+	https://github.com/DenisMedved/vkaudiosync
 
 Clone this repository:
 
-	$ git clone git@bitbucket.org:denis_medved/vkaudiosync.git
+	$ git clone git@github.com:DenisMedved/vkaudiosync.git
 
 Contact:
 
 	Email: Denis Medved <denis.medved91@gmail.com>
-
-	Bitbucket: https://bitbucket.org/denis_medved
-
-	Twitter: https://twitter.com/mdenis_org
-
-
-Issues:
-	https://bitbucket.org/denis_medved/vkaudiosync/issues
-
-
-Depend:
-		qt qt-webkit openssl
 
 
 Build:
@@ -41,6 +29,8 @@ Build:
 
 	Build Makefile:
 		$ qmake
+             or
+		$ qmake-qt5
 
 	Build:
 		$ make
@@ -57,8 +47,6 @@ Thanks To:
 	Ruslan H Nazarov ( titanim http://gitorious.org/titanim )
 
 		Inno Setup (http://www.jrsoftware.org)
-
-		Bitbucket (https://bitbucket.org/)
 
 		Qt (http://qt-project.org/)
 
